@@ -2,26 +2,29 @@ const INITIAL_TASKS = [
   // === SPRINT 1 ===
   {
     id: 't-1-1', slideId: 'slide-3', title: 'Sukurti bazinę Next.js aplikaciją (DIPA OS karkasas)',
-    status: 'pending', assignee: 'Eimantas', sprint: '1',
+    status: 'pending', sprint: '1',
     subtasks: [
       { id: 'st-1-1-1', title: 'Next.js projekto inicializavimas su TypeScript', status: 'pending' },
       { id: 'st-1-1-2', title: 'Tailwind CSS + Shadcn/UI konfigūracija', status: 'pending' },
-      { id: 'st-1-1-3', title: 'Prisma + PostgreSQL setup', status: 'pending' },
+      { id: 'st-1-1-3', title: 'Prisma + PostgreSQL setup + seed script', status: 'pending' },
       { id: 'st-1-1-4', title: 'Autentifikacijos sluoksnis', status: 'pending' },
+      { id: 'st-1-1-5', title: 'Docker Compose dev aplinka (Next.js + PG + n8n)', status: 'pending' },
+      { id: 'st-1-1-6', title: 'CI/CD pipeline: GitHub Actions → Cloud Run deploy', status: 'pending' },
     ],
   },
   {
     id: 't-1-2', slideId: 'slide-3', title: 'Monday.com ir Clockify API integracija per n8n',
-    status: 'pending', assignee: 'Eimantas', sprint: '1',
+    status: 'pending', sprint: '1',
     subtasks: [
       { id: 'st-1-2-1', title: 'Monday.com API prisijungimas ir Webhook konfigūracija', status: 'pending' },
-      { id: 'st-1-2-2', title: 'Clockify API duomenų traukimas', status: 'pending' },
-      { id: 'st-1-2-3', title: 'Duomenų sinchronizacija į PostgreSQL', status: 'pending' },
+      { id: 'st-1-2-2', title: 'Monday.com webhook receiver (n8n endpoint for item changes)', status: 'pending' },
+      { id: 'st-1-2-3', title: 'Clockify API duomenų traukimas', status: 'pending' },
+      { id: 'st-1-2-4', title: 'Duomenų sinchronizacija į PostgreSQL', status: 'pending' },
     ],
   },
   {
-    id: 't-1-3', slideId: 'slide-5', title: 'Facebook / LinkedIn Ads API sujungimas',
-    status: 'pending', assignee: 'Greta', sprint: '1',
+    id: 't-1-3', slideId: 'slide-4', title: 'Facebook / LinkedIn Ads API sujungimas',
+    status: 'pending', sprint: '1',
     subtasks: [
       { id: 'st-1-3-1', title: 'Facebook Graph API n8n Workflow', status: 'pending' },
       { id: 'st-1-3-2', title: 'LinkedIn Ads API n8n Workflow', status: 'pending' },
@@ -29,126 +32,187 @@ const INITIAL_TASKS = [
     ],
   },
   {
-    id: 't-1-4', slideId: 'slide-5', title: 'Infrastruktūros kaštų suvedimo forma',
-    status: 'pending', assignee: 'Eimantas', sprint: '1',
+    id: 't-1-4', slideId: 'slide-4', title: 'Infrastruktūros kaštų suvedimo forma',
+    status: 'pending', sprint: '1',
     subtasks: [
       { id: 'st-1-4-1', title: 'UI forma kaštams suvesti', status: 'pending' },
       { id: 'st-1-4-2', title: 'FinancialMetric modelio CRUD API', status: 'pending' },
+      { id: 'st-1-4-3', title: 'Prisma schema initial migration + seed data', status: 'pending' },
     ],
   },
   // === SPRINT 2 ===
   {
-    id: 't-2-1', slideId: 'slide-6', title: 'Plaud failų atidavimas į n8n (Post-Call Pipeline)',
-    status: 'pending', assignee: 'Eimantas', sprint: '2',
+    id: 't-2-1', slideId: 'slide-5', title: 'Plaud failų atidavimas į n8n (Post-Call Pipeline)',
+    status: 'pending', sprint: '2',
     subtasks: [
       { id: 'st-2-1-1', title: 'Audio upload endpointas', status: 'pending' },
-      { id: 'st-2-1-2', title: 'Whisper API integracija transkripcijai', status: 'pending' },
+      { id: 'st-2-1-2', title: 'Whisper API integracija (audio-to-text n8n)', status: 'pending' },
       { id: 'st-2-1-3', title: 'n8n Webhook triggeris', status: 'pending' },
     ],
   },
   {
-    id: 't-2-2', slideId: 'slide-6', title: 'LLM Promptai skambučių vertinimui (QA Scorecards)',
-    status: 'pending', assignee: 'Igoris', sprint: '2',
+    id: 't-2-2', slideId: 'slide-5', title: 'LLM Promptai skambučių vertinimui (QA Scorecards)',
+    status: 'pending', sprint: '2',
     subtasks: [
       { id: 'st-2-2-1', title: 'Post-Call QA System Prompt sukūrimas', status: 'pending' },
-      { id: 'st-2-2-2', title: 'JSON output schema validacija', status: 'pending' },
+      { id: 'st-2-2-2', title: 'JSON output schema validacija (Zod)', status: 'pending' },
       { id: 'st-2-2-3', title: 'QA Dashboard komponentas Next.js', status: 'pending' },
     ],
   },
   {
-    id: 't-2-3', slideId: 'slide-7', title: 'Newo API integracija — C lygio leadų automatizacija',
-    status: 'pending', assignee: 'Eimantas', sprint: '2',
+    id: 't-2-3', slideId: 'slide-6', title: 'Newo API integracija — C lygio leadų automatizacija',
+    status: 'pending', sprint: '2',
     subtasks: [
       { id: 'st-2-3-1', title: 'Newo API konfigūracija', status: 'pending' },
       { id: 'st-2-3-2', title: 'Outbound skambučių logika (Decision Tree)', status: 'pending' },
       { id: 'st-2-3-3', title: 'Inbound skambučių atpažinimas per Monday.com', status: 'pending' },
-      { id: 'st-2-3-4', title: 'Newo transkriptų grąžinimas per Webhook', status: 'pending' },
+      { id: 'st-2-3-4', title: 'Newo webhook endpoint transkriptų grąžinimui', status: 'pending' },
     ],
   },
   {
-    id: 't-2-4', slideId: 'slide-7', title: 'Newo eskalacijos kelias — live handoff į žmogų',
-    status: 'pending', assignee: 'Eimantas', sprint: '2',
+    id: 't-2-4', slideId: 'slide-6', title: 'Newo eskalacijos kelias — live handoff į žmogų',
+    status: 'pending', sprint: '2',
     subtasks: [
       { id: 'st-2-4-1', title: 'Sentiment analizės integracija į Newo', status: 'pending' },
-      { id: 'st-2-4-2', title: 'Live handoff logika: Newo → Lauris/Marija', status: 'pending' },
+      { id: 'st-2-4-2', title: 'Live handoff logika: Newo → pardavėjas', status: 'pending' },
       { id: 'st-2-4-3', title: 'Monday.com Urgent Flag automatinis sukūrimas', status: 'pending' },
     ],
   },
   {
-    id: 't-2-5', slideId: 'slide-15', title: 'GDPR Compliance Layer — consent tracking',
-    status: 'pending', assignee: 'Mantas', sprint: '2',
+    id: 't-2-5', slideId: 'slide-12', title: 'GDPR Compliance Layer — consent tracking',
+    status: 'pending', sprint: '2',
     subtasks: [
       { id: 'st-2-5-1', title: 'ConsentLog DB modelis ir API', status: 'pending' },
       { id: 'st-2-5-2', title: 'Consent forma prieš skambučio įrašymą', status: 'pending' },
       { id: 'st-2-5-3', title: 'Data retention politika ir auto-deletion', status: 'pending' },
       { id: 'st-2-5-4', title: 'Right-to-deletion workflow per n8n', status: 'pending' },
+      { id: 'st-2-5-5', title: 'Consent status check before RAG indexing', status: 'pending' },
     ],
   },
   {
-    id: 't-2-6', slideId: 'slide-10', title: 'Monday.com / PostgreSQL Reconciliation (WF5)',
-    status: 'pending', assignee: 'Eimantas', sprint: '2',
+    id: 't-2-6', slideId: 'slide-7', title: 'Monday.com / PostgreSQL Reconciliation (WF5)',
+    status: 'pending', sprint: '2',
     subtasks: [
       { id: 'st-2-6-1', title: 'n8n naktinis Cron workflow (02:00)', status: 'pending' },
       { id: 'st-2-6-2', title: 'Monday.com vs PostgreSQL palyginimo logika', status: 'pending' },
       { id: 'st-2-6-3', title: 'Slack alert neatitikimams', status: 'pending' },
     ],
   },
+  {
+    id: 't-2-7', slideId: 'slide-3', title: 'Vertex AI RAG index ir embedding pipeline',
+    status: 'pending', sprint: '2',
+    subtasks: [
+      { id: 'st-2-7-1', title: 'Vertex AI RAG index creation', status: 'pending' },
+      { id: 'st-2-7-2', title: 'Embedding pipeline (dokumentai → vektoriai)', status: 'pending' },
+      { id: 'st-2-7-3', title: '3 sluoksnių duomenų indeksavimas (A/B/C)', status: 'pending' },
+    ],
+  },
   // === SPRINT 3 ===
   {
-    id: 't-3-1', slideId: 'slide-13', title: 'Gilieji KPI indeksai (LVR, CAC, TTR)',
-    status: 'pending', assignee: 'Eimantas', sprint: '3',
+    id: 't-3-1', slideId: 'slide-10', title: 'Gilieji KPI indeksai (LVR, CAC, TTR, ROAS)',
+    status: 'pending', sprint: '3',
     subtasks: [
       { id: 'st-3-1-1', title: 'LVR (Lead Velocity Rate) skaičiavimas', status: 'pending' },
       { id: 'st-3-1-2', title: 'CAC ir ROAS automatinė matematika', status: 'pending' },
       { id: 'st-3-1-3', title: 'TTR (Time-to-Revenue) sekimas', status: 'pending' },
       { id: 'st-3-1-4', title: 'Core Sales Efficiency Index', status: 'pending' },
       { id: 'st-3-1-5', title: 'Pipeline Conversion Rate pagal režimą', status: 'pending' },
+      { id: 'st-3-1-6', title: 'Bottleneck Index (Marijos kalendoriaus load)', status: 'pending' },
+      { id: 'st-3-1-7', title: 'Team Time Savings dashboard komponentas', status: 'pending' },
     ],
   },
   {
     id: 't-3-2', slideId: 'slide-3', title: 'DIPA Co-Pilot — Vertex AI Chat-botas Next.js',
-    status: 'pending', assignee: 'Eimantas', sprint: '3',
+    status: 'pending', sprint: '3',
     subtasks: [
       { id: 'st-3-2-1', title: 'Vertex AI RAG prisijungimas', status: 'pending' },
       { id: 'st-3-2-2', title: 'Chat langas Next.js dešinėje pusėje', status: 'pending' },
-      { id: 'st-3-2-3', title: 'Kontekstinės užklausos (CAC, Pipeline, etc.)', status: 'pending' },
-      { id: 'st-3-2-4', title: 'Anomaly Detection įspėjimai Slack/Teams', status: 'pending' },
+      { id: 'st-3-2-3', title: 'Kontekstinės užklausos su citavimo nuorodomis', status: 'pending' },
+      { id: 'st-3-2-4', title: 'Anomaly Detection + Slack/Teams alertai', status: 'pending' },
     ],
   },
   {
-    id: 't-3-3', slideId: 'slide-3', title: 'Penktadienio ataskaitų automatinis generavimas',
-    status: 'pending', assignee: 'Eimantas', sprint: '3',
+    id: 't-3-3', slideId: 'slide-12', title: 'Penktadienio ataskaitų automatinis generavimas',
+    status: 'pending', sprint: '3',
     subtasks: [
       { id: 'st-3-3-1', title: 'Ataskaitos šablonas (PDF/Tekst)', status: 'pending' },
       { id: 'st-3-3-2', title: 'n8n Cron triggeris (Penktadienis 14:55)', status: 'pending' },
-      { id: 'st-3-3-3', title: 'Slack integracija ataskaitai', status: 'pending' },
+      { id: 'st-3-3-3', title: 'Slack/Teams integracija ataskaitai', status: 'pending' },
     ],
   },
   {
-    id: 't-3-4', slideId: 'slide-8', title: 'Pre-Call Brief: dviejų etapų generavimas',
-    status: 'pending', assignee: 'Eimantas', sprint: '3',
+    id: 't-3-4', slideId: 'slide-7', title: 'Pre-Call Brief: dviejų etapų generavimas',
+    status: 'pending', sprint: '3',
     subtasks: [
       { id: 'st-3-4-1', title: 'Naktinis Cron: vakaro brief generavimas', status: 'pending' },
-      { id: 'st-3-4-2', title: 'Outlook -15 min: refresh jei nauji duomenys', status: 'pending' },
+      { id: 'st-3-4-2', title: 'Outlook kalendoriaus event triggeris T−15 min per n8n', status: 'pending' },
       { id: 'st-3-4-3', title: 'Slack ir Dashboard atvaizdavimas', status: 'pending' },
     ],
   },
   {
-    id: 't-3-5', slideId: 'slide-15', title: 'Lead Scoring Feedback Loop',
-    status: 'pending', assignee: 'Eimantas', sprint: '3',
+    id: 't-3-5', slideId: 'slide-12', title: 'Lead Scoring Feedback Loop',
+    status: 'pending', sprint: '3',
     subtasks: [
       { id: 'st-3-5-1', title: 'ScoringFeedback DB modelis', status: 'pending' },
       { id: 'st-3-5-2', title: 'Won/Lost outcome → feedback pipeline', status: 'pending' },
-      { id: 'st-3-5-3', title: 'RAG scoring modelio retraining logika', status: 'pending' },
+      { id: 'st-3-5-3', title: 'RAG scoring modelio retrain logika pagal outcome', status: 'pending' },
     ],
   },
   {
-    id: 't-3-6', slideId: 'slide-15', title: 'Customer Retention Metrikos (NPS, Churn, Upsell)',
-    status: 'pending', assignee: 'Eimantas', sprint: '3',
+    id: 't-3-6', slideId: 'slide-10', title: 'Customer Retention Metrikos (NPS, Churn, Upsell)',
+    status: 'pending', sprint: '3',
     subtasks: [
       { id: 'st-3-6-1', title: 'CustomerHealth DB modelis', status: 'pending' },
       { id: 'st-3-6-2', title: 'NPS ir Churn Risk dashboard komponentai', status: 'pending' },
       { id: 'st-3-6-3', title: 'Upsell pipeline sekimas', status: 'pending' },
+    ],
+  },
+  {
+    id: 't-3-7', slideId: 'slide-7', title: 'Anomaly Detection rules engine',
+    status: 'pending', sprint: '3',
+    subtasks: [
+      { id: 'st-3-7-1', title: 'CAC spike detection (vs. 4 savaičių vidurkis)', status: 'pending' },
+      { id: 'st-3-7-2', title: 'Lead Bank tuščias / Win Rate < 50% alertai', status: 'pending' },
+      { id: 'st-3-7-3', title: 'Slack/Teams notifikacijos konfigūracija', status: 'pending' },
+    ],
+  },
+  {
+    id: 't-4-1', slideId: 'slide-12', title: 'SOP PDF vs DIPA OS — neatitikimų sąrašas ir priėmimo kriterijai',
+    status: 'pending', sprint: '3',
+    subtasks: [
+      { id: 'st-4-1-1', title: 'E2E žingsniai iš PDF sutapatinti su DIPA schema', status: 'pending' },
+      { id: 'st-4-1-2', title: 'Užfiksuoti kas lieka rankiniu vs. automatizuota', status: 'pending' },
+    ],
+  },
+  {
+    id: 't-4-2', slideId: 'slide-11', title: 'Papildomų automatizacijų backlog prioritetai (proposal, e-sign, NPS)',
+    status: 'pending', sprint: '3',
+    subtasks: [
+      { id: 'st-4-2-1', title: 'Verslo vertės įvertinimas kiekvienai idėjai', status: 'pending' },
+      { id: 'st-4-2-2', title: 'Sprintų paskirstymas po S3', status: 'pending' },
+    ],
+  },
+  {
+    id: 't-5-1', slideId: 'slide-13', title: 'E2E matrica — Monday laukų žemėlapis vs SOP GATE',
+    status: 'pending', sprint: '3',
+    subtasks: [
+      { id: 'st-5-1-1', title: 'Kiekvienam etapui privalomi laukai (GATE) CRM', status: 'pending' },
+      { id: 'st-5-1-2', title: 'Delivery / Upsell spragos pažymėtos kaip užduotys', status: 'pending' },
+    ],
+  },
+  {
+    id: 't-5-2', slideId: 'slide-13', title: 'Won → Onboarding handoff trigeriai (payment + laukai)',
+    status: 'pending', sprint: '3',
+    subtasks: [
+      { id: 'st-5-2-1', title: 'n8n: Won + optional payment webhook → Delivery board', status: 'pending' },
+      { id: 'st-5-2-2', title: 'Validacija: handoff paketas užpildytas prieš kickoff', status: 'pending' },
+    ],
+  },
+  {
+    id: 't-5-3', slideId: 'slide-14', title: 'AI agentų lentelė — live vs roadmap atnaujinimas po release',
+    status: 'pending', sprint: '4',
+    subtasks: [
+      { id: 'st-5-3-1', title: 'Po Proposal Assistant MVP — pažymėti cov-full', status: 'pending' },
     ],
   },
 ];
@@ -245,10 +309,7 @@ const TaskManager = {
   },
 
   getUniqueAssignees() {
-    const tasks = this.load();
-    const set = new Set();
-    tasks.forEach(t => { if (t.assignee) set.add(t.assignee); });
-    return Array.from(set);
+    return [];
   },
 
   renderTaskItem(task, showSlide = false) {
@@ -259,7 +320,6 @@ const TaskManager = {
       <div class="task-checkbox ${statusClass}" data-task-id="${task.id}"></div>
       <span class="task-text ${textClass}">${task.title}</span>
       <span class="task-sprint-badge">S${task.sprint}</span>
-      <span class="task-assignee">${task.assignee}</span>
     </div>`;
 
     if (task.subtasks && task.subtasks.length > 0) {
@@ -280,11 +340,10 @@ const TaskManager = {
 
   renderGlobalPanel(filters = {}) {
     const tasks = this.load();
-    const { sprint = 'all', assignee = 'all', status = 'all' } = filters;
+    const { sprint = 'all', status = 'all' } = filters;
 
     const filtered = tasks.filter(t => {
       if (sprint !== 'all' && t.sprint !== sprint) return false;
-      if (assignee !== 'all' && t.assignee !== assignee) return false;
       if (status !== 'all' && t.status !== status) return false;
       return true;
     });

@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="data:,">
   <title>DIPA OS — Interactive Presentation</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=4">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Plus+Jakarta+Sans:ital,wght@0,400..700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css?v=60">
 </head>
 <body>
   <!-- Progress Bar -->
@@ -19,7 +20,7 @@
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
     </button>
     <div id="slide-counter">
-      <span id="current-slide-num">1</span> / <span id="total-slides">15</span>
+      <span id="current-slide-num">1</span> / <span id="total-slides">14</span>
     </div>
     <div id="top-bar-title">DIPA OS</div>
     <div id="top-bar-actions">
@@ -71,8 +72,7 @@
       <button class="panel-close" data-close="task-panel">&times;</button>
     </div>
     <div id="task-filters">
-      <select id="filter-sprint"><option value="all">Visi Sprintai</option><option value="1">Sprintas 1</option><option value="2">Sprintas 2</option><option value="3">Sprintas 3</option></select>
-      <select id="filter-assignee"><option value="all">Visi</option></select>
+      <select id="filter-sprint"><option value="all">Visi Sprintai</option><option value="1">Sprintas 1</option><option value="2">Sprintas 2</option><option value="3">Sprintas 3</option><option value="4">Sprintas 4+</option></select>
       <select id="filter-status"><option value="all">Visos Būsenos</option><option value="pending">Laukia</option><option value="in-progress">Vykdoma</option><option value="done">Atlikta</option></select>
     </div>
     <div id="task-list-global"></div>
@@ -108,11 +108,11 @@
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script src="config.js?v=4"></script>
-  <script src="js/diagrams.js?v=3"></script>
-  <script src="js/tasks.js?v=3"></script>
-  <script src="js/slides.js?v=3"></script>
-  <script src="js/app.js?v=3"></script>
-  <script src="js/gemini.js?v=5"></script>
+  <script src="config.js?v=60"></script>
+  <script src="js/diagrams.js?v=60"></script>
+  <script src="js/tasks.js?v=60"></script>
+  <script src="js/slides.js?v=60"></script>
+  <script src="js/app.js?v=60"></script>
+  <script src="js/gemini.js?v=60"></script>
 </body>
 </html>

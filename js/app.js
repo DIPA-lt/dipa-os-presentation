@@ -18,22 +18,35 @@ const App = {
     if (typeof mermaid !== 'undefined') {
       mermaid.initialize({
         startOnLoad: false,
-        theme: 'dark',
+        theme: 'default',
         themeVariables: {
-          darkMode: true,
-          background: '#1a2235',
-          primaryColor: '#1e3a5f',
-          primaryTextColor: '#e2e8f0',
-          primaryBorderColor: '#3b82f6',
-          lineColor: '#3b4a63',
-          secondaryColor: '#2d1e5f',
-          tertiaryColor: '#1e5f3a',
-          clusterBkg: 'transparent',
-          clusterBorder: '#3b4a63',
-          fontFamily: 'Inter, system-ui, sans-serif',
-          fontSize: '13px',
+          darkMode: false,
+          background: '#fafaf8',
+          primaryColor: '#ecfdf5',
+          primaryTextColor: '#134e4a',
+          primaryBorderColor: '#0f766e',
+          secondaryColor: '#f0f9ff',
+          secondaryTextColor: '#0c4a6e',
+          tertiaryColor: '#fffbeb',
+          tertiaryTextColor: '#78350f',
+          lineColor: '#a8a29e',
+          mainBkg: '#ffffff',
+          nodeBorder: '#0d9488',
+          clusterBkg: 'rgba(255,255,255,0.72)',
+          clusterBorder: 'rgba(15, 118, 110, 0.2)',
+          fontFamily: '"Plus Jakarta Sans", system-ui, sans-serif',
+          fontSize: '14px',
         },
-        flowchart: { curve: 'basis', padding: 24, nodeSpacing: 40, rankSpacing: 50, wrappingWidth: 200, htmlLabels: true },
+        themeCSS: '.flowchart .node rect { rx: 10px; ry: 10px; } .flowchart .cluster rect { rx: 14px; ry: 14px; } .edgePath .path { stroke-width: 1.65px; stroke-linecap: round; stroke-linejoin: round; }',
+        flowchart: {
+          curve: 'basis',
+          padding: 22,
+          nodeSpacing: 50,
+          rankSpacing: 58,
+          wrappingWidth: 200,
+          htmlLabels: true,
+          useMaxWidth: false,
+        },
         er: { fontSize: 12, layoutDirection: 'TB' },
       });
       this.mermaidReady = true;
@@ -57,7 +70,6 @@ const App = {
     });
 
     document.getElementById('filter-sprint').addEventListener('change', () => this.refreshGlobalTasks());
-    document.getElementById('filter-assignee').addEventListener('change', () => this.refreshGlobalTasks());
     document.getElementById('filter-status').addEventListener('change', () => this.refreshGlobalTasks());
 
     document.addEventListener('keydown', (e) => {
@@ -143,20 +155,253 @@ const App = {
   },
 
   async renderDiagrams() {
+    const svgContainers = document.querySelectorAll('.diagram-container[data-svg]');
+    for (const container of svgContainers) {
+      const key = container.getAttribute('data-svg');
+      if (!key) continue;
+      const bust = Date.now();
+      const src = `assets/diagrams/${encodeURIComponent(key)}.svg?v=${bust}`;
+      container.innerHTML = '';
+      this.mountDiagramAsImg(container, src);
+    }
+
     if (!this.mermaidReady) return;
-    const containers = document.querySelectorAll('.diagram-container[data-diagram]');
-    for (const container of containers) {
+    const mermaidContainers = document.querySelectorAll('.diagram-container[data-diagram]');
+    for (const container of mermaidContainers) {
       const key = container.getAttribute('data-diagram');
       const def = DIAGRAMS[key];
       if (!def) continue;
-      const id = `mermaid-${key}-${Date.now()}`;
+      const id = `mermaid-${key}-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
       try {
         const { svg } = await mermaid.render(id, def);
-        container.innerHTML = svg;
+        container.innerHTML = '';
+        this.mountInlineSvgWithControls(container, svg);
       } catch (err) {
         container.innerHTML = `<p style="color:var(--red);font-size:0.85rem;">Diagram render error: ${err.message}</p>`;
       }
     }
+  },
+
+  /**
+   * Graphviz SVG files: inline the SVG and expand the viewBox to the real bbox.
+   * This avoids left-edge cropping and ignores stale inline width/height.
+   */
+  mountDiagramAsImg(container, src) {
+    const viewport = document.createElement('div');
+    viewport.className = 'diagram-viewport diagram-viewport--file';
+    container.appendChild(viewport);
+    const defaultScale = 0.49;
+    let svgEl = null;
+    const toolbar = document.createElement('div');
+    toolbar.className = 'diagram-toolbar';
+    toolbar.innerHTML = `
+      <button type="button" class="diagram-btn" data-iz="out" title="Zoom out">−</button>
+      <span class="diagram-zoom-pct">100%</span>
+      <button type="button" class="diagram-btn" data-iz="in" title="Zoom in">+</button>
+      <button type="button" class="diagram-btn" data-iz="fit" title="Fit">⊡</button>
+    `;
+    container.appendChild(toolbar);
+    const zoomPct = toolbar.querySelector('.diagram-zoom-pct');
+    let baseScale = 1;
+    let userScale = 1;
+    const clampScale = (val) => Math.min(1.6, Math.max(0.4, val));
+    const applyFinalScale = () => {
+      if (!svgEl) return;
+      const finalScale = clampScale(baseScale * userScale);
+      svgEl.style.width = `${finalScale * 100}%`;
+      svgEl.style.margin = finalScale < 1 ? '0 auto' : '';
+      if (zoomPct) zoomPct.textContent = `${Math.round(finalScale * 100)}%`;
+    };
+
+    fetch(src)
+      .then((res) => res.text())
+      .then((svgText) => {
+        viewport.innerHTML = svgText;
+        svgEl = viewport.querySelector('svg');
+        if (!svgEl) throw new Error('SVG not found');
+        svgEl.removeAttribute('width');
+        svgEl.removeAttribute('height');
+        svgEl.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+        svgEl.style.width = '100%';
+        svgEl.style.height = 'auto';
+        svgEl.style.display = 'block';
+
+        // Remove the background polygon so whitespace is based on real content bounds.
+        const bgPolygon = svgEl.querySelector('g#graph0 > polygon');
+        if (bgPolygon) bgPolygon.remove();
+
+        const pad = 6;
+        const expandViewBox = () => {
+          try {
+            const bb = svgEl.getBBox();
+            const x = bb.x - pad;
+            const y = bb.y - pad;
+            const w = bb.width + pad * 2;
+            const h = bb.height + pad * 2;
+            svgEl.setAttribute('viewBox', `${x} ${y} ${w} ${h}`);
+            const dataScale = parseFloat(container.dataset.scale || '');
+            baseScale = Number.isFinite(dataScale) ? dataScale : defaultScale;
+            userScale = 1;
+            applyFinalScale();
+          } catch (err) {
+            // Fallback: keep existing viewBox if getBBox is unavailable.
+          }
+        };
+
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => expandViewBox());
+        });
+      })
+      .catch(() => {
+        viewport.innerHTML = `<p style="color:var(--red);font-size:0.85rem;">Nepavyko įkelti diagramos.</p>`;
+      });
+
+    toolbar.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-iz]');
+      if (!btn) return;
+      const action = btn.getAttribute('data-iz');
+      if (action === 'in') {
+        const target = clampScale(baseScale * userScale * 1.15);
+        userScale = target / baseScale;
+        applyFinalScale();
+      } else if (action === 'out') {
+        const target = clampScale(baseScale * userScale / 1.15);
+        userScale = target / baseScale;
+        applyFinalScale();
+      } else if (action === 'fit') {
+        userScale = 1;
+        applyFinalScale();
+      }
+    });
+  },
+
+  /**
+   * Inline SVG (Mermaid): snapshot intrinsic px ONCE — after applySize(), width/height are plain numbers
+   * and must not be re-parsed as "intrinsic" or fitScale collapses to 1 and diagrams clip.
+   */
+  mountInlineSvgWithControls(container, svgString) {
+    const viewport = document.createElement('div');
+    viewport.className = 'diagram-viewport';
+    const wrap = document.createElement('div');
+    wrap.className = 'diagram-svg-wrap';
+    wrap.innerHTML = svgString;
+    viewport.appendChild(wrap);
+    container.appendChild(viewport);
+
+    const svgEl = wrap.querySelector('svg');
+    if (!svgEl) return;
+
+    const PT_TO_PX = 96 / 72;
+    const readIntrinsicOnce = () => {
+      const wAttr = svgEl.getAttribute('width');
+      const hAttr = svgEl.getAttribute('height');
+      const fromPt = (s) => {
+        if (!s) return null;
+        const m = String(s).match(/^([\d.]+)\s*pt$/i);
+        return m ? parseFloat(m[1]) * PT_TO_PX : null;
+      };
+      const fromPx = (s) => {
+        if (!s) return null;
+        const m = String(s).match(/^([\d.]+)\s*px$/i);
+        return m ? parseFloat(m[1]) : null;
+      };
+      let iw = fromPt(wAttr) ?? fromPx(wAttr);
+      let ih = fromPt(hAttr) ?? fromPx(hAttr);
+      if (iw && ih) return { w: iw, h: ih };
+      const vb = svgEl.getAttribute('viewBox');
+      if (vb) {
+        const p = vb.trim().split(/[\s,]+/).map(Number);
+        const vbW = p[2] || 800;
+        const vbH = p[3] || 600;
+        return { w: vbW * PT_TO_PX, h: vbH * PT_TO_PX };
+      }
+      return { w: 800, h: 600 };
+    };
+
+    const BASE = readIntrinsicOnce();
+
+    let fitScale = 1;
+    let userZoom = 1;
+
+    const applySize = () => {
+      const z = fitScale * userZoom;
+      svgEl.removeAttribute('width');
+      svgEl.removeAttribute('height');
+      svgEl.setAttribute('width', Math.max(1, BASE.w * z));
+      svgEl.setAttribute('height', Math.max(1, BASE.h * z));
+    };
+
+    const recomputeFitScale = () => {
+      const pad = 48;
+      const slideVp = document.getElementById('slide-viewport');
+      const visibleW = slideVp?.clientWidth ?? viewport.clientWidth ?? 800;
+      const maxW = Math.max(160, visibleW - pad);
+      const maxH = Math.min(window.innerHeight * 0.68, 800) - pad;
+      fitScale = Math.min(1, maxW / BASE.w, maxH / BASE.h);
+      if (!Number.isFinite(fitScale) || fitScale <= 0) fitScale = 1;
+    };
+
+    const fitToViewport = () => {
+      recomputeFitScale();
+      userZoom = 1;
+      applySize();
+    };
+
+    const toolbar = document.createElement('div');
+    toolbar.className = 'diagram-toolbar';
+    toolbar.innerHTML = `
+      <button type="button" class="diagram-btn" data-dz="out" title="Zoom out">−</button>
+      <span class="diagram-zoom-pct">100%</span>
+      <button type="button" class="diagram-btn" data-dz="in" title="Zoom in">+</button>
+      <button type="button" class="diagram-btn" data-dz="fit" title="Fit">⊡</button>
+      <button type="button" class="diagram-btn" data-dz="reset" title="Reset zoom">↺</button>
+    `;
+    container.appendChild(toolbar);
+
+    const zoomPct = toolbar.querySelector('.diagram-zoom-pct');
+    const updatePct = () => {
+      if (zoomPct) zoomPct.textContent = `${Math.round(userZoom * 100)}%`;
+    };
+
+    const slideVp = document.getElementById('slide-viewport');
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        fitToViewport();
+        updatePct();
+      });
+    });
+    const ro = new ResizeObserver(() => {
+      recomputeFitScale();
+      applySize();
+    });
+    ro.observe(slideVp || viewport);
+
+    toolbar.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-dz]');
+      if (!btn) return;
+      const a = btn.getAttribute('data-dz');
+      if (a === 'in') {
+        userZoom = Math.min(4, userZoom * 1.25);
+        applySize();
+        updatePct();
+      } else if (a === 'out') {
+        userZoom = Math.max(0.25, userZoom / 1.25);
+        applySize();
+        updatePct();
+      } else if (a === 'fit' || a === 'reset') {
+        fitToViewport();
+        updatePct();
+      }
+    });
+
+    container.addEventListener('wheel', (e) => {
+      if (!e.ctrlKey && !e.metaKey) return;
+      e.preventDefault();
+      const factor = e.deltaY > 0 ? 1 / 1.12 : 1.12;
+      userZoom = Math.max(0.25, Math.min(4, userZoom * factor));
+      applySize();
+      updatePct();
+    }, { passive: false });
   },
 
   bindTaskClicks(container) {
@@ -257,20 +502,14 @@ const App = {
   },
 
   populateAssigneeFilter() {
-    const select = document.getElementById('filter-assignee');
-    const assignees = TaskManager.getUniqueAssignees();
-    select.innerHTML = '<option value="all">Visi</option>';
-    assignees.forEach(a => {
-      select.innerHTML += `<option value="${a}">${a}</option>`;
-    });
+    // Assignee filter removed — sole integrator model
   },
 
   refreshGlobalTasks() {
     const sprint = document.getElementById('filter-sprint').value;
-    const assignee = document.getElementById('filter-assignee').value;
     const status = document.getElementById('filter-status').value;
 
-    document.getElementById('task-list-global').innerHTML = TaskManager.renderGlobalPanel({ sprint, assignee, status });
+    document.getElementById('task-list-global').innerHTML = TaskManager.renderGlobalPanel({ sprint, status });
     document.getElementById('task-stats').innerHTML = TaskManager.renderStats();
 
     document.querySelectorAll('#task-list-global .task-checkbox').forEach(cb => {

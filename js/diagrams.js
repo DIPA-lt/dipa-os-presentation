@@ -30,37 +30,91 @@ const DIAGRAMS = {
     M4 --> A4
     M5 --> A5`,
 
-  systemArchitecture: `flowchart TD
-    FB["Facebook Ads"] --> WF1["WF1: Lead\\nIngestion"]
-    LI["LinkedIn Ads"] --> WF1
-    OL["Outlook"] --> WF2["WF2: Pre-Call\\nBrief"]
-    Plaud["Plaud Audio"] --> WF3["WF3: Post-Call\\nQA"]
-    Meets["Susitikimai"] --> WF4["WF4: Strategic\\nMemory"]
+  systemArchitectureOverview: `flowchart LR
+    Ads["Ads + Outreach\\n(Facebook, LinkedIn)"] --> Ingest["WF1 Ingestion\\n+ scoring entry"]
+    Ops["Ops inputs\\n(Outlook, Plaud, Meetings)"] --> Flows["WF2, WF3, WF4"]
+    Ingest --> CRM["Monday + PostgreSQL\\n(source of truth)"]
+    Flows --> AI["Gemini 2.5 Pro\\n+ RAG + Whisper"]
+    AI --> CRM
+    CRM --> Views["DIPA OS views\\nCo-Pilot, Cockpit, QA, Command Center"]
+    Recon["WF5 Reconciliation"] --> CRM
+    GDPR["GDPR / audit"] -.-> CRM`,
 
-    WF1 --> RAG["Vertex AI\\nRAG"]
-    WF1 --> Monday["Monday.com"]
-    WF1 -->|"C leadai"| Newo["Newo AI"]
-    Newo -->|"Rezultatai"| WF3
+  systemArchitecture: `flowchart TB
+    subgraph L1 ["① Šaltiniai"]
+      FB["Facebook Ads"]
+      LI["LinkedIn Ads"]
+      OL[Outlook]
+      Plaud["Plaud Audio"]
+      Meets[Susitikimai]
+      Cl[Clockify]
+    end
 
-    WF2 --> RAG
-    WF2 --> LLM["GPT-4o /\\nClaude"]
-    WF3 --> Whisper["Whisper STT"]
+    subgraph L2 ["② n8n workflows"]
+      WF1["WF1: Lead\\nIngestion"]
+      WF2["WF2: Pre-Call\\nBrief"]
+      WF3["WF3: Post-Call\\nQA"]
+      WF4["WF4: Strategic\\nMemory"]
+      WF5["WF5: Data\\nReconciliation"]
+    end
+
+    subgraph L3 ["③ AI paslaugos"]
+      RAG["Vertex AI\\nRAG"]
+      Whisper["Whisper STT"]
+      LLM["Gemini 2.5 Pro\\n(Vertex AI)"]
+      Newo["Newo AI"]
+    end
+
+    subgraph L4 ["④ CRM ir sandėlis"]
+      Mon[Monday.com]
+      PG[(PostgreSQL)]
+    end
+
+    subgraph L5 ["⑤ DIPA OS (Next.js)"]
+      CoP[Co-Pilot]
+      Cock[Sales Cockpit]
+      QM[QA modulis]
+      CMD[Command Center]
+    end
+
+    FB --> WF1
+    LI --> WF1
+    OL --> WF2
+    Plaud --> WF3
+    Meets --> WF4
+    Cl --> PG
+
+    WF1 --> Mon
+    WF1 -->|"C lygis"| Newo
+    RAG -.->|"paieška / enrichment\\n(scoring kontekstas)"| WF1
+    WF1 -.->|"nauji faktai\\nį indeksą"| RAG
+
+    Newo -->|"transkriptai /\\nrezultatai"| WF3
+
+    RAG -.->|"retrieval:\\nkontekstas briefui"| LLM
+    WF2 --> LLM
+    WF2 --> Mon
+
+    WF3 --> Whisper
     Whisper --> LLM
-    WF3 --> Monday
+    LLM -->|"QA JSON /\\nstruktūra"| PG
+    WF3 --> Mon
+
     WF4 --> RAG
+    WF4 --> Mon
 
-    WF5["WF5: Data\\nReconciliation"] --> Monday
-    WF5 --> PG["PostgreSQL"]
+    Mon --> PG
+    Mon --> WF5
+    PG --> WF5
+    WF5 -->|"reconciliation\\nlog + diff"| PG
 
-    Monday --> PG
-    Clock["Clockify"] --> PG
+    RAG --> CoP
+    PG --> Cock
+    PG --> QM
+    PG --> CMD
 
-    RAG --> CoPilot["Co-Pilot AI"]
-    PG --> Cockpit["Sales Cockpit"]
-    PG --> QAMod["QA Module"]
-    PG --> CMD["Command\\nCenter"]
-    GDPR["GDPR Layer"] -.->|"Consent"| Monday
-    GDPR -.->|"Audit"| PG`,
+    GDPR[GDPR sluoksnis] -.->|Consent| Mon
+    GDPR -.->|Audit| PG`,
 
   ragArchitecture: `graph TB
     subgraph layerA [A: Klientų Duomenys]
@@ -119,7 +173,7 @@ const DIAGRAMS = {
     QueryRAG1 --> Store["Išsaugoti DB"]
 
     T2["Outlook Event:\\n-15 min"] --> Check{"Ar yra nauji\\nduomenys?"}
-    Check -->|"Taip"| Refresh["Atnaujinti Brief\\nper RAG + LLM"]
+    Check -->|"Taip"| Refresh["Atnaujinti Brief\\nper RAG + Gemini"]
     Check -->|"Ne"| Use["Naudoti\\nnaktinį Brief"]
 
     Refresh --> Deliver["Pristatyti"]
@@ -129,7 +183,7 @@ const DIAGRAMS = {
 
   wfPostCall: `graph TD
     T3["Plaud Audio"] --> Trans["Whisper:\\nTranskripcija"]
-    Trans --> Analyze["LLM: QA\\nScorecard"]
+    Trans --> Analyze["Gemini 2.5 Pro:\\nQA Scorecard"]
     Analyze --> JSON["JSON Output:\\nsummary, BANT,\\nscore, coaching"]
     JSON --> CRM["Monday.com\\nUpdate"]
     JSON --> DB["PostgreSQL:\\nQA Balas"]
@@ -138,7 +192,7 @@ const DIAGRAMS = {
 
   wfStrategicMemory: `graph TD
     T4["Susitikimo\\nĮrašas"] --> Trans2["Transkripcija"]
-    Trans2 --> Extract["LLM: Action Items\\n+ Sprendimai"]
+    Trans2 --> Extract["Gemini:\\nAction items + sprendimai"]
     Extract --> Vec["Embeddings →\\nVertex AI RAG"]
     Extract --> Tasks2["Monday.com\\nUžduotys"]
     Extract --> Arch["Sprendimų\\nArchyvas"]`,
@@ -300,4 +354,64 @@ const DIAGRAMS = {
     end
 
     sc --> qa --> cc`,
+
+  pdfVsAutomation: `flowchart TB
+    subgraph sop [SOP PDF — tipinis rankinis E2E]
+      S1[Ads / formos] --> S2[Lauris į Monday ranka]
+      S2 --> S3[C ir D — šaltieji ranka]
+      S3 --> S4[Google prieš skambutį]
+      S4 --> S5[Marija planuoja ROI ranka]
+      S5 --> S6[Excel penktadienis]
+    end
+    subgraph os [DIPA OS]
+      O1[Ingest + RAG score] --> O2[Newo C / A-B žmogui]
+      O2 --> O3[Pre-Call Brief]
+      O3 --> O4[Post-Call QA JSON]
+      O4 --> O5[Command Center 14:55]
+    end
+    sop -.->|transformacija| os`,
+
+  extendedAutomation: `flowchart LR
+    P1[AI pasiūlymo juodraštis] --> H[n8n orchestratorius]
+    P2[E-sign status į CRM] --> H
+    P3[Post-Won onboarding] --> H
+    P4[Ads CAC guardrails] --> H
+    P5[NPS / CustomerHealth] --> H
+    H --> D[DIPA OS Dashboard]`,
+
+  e2eElevenStages: `flowchart LR
+    A[LEAD] --> B[QUAL]
+    B --> C[DISCOVERY]
+    C --> D[PROPOSAL]
+    D --> E[CLOSING]
+    E --> F[ONBOARDING]
+    F --> G[PREP]
+    G --> H[WORKSHOP]
+    H --> I[FOLLOW-UP]
+    I --> J[ROI]
+    J --> K[UPSELL]`,
+
+  handoffClosingToDelivery: `flowchart TB
+    subgraph sales ["Sales iki CLOSING"]
+      S["Discovery / Proposal / objections"]
+    end
+    W{"Monday Won + GATE"}
+    subgraph pack ["Handoff paketas"]
+      P["skausmas pažadas tikslai dalyviai rizikos"]
+    end
+    subgraph del ["Delivery takas"]
+      O["ONBOARDING SLA"]
+      R["PREP WORKSHOP FOLLOW-UP"]
+    end
+    sales --> W
+    W -->|Taip| pack
+    pack --> O
+    O --> R`,
+
+  tocWeekConstraint: `flowchart TB
+    SR["Stop rule — neatitikimas"]
+    SR --> F["Vienas focal bottleneck"]
+    F --> T["Visi dirba tik su juo"]
+    T --> R["RAG + Constraint review"]
+    R --> KPI["Throughput Won/wk · Buffer ROI · NPS"]`,
 };

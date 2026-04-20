@@ -406,18 +406,73 @@ const App = {
     }, { passive: false });
   },
 
+  /** Update checkbox + label classes from saved state (no full slide re-render). */
+  applyTaskStatusToRow(checkboxEl, textEl, status) {
+    if (!checkboxEl) return;
+    checkboxEl.classList.remove('checked', 'in-progress');
+    if (status === 'done') checkboxEl.classList.add('checked');
+    else if (status === 'in-progress') checkboxEl.classList.add('in-progress');
+    if (textEl) textEl.classList.toggle('done', status === 'done');
+  },
+
+  /** Sync one task/subtask row in the slide viewport after toggle (avoids diagram reload / white flash). */
+  patchTaskRowInSlideViewport(taskId, subtaskId) {
+    const viewport = document.getElementById('slide-viewport');
+    if (!viewport) return;
+    const tasks = TaskManager.load();
+    const task = tasks.find(t => t.id === taskId);
+    if (!task) return;
+
+    if (subtaskId) {
+      const sub = (task.subtasks || []).find(s => s.id === subtaskId);
+      if (!sub) return;
+      const row = viewport.querySelector(`.subtask-item[data-subtask-id="${subtaskId}"]`);
+      if (!row) return;
+      const cb = row.querySelector('.task-checkbox');
+      const txt = row.querySelector('.task-text');
+      this.applyTaskStatusToRow(cb, txt, sub.status);
+    } else {
+      const row = viewport.querySelector(`.task-item[data-task-id="${taskId}"]`);
+      if (!row) return;
+      const cb = row.querySelector('.task-checkbox');
+      const txt = row.querySelector('.task-text');
+      this.applyTaskStatusToRow(cb, txt, task.status);
+    }
+  },
+
+  /** If the toggled task appears on the current slide, patch its row only. */
+  patchSlideTasksIfVisible(taskId) {
+    const slide = this.slides[this.currentSlide];
+    if (!slide) return;
+    const onSlide = TaskManager.getTasksForSlide(slide.id).some(t => t.id === taskId);
+    if (!onSlide) return;
+    const viewport = document.getElementById('slide-viewport');
+    if (!viewport.querySelector('.slide-tasks')) return;
+    this.patchTaskRowInSlideViewport(taskId, null);
+  },
+
+  patchSubtaskRowIfVisible(taskId, subtaskId) {
+    const slide = this.slides[this.currentSlide];
+    if (!slide) return;
+    const onSlide = TaskManager.getTasksForSlide(slide.id).some(t => t.id === taskId);
+    if (!onSlide) return;
+    this.patchTaskRowInSlideViewport(taskId, subtaskId);
+  },
+
   bindTaskClicks(container) {
     container.querySelectorAll('.task-checkbox').forEach(cb => {
       cb.addEventListener('click', (e) => {
+        e.preventDefault();
         e.stopPropagation();
         const taskId = cb.getAttribute('data-task-id');
         const subtaskId = cb.getAttribute('data-subtask-id');
         if (subtaskId) {
           TaskManager.toggleSubtaskStatus(taskId, subtaskId);
+          this.patchTaskRowInSlideViewport(taskId, subtaskId);
         } else {
           TaskManager.toggleTaskStatus(taskId);
+          this.patchTaskRowInSlideViewport(taskId, null);
         }
-        this.renderSlide();
         this.refreshGlobalTasks();
       });
     });
@@ -528,16 +583,18 @@ const App = {
 
     document.querySelectorAll('#task-list-global .task-checkbox').forEach(cb => {
       cb.addEventListener('click', (e) => {
+        e.preventDefault();
         e.stopPropagation();
         const taskId = cb.getAttribute('data-task-id');
         const subtaskId = cb.getAttribute('data-subtask-id');
         if (subtaskId) {
           TaskManager.toggleSubtaskStatus(taskId, subtaskId);
+          this.patchSubtaskRowIfVisible(taskId, subtaskId);
         } else {
           TaskManager.toggleTaskStatus(taskId);
+          this.patchSlideTasksIfVisible(taskId);
         }
         this.refreshGlobalTasks();
-        this.renderSlide();
       });
     });
   },

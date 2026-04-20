@@ -638,49 +638,76 @@ def diagram_deliveryUpsellLoop():
 # ══════════════════════════════════════════════════════════════════
 
 def diagram_mvpDelegation():
-    g = new_graph("mvpDeleg", "LR", ranksep="0.45", nodesep="0.25")
-    g.attr("node", width="1.7", fontsize="9", margin="0.10,0.05")
+    """
+    Clean 4-column layout: one column per owner.
+    Row 1: Owner headers (at same rank) chained L->R with invisible edges.
+    Rows 2+: Deliverables stacked vertically under each header via visible light connector edges.
+    """
+    g = new_graph("mvpDeleg", "TB", ranksep="0.28", nodesep="0.55")
+    g.attr("node", width="1.9", fontsize="9", margin="0.12,0.07")
+    g.attr("edge", arrowhead="none", color="#cbd5e1", penwidth="1.0")
 
-    # MVP center
-    node(g, "mvp", "MVP DIPA OS\n~255 h / 6 sav.", C_AI)
+    # ── Row 1: 4 owner header nodes ──────────────────────────────
+    g.node("e_h", label="<<b>Eimantas — 180 h</b><br/><font point-size='8'>core + know-how (in-house)</font>>",
+           shape="box", style="rounded,filled,bold",
+           fillcolor="#dbeafe", color="#2563eb", fontcolor="#1e3a8a",
+           fontname=FONT, fontsize="11", margin="0.16,0.10", penwidth="2.0")
+    g.node("n_h", label="<<b>External N8N — 52 h</b><br/><font point-size='8'>tik n8n workflow'ai</font>>",
+           shape="box", style="rounded,filled,bold",
+           fillcolor="#ccfbf1", color="#0f766e", fontcolor="#134e4a",
+           fontname=FONT, fontsize="11", margin="0.16,0.10", penwidth="2.0")
+    g.node("d_h", label="<<b>External Dev — 14 h</b><br/><font point-size='8'>tik Figma dizainas</font>>",
+           shape="box", style="rounded,filled,bold",
+           fillcolor="#cffafe", color="#0891b2", fontcolor="#164e63",
+           fontname=FONT, fontsize="11", margin="0.16,0.10", penwidth="2.0")
+    g.node("t_h", label="<<b>Komanda — 9 h</b><br/><font point-size='8'>UAT + delivery SOP</font>>",
+           shape="box", style="rounded,filled,bold",
+           fillcolor="#dcfce7", color="#16a34a", fontcolor="#14532d",
+           fontname=FONT, fontsize="11", margin="0.16,0.10", penwidth="2.0")
 
-    # Eimantas — critical core + know-how in-house
-    with g.subgraph(name="cluster_e") as s:
-        s.attr(label="Eimantas — 180 h (core + know-how)", style="rounded,filled",
-               fillcolor="#eff6ff", color="#3b82f6", fontcolor="#1e3a5f", fontsize="9")
-        node(s, "e1", "Next.js karkasas\n+ Prisma schema", C_WF)
-        node(s, "e2", "RAG + Vertex AI\n+ Strategic Brain", C_WF)
-        node(s, "e3", "LLM promptai\n+ QA Scorecards", C_WF)
-        node(s, "e4", "Co-Pilot + UI\nimplementacija", C_WF)
-        node(s, "e5", "ICP / KPI\nturinys (in-house)", C_WF)
+    # Force headers at same rank, left-to-right
+    with g.subgraph() as row:
+        row.attr(rank="same")
+        row.node("e_h"); row.node("n_h"); row.node("d_h"); row.node("t_h")
+    g.edge("e_h", "n_h", style="invis", minlen="1")
+    g.edge("n_h", "d_h", style="invis", minlen="1")
+    g.edge("d_h", "t_h", style="invis", minlen="1")
 
-    # External N8N dev — minimized scope
-    with g.subgraph(name="cluster_n") as s:
-        s.attr(label="External N8N — 52 h (tik workflow'ai)", style="rounded,filled",
-               fillcolor="#f0fdfa", color="#0f766e", fontcolor="#134e4a", fontsize="9")
-        node(s, "n1", "Monday · Clockify\n· Ads API", C_APP)
-        node(s, "n2", "Newo API\n+ eskalacija", C_APP)
-        node(s, "n3", "WF5\nReconciliation", C_APP)
+    # ── Column under each header ─────────────────────────────────
+    def column(parent, items, cat):
+        prev = parent
+        for i, (nid, label) in enumerate(items):
+            node(g, nid, label, cat)
+            g.edge(prev, nid)
+            prev = nid
 
-    # External Dev — Figma only
-    with g.subgraph(name="cluster_d") as s:
-        s.attr(label="External Dev — 14 h (tik Figma)", style="rounded,filled",
-               fillcolor="#ecfeff", color="#0891b2", fontcolor="#164e63", fontsize="9")
-        node(s, "d1", "Design System\n+ Cockpit maketas", C_APP)
-        node(s, "d2", "Pre-Call Brief\n+ Command Center\nFigma maketai", C_APP)
+    eimantas = [
+        ("e1", "Next.js karkasas\n+ Prisma schema"),
+        ("e2", "RAG + Vertex AI\n+ Strategic Brain"),
+        ("e3", "LLM promptai\n+ QA Scorecards"),
+        ("e4", "Co-Pilot + UI\nimplementacija"),
+        ("e5", "ICP / KPI turinys\n(in-house)"),
+    ]
+    n8n = [
+        ("n1", "Monday · Clockify\n· Ads API"),
+        ("n2", "Newo API\n+ eskalacija"),
+        ("n3", "WF5\nReconciliation"),
+    ]
+    dev = [
+        ("d1", "Design System\n+ Cockpit maketas"),
+        ("d2", "Pre-Call Brief\n+ Command Center\nFigma maketai"),
+    ]
+    team = [
+        ("t1", "QA scorecard\nvalidacija"),
+        ("t2", "E2E UAT\nstaging'e"),
+        ("t3", "Delivery checklist\n+ handoff SOP"),
+    ]
 
-    # Team — validation + delivery SOP
-    with g.subgraph(name="cluster_t") as s:
-        s.attr(label="Komanda — 9 h (UAT + SOP)", style="rounded,filled",
-               fillcolor="#f0fdf4", color="#16a34a", fontcolor="#14532d", fontsize="9")
-        node(s, "t1", "QA scorecard\nvalidacija", C_OUTPUT)
-        node(s, "t2", "E2E UAT\nstaging'e", C_OUTPUT)
-        node(s, "t3", "Delivery checklist\n+ handoff SOP", C_OUTPUT)
+    column("e_h", eimantas, C_SRC)
+    column("n_h", n8n,      C_WF)
+    column("d_h", dev,      {"fillcolor": "#f0f9ff", "color": "#0891b2", "fontcolor": "#164e63"})
+    column("t_h", team,     C_APP)
 
-    g.edge("mvp", "e1", style="invis")
-    g.edge("mvp", "n1", style="invis")
-    g.edge("mvp", "d1", style="invis")
-    g.edge("mvp", "t1", style="invis")
     save(g, "mvpDelegation")
 
 

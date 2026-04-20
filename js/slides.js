@@ -7,7 +7,7 @@ const SLIDES = [
     description: 'Centralizuota pardavimų valdymo platforma, pastatyta ant LEAN ir TOC metodologijų.',
     content: `
       <div class="title-slide">
-        <div class="slide-badge">v1.2 — Interaktyvi Prezentacija</div>
+        <div class="slide-badge">v2.0 — Strateginė sesija + MVP Planas</div>
         <h1>DIPA OS</h1>
         <p class="slide-subtitle">Centralizuota AI-valdomos pardavimų komandos operacinė sistema.<br>
         LEAN principai. Theory of Constraints. Pilna automatizacija.</p>
@@ -184,9 +184,20 @@ const SLIDES = [
           <p>Kai Lauris skambina UAB „TechSprendimas", Co-Pilot per RAG suranda: <strong>Rekvizitai.lt</strong> → įmonės kodas, apyvarta +30% per metus; <strong>Scorify</strong> → kredito reitingas A; <strong>BuiltWith</strong> → naudoja Shopify + senas CRM; <strong>Apollo</strong> → CTO el. paštas ir LinkedIn profilis.</p>
           <p>Lauris klausia Co-Pilot: <em>„Kokia mūsų nuolaidų politika IT įmonėms pagal paskutinį strateginį meetą?"</em> → AI pateikia tikslų atsakymą su nuoroda į susitikimo transkriptą.</p>
         </div>
+
+        <h2>Delivery duomenys → D sluoksnis (strateginė sesija, post-Won)</h2>
+        <div class="info-card accent">
+          <h3>Kodėl svarbu</h3>
+          <p>Igoris/Mantas akcentavo: „uždaras pardavimų ratas" reikalauja <strong>delivery</strong> duomenų — pamokų, workshopų, anketų, namų darbų, delivery pokalbių. Iš jų kyla <strong>upsell / cross-sell</strong> galimybės. Agentas fiksuoja signalus → atpažįsta „banke sėdinčius" klientus su panašiais poreikiais → siūlo didesnės vertės sprendimus. Detalus srautas — skaidrėje 13.</p>
+        </div>
+
+        <div class="info-card purple">
+          <h3>Strategijos sluoksnis: JTBD ↔ OPPM (skaidrė 16)</h3>
+          <p>JTBD asistentas gyvena <strong>DIPA RAG platformoje</strong> (ne viešame GPT'e — know-how apsauga). Vartotojas eina per multiagentinę seką, gauna 90 dienų planą, spaudžia <em>„Perkelti į OPPM"</em> → sukuriamas vykdymo projektas. Strategija ir vykdymas sujungiami į vieną srautą.</p>
+        </div>
       </div>`,
     diagram: null,
-    notes: 'Big picture — kaip visos sistemos sujungtos, RAG 3 sluoksniai, multi-model AI strategija.',
+    notes: 'Big picture + Delivery duomenys + JTBD/OPPM sluoksnių nuoroda.',
   },
 
   // ===== SLIDE 4: Marketing & Finance (old 5) =====
@@ -441,9 +452,44 @@ const SLIDES = [
             </ul>
           </div>
         </div>
+
+        <h2>Sales Cockpit — Dienos planas iš AI agento</h2>
+        <div class="info-card accent">
+          <h3>Proaktyvus, ne tik „duomenų pildytojas"</h3>
+          <p>AI agentas ryte sudaro pardavėjo dieną, kad būtų pasiekti KPI. <strong>Konkretūs laiko tikslai:</strong> A tipo lead'ui — 3–5 d. nuo įkretimo iki sutarties; B tipo — 7 d. Jei viršyta → raudonas signalas su šakninės priežasties dekompozicija.</p>
+          <ul>
+            <li><strong>One-click veiksmai:</strong> [Skaityti Brief] [Pradėti Skambutį] [Kelti Įrašą] — nereikia šokinėti tarp Monday/Outlook/Plaud</li>
+            <li><strong>Auto follow-up:</strong> po skambučio Outlook juodraštis jau paruoštas (pardavėjas tik peržiūri)</li>
+            <li><strong>Pre-kvalifikacijų seka:</strong> aiški eilė „kam skambinti ir kada"</li>
+          </ul>
+        </div>
+
+        <h2>Command Center — Pasekmių ↔ Priežasčių Dekompozicija</h2>
+        <p class="slide-subtitle">„3 svarbiausi → 6 žemiau → 12" principas su vertikalia priežasčių linija</p>
+        <div class="diagram-container" data-svg="kpiDecomposition" data-scale="0.6"></div>
+
+        <div class="card-grid">
+          <div class="info-card red">
+            <h3>3 svarbiausi (vadovybei)</h3>
+            <p>ROAS · Won Deals/sav. · Bottleneck Index. Bet kuris raudonas → agentas <strong>automatiškai</strong> parodo varikliuos (6), kur tiksliai prarandama vertė.</p>
+          </div>
+          <div class="info-card yellow">
+            <h3>6 varikliai (vadovų)</h3>
+            <p>CAC · LVR · TTR · Pipeline Conv · AI vs Human Qual · Core Sales Efficiency. Kiekvienas — susietas su 2 operaciniais signalais žemiau.</p>
+          </div>
+          <div class="info-card accent">
+            <h3>12 operacinių (komandos)</h3>
+            <p>Lead Speed, QA Score, Talk/Listen, Obj. Win%, NPS, Churn, Upsell €, Sentiment, Followup%, RAG Hits, Ad CTR, GATE Pass%. Agentas pats gauna signalą ir pakelia aukštyn.</p>
+          </div>
+        </div>
+
+        <div class="info-card purple">
+          <h3>Pavyzdys — „ROAS krito" signalas</h3>
+          <p>Command Center pažymi raudoną ROAS → agentas iškart rodo: <strong>CAC ↑ (nes Ad CTR ↓)</strong>. Drill-down: „FB kampanija X — CTR 0.8% vs 2.1% normos, Ad spend nepakitęs, konversijos krito 40%". <strong>Rekomenduojamas veiksmas:</strong> „Pause kampanija X, pakelti biudžetą kampanijai Y" — viskas viename ekrane, be ginčų.</p>
+        </div>
       </div>`,
     diagram: null,
-    notes: 'Trys vaizdai — niekas nemato nereikalingos info. Focus = produktyvumas.',
+    notes: 'Trys vaizdai + Sales Cockpit dienos planas + Command Center 3→6→12 priežasčių dekompozicija.',
   },
 
   // ===== SLIDE 9: Technical Infrastructure (merged old 11+12) =====
@@ -650,9 +696,31 @@ Paruošk Pre-Call Brief:
         <div class="formula">Core Sales Efficiency = Sugeneruotos Pajamos / (Core Sales Valandos iš Clockify)</div>
         <div class="formula">LVR = ((A/B Leadai šį mėn. − A/B Leadai praeitą mėn.) / A/B Leadai praeitą mėn.) × 100%</div>
         <div class="formula">ROAS = Sugeneruotos Pajamos (Monday.com „Won") / Reklamos Išlaidos</div>
+
+        <h2>3 → 6 → 12 Dekompozicijos Principas</h2>
+        <p>KPI suskirstyti į <strong>tris lygius</strong>, kad vadovybė nemato 12 skaičių iš karto, bet gali <strong>drill-down</strong> į šakninę priežastį. Pilnas grafas — Sales Cockpit / Command Center skaidrėje (8). Kiekvienas raudonas signalas viršuje → automatinis priežasčių atskleidimas žemesniame lygyje.</p>
+        <div class="card-grid">
+          <div class="info-card red">
+            <h3>3 (vadovybė)</h3>
+            <p>ROAS · Won Deals/sav. · Bottleneck Index — greitas „traffic light"</p>
+          </div>
+          <div class="info-card yellow">
+            <h3>6 (vadovai)</h3>
+            <p>CAC · LVR · TTR · Pipeline Conv · AI vs Human Qual · Core Sales Efficiency</p>
+          </div>
+          <div class="info-card accent">
+            <h3>12 (komanda)</h3>
+            <p>Lead Speed · QA Score · Talk/Listen · Obj. Win% · NPS · Churn · Upsell · Sentiment · Followup% · RAG Hits · Ad CTR · GATE Pass%</p>
+          </div>
+        </div>
+
+        <div class="info-card purple">
+          <h3>Lojalumo indikatorius (sudėtingesnis)</h3>
+          <p>Susitikime aptarta — <strong>matomas, bet sunkus skaičiuoti</strong>. Formavimo pasiūlymas: <code>LoyaltyIndex = (NPS_weighted + ReferralRate + RepeatPurchaseFrequency + NegativeChurnSignal) / 4</code>. Matuojama per CustomerHealth (<code>npsScore</code>, <code>upsellPotential</code>, <code>churnRisk</code>) ir Strategic Memory (review transkriptai). Įtraukta S4+ backlog'e.</p>
+        </div>
       </div>`,
     diagram: null,
-    notes: 'KPI su retention metrikomis + operaciniai: ROAS, Bottleneck, Lead Speed, Team Time Savings.',
+    notes: 'KPI + 3→6→12 dekompozicija + lojalumo indikatorius.',
   },
 
   // ===== SLIDE 11: Roadmap + Backlog + Risks + Testing (merged old 14+17) =====
@@ -1010,6 +1078,35 @@ Paruošk Pre-Call Brief:
         </div>
 
         <div class="diagram-container" data-svg="tocWeekConstraint"></div>
+
+        <h2>Delivery → Upsell Grįžtamoji Kilpa</h2>
+        <p class="slide-subtitle">Kliento dosjė iš workshopų ir delivery veda į naują pardavimą — „uždaras ratas"</p>
+        <div class="diagram-container" data-svg="deliveryUpsellLoop" data-scale="0.65"></div>
+
+        <div class="card-grid">
+          <div class="info-card green">
+            <h3>Kliento dosjė (po Won)</h3>
+            <ul>
+              <li>Workshopų transkriptai + pastabos</li>
+              <li>Namų darbai + anketų atsakymai</li>
+              <li>Delivery pokalbiai (įrašymas + santrauka)</li>
+              <li>Pamokų progresas, užklausos, skausmai</li>
+            </ul>
+          </div>
+          <div class="info-card accent">
+            <h3>AI signalai upsell'ui</h3>
+            <ul>
+              <li>„Workshopo metu išspręsta 1 problema → matoma 2-a"</li>
+              <li>„Klientas 3 kartus paminėjo X įrankį, kurio mes siūlome"</li>
+              <li>„NPS 9+ su komentaru apie papildomą poreikį"</li>
+              <li>„Banke 50 įmonių tam pačiam poreikiui — cross-sell kampanija"</li>
+            </ul>
+          </div>
+          <div class="info-card purple">
+            <h3>Veiksmas</h3>
+            <p>AI sugeneruoja upsell pasiūlymo juodraštį į Monday (naujas pipeline įrašas) + pastabas pardavėjui iš delivery konteksto — pardavėjas nebekopijuoja iš galvos ar Excel.</p>
+          </div>
+        </div>
       </div>`,
     diagram: null,
     notes: 'E2E matrica + handoff + GATE validacijos + TOC savaitės constraint.',
@@ -1052,5 +1149,366 @@ Paruošk Pre-Call Brief:
       </div>`,
     diagram: null,
     notes: '8 AI agentų tipai aptarnauja 11 E2E etapų. Atnaujinti lentelę po kiekvieno release.',
+  },
+
+  // ═══════════════════════════════════════════════════════════════
+  // SLIDE 15: DIPA Filosofija (Igoris) + Nevo integracija
+  // ═══════════════════════════════════════════════════════════════
+  {
+    id: 'slide-15',
+    title: 'DIPA Filosofija — verslo progresas, ne AI įrankiai',
+    subtitle: 'Data Intelligent Productivity Architecture (Igoris)',
+    description: 'DIPA principai: vertės pažadas, matavimo X3 logika, transformacija, Nevo integracija.',
+    content: `
+      <div class="slide">
+        <div class="slide-badge">Filosofija</div>
+        <h1>DIPA Filosofija</h1>
+        <p class="slide-subtitle">Neparduodame AI — parduodame <strong>verslo progresą</strong>. Rinkoje trūksta AI vertės matavimo įrankių; DIPA šią spragą užpildo.</p>
+
+        <h2>Vertės Pažadas — 4 Etapai</h2>
+        <div class="card-grid">
+          <div class="info-card accent">
+            <h3>1. Aiškumas</h3>
+            <p>Dirbtuvės ir diagnostika parodo, <strong>kur AI kuria vertę</strong>. Nustatoma brandos ir vertės erdvė.</p>
+          </div>
+          <div class="info-card yellow">
+            <h3>2. Prioritetai</h3>
+            <p>Pirmieji scenarijai. Atrenkame ten, kur <strong>didžiausia grąža</strong> — ne viską iš karto.</p>
+          </div>
+          <div class="info-card green">
+            <h3>3. Įgyvendinimas</h3>
+            <p>Realus naudojimo startas, ne prototipas. <strong>Praktika &gt; teorija.</strong></p>
+          </div>
+          <div class="info-card purple">
+            <h3>4. Pamatuojama Vertė</h3>
+            <p>Matavimas &gt; pažadas. Skaičiuojame mažesnes klaidas, didesnį pajėgumą, pajamas, sutaupytą laiką, mažesnius kaštus.</p>
+          </div>
+        </div>
+
+        <h2>Matavimo Logika — X3</h2>
+        <div class="info-card accent">
+          <h3>Grąža ≥ 3× investicija</h3>
+          <p>Kiekvienas AI sprendimas privalo grąžinti <strong>minimum 3× daugiau</strong>, nei į jį investuojama. Jei grąžos nėra — darbas atliktas nekokybiškai. Tai galioja tiek Eimanto valandoms, tiek išorės biudžetui, tiek komandos laikui.</p>
+          <div class="formula">Grąža = (Pajamos_su_DIPA − Pajamos_be_DIPA + Kaštų_sutaupymas) / Investicija_į_DIPA</div>
+          <p><strong>Ribinis atvejis:</strong> jei MVP kainavo 240 h + 3 000 € išorė, po 3 mėn. DIPA turi sugeneruoti <strong>≥ 3× šią vertę</strong> (matuojama papildomomis pajamomis, sutaupytomis valandomis, išvengtomis CAC klaidomis).</p>
+        </div>
+
+        <h2>Transformacijos Principai</h2>
+        <div class="card-grid">
+          <div class="info-card yellow">
+            <h3>Žmonės priešinsis</h3>
+            <p>Natūralu. Todėl reikia <strong>įpročių formavimo</strong> ir pardavimo vidinei komandai — vienos aiškios pirmos skaidrės principu („nauda &lt; 10 sek.").</p>
+          </div>
+          <div class="info-card red">
+            <h3>Flow &gt; asistentai</h3>
+            <p>Pirma pademonstruojamas <strong>pavienio agento</strong> kuriamas efektas; tada statomas <strong>tarpasistentinis srautas</strong>. Kitaip — chaosas.</p>
+          </div>
+          <div class="info-card green">
+            <h3>Startas &gt; įkvėpimas</h3>
+            <p>„Nespėliok" taisyklė iš RAG: jei duomenų nėra — sakyti „nerandu". MVP &gt; perfekcionizmas. Sluoksniuotas augimas.</p>
+          </div>
+        </div>
+
+        <div class="info-card purple">
+          <h3>DIPA Identitetas — „Konstitucija"</h3>
+          <p><em>Kas esame:</em> Data Intelligent Productivity Architects. <em>Ką žadame:</em> verslo progresą per AI vertės matavimą. <em>Ką dirbame:</em> dirbtuves, diagnostiką, pirmus scenarijus, realų startą, tolesnį diegimą. <strong>Delivery nėra programa — tai įvykęs pokytis.</strong></p>
+        </div>
+
+        <h2>Nevo Integracijos Pozicija</h2>
+        <div class="info-card accent">
+          <h3>22 d. susitikimas — ko norime iš Nevo</h3>
+          <ul>
+            <li><strong>Aiški vieta mūsų sistemoje:</strong> Nevo = outbound/inbound skambučių agentas C lygiui + eskalacija į Lauriui/Marijai</li>
+            <li><strong>Integracija per webhook:</strong> transkriptai + sentiment + intent score → WF3 → RAG</li>
+            <li><strong>Kuriama „revenue" sistema:</strong> marketingas + pardavimai + integruotas pokalbių robotas = vienas flow</li>
+            <li><strong>Igorio veiksmas:</strong> parengti pristatymą (iki 22 d.) — mūsų revenue vizija, Nevo vieta, tarpusavio lūkesčiai</li>
+          </ul>
+        </div>
+      </div>`,
+    diagram: null,
+    notes: 'Igorio DIPA framework: vertės pažadas, X3 matavimas, transformacijos principai, Nevo pozicionavimas.',
+  },
+
+  // ═══════════════════════════════════════════════════════════════
+  // SLIDE 16: JTBD Asistentas — Multi-Agent + OPPM
+  // ═══════════════════════════════════════════════════════════════
+  {
+    id: 'slide-16',
+    title: 'JTBD Asistentas + OPPM Integracija',
+    subtitle: 'Multiagentinė architektūra DIPA RAG platformoje',
+    description: 'JTBD strategijos sluoksnio sujungimas su OPPM vykdymo sluoksniu per orchestrator + 7 sub-agentus.',
+    content: `
+      <div class="slide">
+        <div class="slide-badge">AI Strategija</div>
+        <h1>JTBD Asistentas + OPPM Integracija</h1>
+        <p class="slide-subtitle">Strategijos (JTBD) ir vykdymo (OPPM) sluoksnių sujungimas per multiagentinę architektūrą DIPA RAG platformoje</p>
+
+        <h2>Problema, kurią sprendžiame</h2>
+        <div class="card-grid">
+          <div class="info-card red">
+            <h3>Šiandien — fragmentuota</h3>
+            <ul>
+              <li>JTBD analizė — atskiras ChatGPT MVP asistentas</li>
+              <li>Svetainių analizė — atskiras ChatGPT MVP</li>
+              <li>OPPM / 1PPM — atskiras RAG sprendimas</li>
+              <li><strong>Rizika:</strong> viešo GPT instrukcijos gali būti ištraukiamos → know-how nutekėjimas</li>
+            </ul>
+          </div>
+          <div class="info-card green">
+            <h3>DIPA vizija — vientisa</h3>
+            <ul>
+              <li>Vienas modulis DIPA RAG platformoje</li>
+              <li>Vartotojo kelias: vedimas nuo verslo aprašymo iki OPPM projekto</li>
+              <li><strong>Know-how RAG žinių sluoksnyje</strong> (ne UI prompt'e)</li>
+              <li>Vienas mygtukas „Perkelti į OPPM" — nereikia kopijuoti ranka</li>
+            </ul>
+          </div>
+        </div>
+
+        <h2>Multiagentinė Architektūra</h2>
+        <div class="diagram-container" data-svg="jtbdMultiAgent" data-scale="0.55"></div>
+
+        <div class="card-grid">
+          <div class="info-card accent">
+            <h3>Orchestrator</h3>
+            <p>Valdo srautą, būsenas, klausimų seką, sub-agentų iškvietimą, rezultatų sujungimą, <strong>validaciją prieš OPPM perdavimą</strong>.</p>
+          </div>
+          <div class="info-card purple">
+            <h3>A · Intake / Session Manager</h3>
+            <p>Sesijos pradžia, projekto tipo identifikavimas, konteksto rinkimas, <strong>skip logika</strong> (ar vartotojas turi svetainę).</p>
+          </div>
+          <div class="info-card purple">
+            <h3>B · JTBD Strategist</h3>
+            <p>JTBD klausimai: auditorija, <em>job</em>, skausmai, vertė, pažadas, emocinis/funkcinis/filosofinis lygmenys, įmonės DNR, prieštaravimai.</p>
+          </div>
+          <div class="info-card purple">
+            <h3>C · Competitive / Positioning</h3>
+            <p>Konkurentų analizė, skirtumų išgryninimas, <strong>unikalaus mechanizmo</strong> identifikavimas, vertės pasiūlymo patikslinimas.</p>
+          </div>
+        </div>
+
+        <div class="card-grid">
+          <div class="info-card purple">
+            <h3>D · Website Analysis</h3>
+            <p>URL + screenshot → <strong>2 metodai</strong>: 12 produktinių kriterijų (0/1/2 brandos); UX Honeycomb / AIDA / StoryBrand / JTBD / CCD frameworkai. <em>Skip galima — be svetainės.</em></p>
+          </div>
+          <div class="info-card purple">
+            <h3>E · 90-Day Planner</h3>
+            <p>Prioritetai, iniciatyvos, atsakomybių tipai, rekomenduojami KPI, etapavimas pagal seką <strong>strategija → komunikacija → vykdymas</strong>.</p>
+          </div>
+          <div class="info-card purple">
+            <h3>F · OPPM Mapper</h3>
+            <p>90 d. plano pavertimas OPPM schema, laukų susiejimas, privalomų laukų patikra, duomenų perdavimas. <strong>Field mapping:</strong> JTBD prioritetas → OPPM strategic objective; iniciatyva → task; KPI → success metric.</p>
+          </div>
+          <div class="info-card red">
+            <h3>G · Guardrail / Compliance</h3>
+            <p>Prompt leakage prevencija, instrukcijų apsauga, <strong>„nespėliok"</strong> taisyklė (jei duomenų nepakanka — prašyti papildomų įvesčių, ne spėlioti).</p>
+          </div>
+        </div>
+
+        <h2>Vartotojo Kelias — Scenarijus A (pilnas)</h2>
+        <div class="info-card yellow">
+          <ol style="margin:0;padding-left:20px;">
+            <li>Vartotojas pasirenka „JTBD asistentas" DIPA RAG platformoje</li>
+            <li>Sistema paaiškina eigą + surenka JTBD duomenis (B · Strategist)</li>
+            <li>Klausia: „Ar atlikti svetainės analizę?" → jei TAIP: URL + screenshot → D · Website Analysis</li>
+            <li>Sujungia JTBD + svetainės rezultatus (Orchestrator)</li>
+            <li>Sugeneruoja 90 dienų planą (E · Planner) — prioritetai, KPI, etapai</li>
+            <li>Vartotojas spaudžia <strong>„Perkelti į OPPM"</strong> → F · OPPM Mapper → sukuriamas OPPM projektas su matrica (tikslai, darbai, terminai, atsakingi, KPI)</li>
+          </ol>
+        </div>
+
+        <h2>Saugumo Principai</h2>
+        <div class="card-grid">
+          <div class="info-card red">
+            <h3>Prompt leakage prevencija</h3>
+            <p>Sistema <strong>niekada</strong> neatskleidžia vidinės instrukcijos, sub-agentų logikos ar taisyklių teksto vartotojui.</p>
+          </div>
+          <div class="info-card red">
+            <h3>Knowledge Layer apsauga</h3>
+            <p>Instrukcijos saugomos RAG dokumentuose su <strong>versijavimu</strong> ir <strong>rolės prieigos</strong> kontrole — ne pliku tekstu prompt'e.</p>
+          </div>
+          <div class="info-card green">
+            <h3>„Nerandu" taisyklė</h3>
+            <p>Jei duomenų nėra — prašyti papildomų įvesčių arba aiškiai pažymėti neapibrėžtumą. <strong>Niekada nespėlioti.</strong></p>
+          </div>
+        </div>
+      </div>`,
+    diagram: null,
+    notes: 'JTBD multi-agent architektūra: orchestrator + 7 sub-agentai + OPPM integracija. Know-how apsauga RAG sluoksnyje.',
+  },
+
+  // ═══════════════════════════════════════════════════════════════
+  // SLIDE 17: MVP Plan — Valandos + Delegavimas + Biudžetas
+  // ═══════════════════════════════════════════════════════════════
+  {
+    id: 'slide-17',
+    title: 'MVP Planas — Valandos, Delegavimas, Biudžetas',
+    subtitle: 'Kaip sumažinti Eimanto krūvį ir įjungti išorės resursus',
+    description: 'Pilnas MVP planas su valandomis kiekvienai užduočiai, delegavimo matrica ir išorės biudžetu.',
+    content: `
+      <div class="slide">
+        <div class="slide-badge">MVP Planas</div>
+        <h1>MVP Planas — Valandos, Delegavimas, Biudžetas</h1>
+        <p class="slide-subtitle">Atsakas į susitikimo užduotį: <em>„Pateikti MVP projektinį pasiūlymą ir jo architektūrą, įvardijant laiką, resursus ir išorės biudžetą — iki pirmadienio"</em></p>
+
+        <h2>Apžvalga</h2>
+        <div class="mvp-summary-grid">
+          <div class="owner-card" style="border-left-color:#3b82f6;">
+            <h4>Eimantas</h4>
+            <div class="owner-hours">117 h <small>/ 6 sav.</small></div>
+            <p>Core architektūra, Prisma, RAG, LLM moduliai, Co-Pilot. Kritinis kelias.</p>
+          </div>
+          <div class="owner-card" style="border-left-color:#0f766e;">
+            <h4>External n8n dev</h4>
+            <div class="owner-hours">70 h</div>
+            <p>WF1–WF5, Monday/Outlook/Clockify/Ads API, webhook endpoints. <strong>Kandidatas: ukrainietis (LT/EN).</strong></p>
+          </div>
+          <div class="owner-card" style="border-left-color:#0891b2;">
+            <h4>External dev (frontend)</h4>
+            <div class="owner-hours">29 h</div>
+            <p>Shadcn polinimas, Sales Cockpit, Pre-Call Brief UI, Command Center tree view.</p>
+          </div>
+          <div class="owner-card" style="border-left-color:#7c3aed;">
+            <h4>Igoris</h4>
+            <div class="owner-hours">16 h</div>
+            <p>ICP kriterijai, QA promptai, RAG turinys (Strategic Brain), Nevo pristatymas.</p>
+          </div>
+          <div class="owner-card" style="border-left-color:#ea580c;">
+            <h4>Mantas</h4>
+            <div class="owner-hours">12 h</div>
+            <p>Monday laukų žemėlapis, delivery checklist, SOP handoff, kandidato onboarding.</p>
+          </div>
+          <div class="owner-card" style="border-left-color:#16a34a;">
+            <h4>Komanda (UAT)</h4>
+            <div class="owner-hours">8 h</div>
+            <p>QA scorecard validacija, E2E smoke testai staging'e.</p>
+          </div>
+        </div>
+
+        <h2>Delegavimo Matrica</h2>
+        <div class="diagram-container" data-svg="mvpDelegation" data-scale="0.55"></div>
+
+        <h2>Sprintų Suvestinė</h2>
+        <table class="hours-table">
+          <thead>
+            <tr><th>Sprintas</th><th>Fokusas</th><th class="num">Eimantas</th><th class="num">N8N</th><th class="num">Dev</th><th class="num">Igoris</th><th class="num">Mantas</th><th class="num">Komanda</th><th class="num">Viso</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>S1</strong> · 1–2 sav.</td><td>Duomenų pamatas + Next.js karkasas</td><td class="num">26</td><td class="num">23</td><td class="num">10</td><td class="num">6</td><td class="num">7</td><td class="num">0</td><td class="num"><strong>72</strong></td></tr>
+            <tr><td><strong>S2</strong> · 3–4 sav.</td><td>AI QA + Newo + RAG + GDPR</td><td class="num">41</td><td class="num">31</td><td class="num">5</td><td class="num">10</td><td class="num">0</td><td class="num">4</td><td class="num"><strong>91</strong></td></tr>
+            <tr><td><strong>S3</strong> · 5–6 sav.</td><td>Co-Pilot + Gilieji KPI + Anomaly</td><td class="num">50</td><td class="num">16</td><td class="num">14</td><td class="num">0</td><td class="num">0</td><td class="num">4</td><td class="num"><strong>84</strong></td></tr>
+          </tbody>
+          <tfoot>
+            <tr><td colspan="2">MVP VISO (S1–S3)</td><td class="num">117</td><td class="num">70</td><td class="num">29</td><td class="num">16</td><td class="num">7</td><td class="num">8</td><td class="num"><strong>247 h</strong></td></tr>
+            <tr><td colspan="2">S4+ Backlog (JTBD + Delivery Upsell + Nevo)</td><td class="num">~90</td><td class="num">~8</td><td class="num">0</td><td class="num">~20</td><td class="num">~12</td><td class="num">0</td><td class="num"><strong>~130 h</strong></td></tr>
+          </tfoot>
+        </table>
+
+        <h2>Išorės Biudžetas (skaičiavimas)</h2>
+        <div class="card-grid">
+          <div class="info-card accent">
+            <h3>Kūrimo kaštai (MVP)</h3>
+            <ul>
+              <li><strong>N8N dev 70 h × 30 €/h</strong> ≈ <strong>2 100 €</strong></li>
+              <li><strong>Frontend dev 29 h × 30 €/h</strong> ≈ <strong>870 €</strong></li>
+              <li><strong>Iš viso išorės kūrimas:</strong> <u>~2 970 €</u></li>
+            </ul>
+          </div>
+          <div class="info-card yellow">
+            <h3>Infrastruktūra (/ mėn.)</h3>
+            <ul>
+              <li>Cloud Run + PostgreSQL: ~150 €</li>
+              <li>Vertex AI + Gemini 2.5 Pro: ~200 €</li>
+              <li>OpenRouter (fallback): ~50 €</li>
+              <li>Whisper API: ~50 €</li>
+              <li>n8n self-hosted: ~20 €</li>
+              <li><strong>Iš viso:</strong> <u>~470 €/mėn.</u></li>
+            </ul>
+          </div>
+          <div class="info-card green">
+            <h3>3 mėn. DIPA MVP</h3>
+            <ul>
+              <li>Išorės kūrimas: 2 970 €</li>
+              <li>Infra (3 mėn.): 1 410 €</li>
+              <li>Rezervas 15%: 660 €</li>
+              <li><strong>Iš viso:</strong> <u>~5 040 €</u></li>
+            </ul>
+          </div>
+        </div>
+
+        <h2>Eimanto Krūvio Mažinimas</h2>
+        <div class="comparison">
+          <div class="comparison-col before">
+            <h4>Jei viskas Eimantui (247 h)</h4>
+            <ul>
+              <li>Prie 20 h/sav. → ~12 savaičių (3 mėn.)</li>
+              <li>Prie 30 h/sav. → ~8 savaičių (2 mėn.)</li>
+              <li>Kritinis kelias: architektūra + n8n + UI lygiagrečiai</li>
+              <li>Rizika: deadline'ų praradimas, burnout</li>
+            </ul>
+          </div>
+          <div class="comparison-col after">
+            <h4>Su išorės pagalba (117 h)</h4>
+            <ul>
+              <li>Prie 20 h/sav. → <strong>~6 sav.</strong> (sutampa su planu)</li>
+              <li>Eimantas fokuse: architektūra, RAG, LLM — <em>core know-how</em></li>
+              <li>n8n + UI paraleliai — nepriklausomi streamai</li>
+              <li>Investicija: <strong>~3 000 €</strong> kūrimo (žiūr. X3 logika skaidrėje 15)</li>
+            </ul>
+          </div>
+        </div>
+
+        <h2>Delegavimo Principai (kur išorė tinka)</h2>
+        <div class="card-grid">
+          <div class="info-card green">
+            <h3>✓ Tinka deleguoti</h3>
+            <ul>
+              <li><strong>n8n workflow'ai</strong> — aiškūs specifikacijomis, API integracijos</li>
+              <li><strong>UI komponentai</strong> — Figma maketas, Shadcn patterns</li>
+              <li><strong>Turinys (Igoris/Mantas):</strong> QA rubrika, delivery checklistai, ICP kriterijai</li>
+              <li><strong>Testavimas:</strong> UAT, scorecard validacija</li>
+            </ul>
+          </div>
+          <div class="info-card red">
+            <h3>✗ Lieka Eimantui</h3>
+            <ul>
+              <li><strong>Architektūra</strong> — duomenų modeliai, srautų dizainas</li>
+              <li><strong>RAG + embedding</strong> — strateginis know-how</li>
+              <li><strong>LLM promptai + integracija</strong> — visos sistemos centras</li>
+              <li><strong>Guardrail + security</strong> — rizikos mažinimas</li>
+            </ul>
+          </div>
+        </div>
+
+        <h2>Rizikos ir Sprendimai</h2>
+        <div class="card-grid">
+          <div class="info-card yellow">
+            <h3>Ukrainiečio kandidato rizika</h3>
+            <p><strong>Mitigacija:</strong> Igoris atlieka test skambutį (LT/EN vertinimas), Mantas duoda n8n užduotį → savaitės trial prieš pilną angažavimą. Veiksmas: skaidrė 17 → task t-4-5.</p>
+          </div>
+          <div class="info-card yellow">
+            <h3>Infra kaštai augs</h3>
+            <p><strong>Mitigacija:</strong> S1 nustatyti monthly budget alertus GCP'e; Anomaly Detection kataloguoja LLM užklausų šuolius; mėnesinis ROI review pagal X3 logiką.</p>
+          </div>
+          <div class="info-card yellow">
+            <h3>Scope creep (JTBD į MVP)</h3>
+            <p><strong>Mitigacija:</strong> JTBD multi-agent — <strong>S4+ backlog</strong>, ne MVP. MVP = S1–S3 (Sales OS branduolys). JTBD pradedamas tik po MVP release + X3 įvertinimo.</p>
+          </div>
+        </div>
+
+        <div class="info-card accent">
+          <h3>Veiksmų planas iki pirmadienio</h3>
+          <ul>
+            <li><strong>Pirmadienis:</strong> šis MVP pasiūlymas (atlikta) + Eimanto sandbox'as S1 pirmosios dienos</li>
+            <li><strong>Antradienis–trečiadienis:</strong> ukrainiečio test skambutis + n8n užduotis (Igoris + Mantas)</li>
+            <li><strong>Ketvirtadienis:</strong> Figma Sales Cockpit maketas → external dev briefas</li>
+            <li><strong>Penktadienis:</strong> S1 Kick-off — Monday laukų audit (Mantas) + ICP kriterijai (Igoris)</li>
+            <li><strong>22 d.:</strong> Nevo integracijos pristatymas (Igoris)</li>
+          </ul>
+        </div>
+      </div>`,
+    diagram: null,
+    notes: 'MVP planas su valandomis, delegavimu ir biudžetu. Atsakas į susitikimo užduotį. Eimantas 117h, išorė ~3k€.',
   },
 ];

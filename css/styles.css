@@ -967,6 +967,87 @@ img.diagram-asset {
   white-space: nowrap;
 }
 
+.owner-badge {
+  font-size: 0.62rem;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+
+.hours-badge {
+  font-size: 0.7rem;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  background: rgba(156, 163, 175, 0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+/* MVP plan specific styles */
+.mvp-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin: 20px 0;
+}
+.mvp-summary-grid .owner-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left-width: 4px;
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+.mvp-summary-grid .owner-card h4 {
+  margin: 0 0 4px 0;
+  font-size: 0.95rem;
+}
+.mvp-summary-grid .owner-card .owner-hours {
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+}
+.mvp-summary-grid .owner-card .owner-hours small {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+.mvp-summary-grid .owner-card p {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin: 4px 0 0 0;
+}
+
+.hours-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 15px 0;
+  font-size: 0.85rem;
+}
+.hours-table th, .hours-table td {
+  padding: 8px 10px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.hours-table th {
+  background: var(--surface-alt, rgba(0,0,0,0.03));
+  font-weight: 600;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.hours-table tbody tr:hover { background: rgba(0,0,0,0.02); }
+.hours-table .num { font-family: var(--font-mono); text-align: right; }
+.hours-table tfoot td {
+  font-weight: 700;
+  border-top: 2px solid var(--border);
+  border-bottom: none;
+}
+
 .subtask-list {
   margin-left: 28px;
   padding-left: 12px;

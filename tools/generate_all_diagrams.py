@@ -563,6 +563,192 @@ def diagram_tocWeekConstraint():
 
 
 # ══════════════════════════════════════════════════════════════════
+# 20. JTBD Multi-Agent Architecture (Orchestrator + 7 specialist agents)
+# ══════════════════════════════════════════════════════════════════
+
+def diagram_jtbdMultiAgent():
+    g = new_graph("jtbdAgents", "TB", ranksep="0.55", nodesep="0.30")
+    g.attr("node", fontsize="10", margin="0.12,0.06", width="1.7")
+
+    # User entry
+    node(g, "user", "Vartotojas\n(DIPA RAG UI)", C_SRC)
+
+    # Orchestrator in middle
+    node(g, "orch", "Orchestrator Agent\n· srauto eiga\n· būsenos\n· validacija", C_AI)
+
+    # 7 specialist agents
+    with g.subgraph(name="cluster_agents") as s:
+        s.attr(label="Specialist Agents", style="rounded,dashed",
+               color="#a78bfa", fontcolor="#4c1d95", fontsize="10")
+        node(s, "a1", "A. Intake /\nSession Manager", C_WF)
+        node(s, "a2", "B. JTBD\nStrategist", C_WF)
+        node(s, "a3", "C. Competitive /\nPositioning", C_WF)
+        node(s, "a4", "D. Website\nAnalysis", C_WF)
+        node(s, "a5", "E. 90-Day\nPlanner", C_WF)
+        node(s, "a6", "F. OPPM\nMapper", C_WF)
+        node(s, "a7", "G. Guardrail /\nCompliance", C_ALERT)
+
+    # Knowledge layer
+    node(g, "rag", "RAG Knowledge Layer\n(saugios instrukcijos)", C_AI)
+
+    # OPPM output
+    node(g, "oppm", "OPPM Projektas\n(matrica · tikslai · KPI)", C_OUTPUT)
+
+    g.edge("user", "orch")
+    g.edge("orch", "a1"); g.edge("orch", "a2"); g.edge("orch", "a3")
+    g.edge("orch", "a4"); g.edge("orch", "a5"); g.edge("orch", "a6")
+    g.edge("orch", "a7", style="dashed", label="visur")
+    g.edge("rag", "orch", style="dashed", label="retrieval")
+    g.edge("a6", "oppm", label="1 mygtukas")
+    save(g, "jtbdMultiAgent")
+
+
+# ══════════════════════════════════════════════════════════════════
+# 21. Delivery → Upsell Loop (client dossier feedback into sales)
+# ══════════════════════════════════════════════════════════════════
+
+def diagram_deliveryUpsellLoop():
+    g = new_graph("deliveryUpsell", "LR", ranksep="0.55", nodesep="0.30")
+    g.attr("node", width="1.7", fontsize="10")
+
+    with g.subgraph(name="cluster_del") as s:
+        s.attr(label="Delivery (Mantas)", style="rounded,dashed",
+               color="#16a34a", fontcolor="#14532d", fontsize="10")
+        node(s, "wk", "Workshopai\n+ dirbtuvės", C_APP)
+        node(s, "hw", "Namų darbai\n+ anketos", C_APP)
+        node(s, "call", "Delivery\npokalbiai", C_APP)
+
+    node(g, "dossier", "Kliento dosjė\n(CustomerHealth)", C_DATA)
+    node(g, "ai", "AI analizė\n(signalai · NPS)", C_AI)
+    node(g, "up", "Upsell / Cross-sell\npasiūlymas", C_OUTPUT)
+    node(g, "sales", "Sales pipeline\n(Monday)", C_WF)
+
+    g.edge("wk", "dossier")
+    g.edge("hw", "dossier")
+    g.edge("call", "dossier")
+    g.edge("dossier", "ai")
+    g.edge("ai", "up", label="signalas rastas")
+    g.edge("up", "sales", label="naujas deal")
+    g.edge("sales", "wk", style="dashed", label="pakartotinis\ndelivery")
+    save(g, "deliveryUpsellLoop")
+
+
+# ══════════════════════════════════════════════════════════════════
+# 22. MVP Delegation Matrix (who does what)
+# ══════════════════════════════════════════════════════════════════
+
+def diagram_mvpDelegation():
+    g = new_graph("mvpDeleg", "LR", ranksep="0.40", nodesep="0.20")
+    g.attr("node", width="1.5", fontsize="9", margin="0.10,0.05")
+
+    # MVP center
+    node(g, "mvp", "MVP DIPA OS\n~240 h / 6 sav.", C_AI)
+
+    # Eimantas — critical core
+    with g.subgraph(name="cluster_e") as s:
+        s.attr(label="Eimantas — ~95 h (core)", style="rounded,filled",
+               fillcolor="#eff6ff", color="#3b82f6", fontcolor="#1e3a5f", fontsize="9")
+        node(s, "e1", "Next.js karkasas\n+ Prisma schema", C_WF)
+        node(s, "e2", "RAG indeksas\n+ Vertex AI", C_WF)
+        node(s, "e3", "LLM promptų\nmoduliai", C_WF)
+        node(s, "e4", "Co-Pilot chat UI", C_WF)
+
+    # External N8N dev
+    with g.subgraph(name="cluster_n") as s:
+        s.attr(label="External N8N dev — ~75 h", style="rounded,filled",
+               fillcolor="#f0fdfa", color="#0f766e", fontcolor="#134e4a", fontsize="9")
+        node(s, "n1", "WF1–WF5\nn8n workflows", C_APP)
+        node(s, "n2", "Monday · Outlook\n· Clockify · Ads API", C_APP)
+        node(s, "n3", "Webhook\nendpointai", C_APP)
+
+    # Igoris — content/strategy
+    with g.subgraph(name="cluster_i") as s:
+        s.attr(label="Igoris — ~35 h (turinys)", style="rounded,filled",
+               fillcolor="#f5f3ff", color="#7c3aed", fontcolor="#4c1d95", fontsize="9")
+        node(s, "i1", "JTBD + QA\nkriterijai", C_AI)
+        node(s, "i2", "RAG turinys\n(Strategic Brain)", C_AI)
+        node(s, "i3", "Nevo pristatymas\n(22 d.)", C_AI)
+
+    # Mantas — coordination
+    with g.subgraph(name="cluster_m") as s:
+        s.attr(label="Mantas — ~25 h (koordinacija)", style="rounded,filled",
+               fillcolor="#fff7ed", color="#ea580c", fontcolor="#7c2d12", fontsize="9")
+        node(s, "m1", "Delivery checklist\n+ kickoff SOP", C_DATA)
+        node(s, "m2", "Handoff paketo\nšablonas", C_DATA)
+        node(s, "m3", "Komandos\ntestavimas", C_DATA)
+
+    # Team — validation
+    with g.subgraph(name="cluster_t") as s:
+        s.attr(label="Komanda — ~10 h (validacija)", style="rounded,filled",
+               fillcolor="#f0fdf4", color="#16a34a", fontcolor="#14532d", fontsize="9")
+        node(s, "t1", "QA scorecard\nvalidacija", C_OUTPUT)
+        node(s, "t2", "UAT testavimas", C_OUTPUT)
+
+    g.edge("mvp", "e1", style="invis")
+    g.edge("mvp", "n1", style="invis")
+    g.edge("mvp", "i1", style="invis")
+    g.edge("mvp", "m1", style="invis")
+    g.edge("mvp", "t1", style="invis")
+    save(g, "mvpDelegation")
+
+
+# ══════════════════════════════════════════════════════════════════
+# 23. 3 → 6 → 12 KPI Decomposition (cause-effect tree)
+# ══════════════════════════════════════════════════════════════════
+
+def diagram_kpiDecomposition():
+    g = new_graph("kpiDecomp", "TB", ranksep="0.45", nodesep="0.25")
+    g.attr("node", fontsize="10", width="1.6")
+
+    # Top: 3 most important
+    with g.subgraph(name="cluster_top") as s:
+        s.attr(label="3 svarbiausi (vadovybei)", style="rounded,dashed",
+               color="#dc2626", fontcolor="#7f1d1d", fontsize="10")
+        node(s, "t1", "ROAS", C_ALERT)
+        node(s, "t2", "Won Deals / sav.", C_ALERT)
+        node(s, "t3", "Bottleneck\nIndex", C_ALERT)
+
+    # Middle: 6 drivers
+    with g.subgraph(name="cluster_mid") as s:
+        s.attr(label="6 varikliai (vadovų)", style="rounded,dashed",
+               color="#ca8a04", fontcolor="#713f12", fontsize="10")
+        node(s, "m1", "CAC", C_DECIDE)
+        node(s, "m2", "LVR", C_DECIDE)
+        node(s, "m3", "TTR", C_DECIDE)
+        node(s, "m4", "Pipeline\nConversion", C_DECIDE)
+        node(s, "m5", "AI vs Human\nQualification", C_DECIDE)
+        node(s, "m6", "Core Sales\nEfficiency", C_DECIDE)
+
+    # Bottom: 12 operational
+    with g.subgraph(name="cluster_bot") as s:
+        s.attr(label="12 operaciniai (komandos)", style="rounded,dashed",
+               color="#0f766e", fontcolor="#134e4a", fontsize="10")
+        node(s, "b1", "Lead Speed", C_WF)
+        node(s, "b2", "QA Score", C_WF)
+        node(s, "b3", "Talk/Listen", C_WF)
+        node(s, "b4", "Obj. Win%", C_WF)
+        node(s, "b5", "NPS", C_WF)
+        node(s, "b6", "Churn", C_WF)
+        node(s, "b7", "Upsell €", C_WF)
+        node(s, "b8", "Sentiment", C_WF)
+        node(s, "b9", "Followup%", C_WF)
+        node(s, "b10", "RAG Hits", C_WF)
+        node(s, "b11", "Ad CTR", C_WF)
+        node(s, "b12", "GATE Pass%", C_WF)
+
+    # Cause-effect (only a few to avoid noise)
+    g.edge("m1", "t1", label="↑")
+    g.edge("m2", "t2")
+    g.edge("m3", "t2")
+    g.edge("m4", "t3")
+    g.edge("m5", "t3")
+    g.edge("m6", "t3")
+    g.edge("b2", "m4"); g.edge("b3", "m6"); g.edge("b4", "m4")
+    g.edge("b5", "m5"); g.edge("b1", "m2"); g.edge("b11", "m1")
+    save(g, "kpiDecomposition")
+
+
+# ══════════════════════════════════════════════════════════════════
 
 ALL = [
     diagram_tocFlow, diagram_leanMuda,
@@ -575,6 +761,8 @@ ALL = [
     diagram_pdfVsAutomation, diagram_extendedAutomation,
     diagram_e2eElevenStages, diagram_handoffClosingToDelivery,
     diagram_tocWeekConstraint,
+    diagram_jtbdMultiAgent, diagram_deliveryUpsellLoop,
+    diagram_mvpDelegation, diagram_kpiDecomposition,
 ]
 
 def main() -> None:

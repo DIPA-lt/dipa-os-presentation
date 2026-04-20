@@ -71,6 +71,8 @@ const App = {
 
     document.getElementById('filter-sprint').addEventListener('change', () => this.refreshGlobalTasks());
     document.getElementById('filter-status').addEventListener('change', () => this.refreshGlobalTasks());
+    const ownerFilter = document.getElementById('filter-owner');
+    if (ownerFilter) ownerFilter.addEventListener('change', () => this.refreshGlobalTasks());
 
     document.addEventListener('keydown', (e) => {
       if (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT') return;
@@ -502,14 +504,26 @@ const App = {
   },
 
   populateAssigneeFilter() {
-    // Assignee filter removed — sole integrator model
+    const sel = document.getElementById('filter-owner');
+    if (!sel) return;
+    if (typeof OWNER_META === 'undefined') return;
+    const current = sel.value || 'all';
+    const optionsHtml = ['<option value="all">Visi savininkai</option>']
+      .concat(Object.entries(OWNER_META).map(([key, meta]) => {
+        return `<option value="${key}">${meta.label}</option>`;
+      }))
+      .join('');
+    sel.innerHTML = optionsHtml;
+    sel.value = current;
   },
 
   refreshGlobalTasks() {
     const sprint = document.getElementById('filter-sprint').value;
     const status = document.getElementById('filter-status').value;
+    const ownerEl = document.getElementById('filter-owner');
+    const owner = ownerEl ? ownerEl.value : 'all';
 
-    document.getElementById('task-list-global').innerHTML = TaskManager.renderGlobalPanel({ sprint, status });
+    document.getElementById('task-list-global').innerHTML = TaskManager.renderGlobalPanel({ sprint, status, owner });
     document.getElementById('task-stats').innerHTML = TaskManager.renderStats();
 
     document.querySelectorAll('#task-list-global .task-checkbox').forEach(cb => {

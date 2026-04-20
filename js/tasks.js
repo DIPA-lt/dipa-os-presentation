@@ -1,16 +1,12 @@
-// Owner labels for delegation:
-//  eimantas      — core integrator (critical path, architecture, DB, RAG, LLM)
-//  external-n8n  — n8n / automation contractor (e.g. Ukrainian candidate)
-//  external-dev  — frontend / UI contractor
-//  igoris        — strategy, content, prompts, QA criteria, Nevo
-//  mantas        — coordination, delivery SOPs, handoff templates
-//  team          — validation / UAT
+// Owner labels for delegation (MVP):
+//  eimantas      — core integrator (architecture, DB, RAG, LLM, UI glue + strategy/content in-house)
+//  external-n8n  — n8n / automation contractor (minimized scope)
+//  external-dev  — frontend / UI contractor (minimized scope: Figma + Shadcn patterns only)
+//  team          — validation / UAT / delivery SOP ownership
 const OWNER_META = {
   'eimantas':     { label: 'Eimantas',     color: '#3b82f6', short: 'E' },
   'external-n8n': { label: 'External n8n', color: '#0f766e', short: 'N8N' },
   'external-dev': { label: 'External Dev', color: '#0891b2', short: 'DEV' },
-  'igoris':       { label: 'Igoris',       color: '#7c3aed', short: 'I' },
-  'mantas':       { label: 'Mantas',       color: '#ea580c', short: 'M' },
   'team':         { label: 'Komanda',      color: '#16a34a', short: 'T' },
 };
 
@@ -60,20 +56,20 @@ const INITIAL_TASKS = [
   },
   {
     id: 't-1-5', slideId: 'slide-13', title: 'Monday laukų žemėlapis vs DIPA GATE',
-    status: 'pending', sprint: '1', owner: 'mantas', hours: 7,
+    status: 'pending', sprint: '1', owner: 'eimantas', hours: 7,
     subtasks: [
-      { id: 'st-1-5-1', title: 'Audituoti esamus Monday stulpelius', status: 'pending', owner: 'mantas', hours: 2 },
-      { id: 'st-1-5-2', title: 'Priskirti GATE laukus etapams', status: 'pending', owner: 'mantas', hours: 3 },
-      { id: 'st-1-5-3', title: 'Pasiūlyti naujus laukus + validacijos', status: 'pending', owner: 'mantas', hours: 2 },
+      { id: 'st-1-5-1', title: 'Audituoti esamus Monday stulpelius', status: 'pending', owner: 'eimantas', hours: 2 },
+      { id: 'st-1-5-2', title: 'Priskirti GATE laukus etapams', status: 'pending', owner: 'eimantas', hours: 3 },
+      { id: 'st-1-5-3', title: 'Pasiūlyti naujus laukus + validacijos', status: 'pending', owner: 'eimantas', hours: 2 },
     ],
   },
   {
     id: 't-1-6', slideId: 'slide-7', title: 'ICP / Lead scoring kriterijai (A/B/C/D)',
-    status: 'pending', sprint: '1', owner: 'igoris', hours: 6,
+    status: 'pending', sprint: '1', owner: 'eimantas', hours: 6,
     subtasks: [
-      { id: 'st-1-6-1', title: 'ICP kriterijų dokumentas', status: 'pending', owner: 'igoris', hours: 3 },
-      { id: 'st-1-6-2', title: 'A/B/C/D slenksčiai ir veiksmai', status: 'pending', owner: 'igoris', hours: 2 },
-      { id: 'st-1-6-3', title: 'Review su komanda', status: 'pending', owner: 'igoris', hours: 1 },
+      { id: 'st-1-6-1', title: 'ICP kriterijų dokumentas', status: 'pending', owner: 'eimantas', hours: 3 },
+      { id: 'st-1-6-2', title: 'A/B/C/D slenksčiai ir veiksmai', status: 'pending', owner: 'eimantas', hours: 2 },
+      { id: 'st-1-6-3', title: 'Review su komanda (sprint demo)', status: 'pending', owner: 'team', hours: 1 },
     ],
   },
   {
@@ -81,13 +77,13 @@ const INITIAL_TASKS = [
     status: 'pending', sprint: '1', owner: 'external-dev', hours: 10,
     subtasks: [
       { id: 'st-1-7-1', title: 'Figma dizaino tokenai + Shadcn theme override', status: 'pending', owner: 'external-dev', hours: 3 },
-      { id: 'st-1-7-2', title: 'Sales Cockpit layout + Focus Mode', status: 'pending', owner: 'external-dev', hours: 4 },
-      { id: 'st-1-7-3', title: '1-Click Actions komponentai', status: 'pending', owner: 'external-dev', hours: 3 },
+      { id: 'st-1-7-2', title: 'Sales Cockpit layout + Focus Mode (Figma)', status: 'pending', owner: 'external-dev', hours: 4 },
+      { id: 'st-1-7-3', title: '1-Click Actions komponentai (implementacija Next.js)', status: 'pending', owner: 'eimantas', hours: 3 },
     ],
   },
 
   // ═══════════════════════════════════════════════════════════════
-  // SPRINT 2 — AI QA + Newo + RAG (~91h)
+  // SPRINT 2 — AI QA + Newo + RAG (~95h)
   // ═══════════════════════════════════════════════════════════════
   {
     id: 't-2-1', slideId: 'slide-5', title: 'Plaud audio → Whisper pipeline',
@@ -102,7 +98,7 @@ const INITIAL_TASKS = [
     id: 't-2-2', slideId: 'slide-5', title: 'LLM QA Scorecard promptai ir validacija',
     status: 'pending', sprint: '2', owner: 'eimantas', hours: 15,
     subtasks: [
-      { id: 'st-2-2-1', title: 'QA System prompt (BANT + skausmas + prieštaravimai)', status: 'pending', owner: 'igoris', hours: 4 },
+      { id: 'st-2-2-1', title: 'QA System prompt (BANT + skausmas + prieštaravimai)', status: 'pending', owner: 'eimantas', hours: 4 },
       { id: 'st-2-2-2', title: 'Zod schema JSON output validacijai', status: 'pending', owner: 'eimantas', hours: 3 },
       { id: 'st-2-2-3', title: 'Prompt iteracijos ir A/B su realiais skambučiais', status: 'pending', owner: 'eimantas', hours: 3 },
       { id: 'st-2-2-4', title: 'QA Dashboard komponentas Next.js', status: 'pending', owner: 'eimantas', hours: 5 },
@@ -159,24 +155,24 @@ const INITIAL_TASKS = [
   },
   {
     id: 't-2-8', slideId: 'slide-3', title: 'RAG turinio surinkimas (Strategic Brain)',
-    status: 'pending', sprint: '2', owner: 'igoris', hours: 6,
+    status: 'pending', sprint: '2', owner: 'eimantas', hours: 6,
     subtasks: [
-      { id: 'st-2-8-1', title: 'Išrinkti pagrindinius SOP dokumentus', status: 'pending', owner: 'igoris', hours: 2 },
-      { id: 'st-2-8-2', title: 'Paruošti pardavimų patirtis (deals archyvas)', status: 'pending', owner: 'igoris', hours: 2 },
-      { id: 'st-2-8-3', title: 'Sprendimų ir taisyklių katalogas', status: 'pending', owner: 'igoris', hours: 2 },
+      { id: 'st-2-8-1', title: 'Išrinkti pagrindinius SOP dokumentus', status: 'pending', owner: 'eimantas', hours: 2 },
+      { id: 'st-2-8-2', title: 'Paruošti pardavimų patirtis (deals archyvas)', status: 'pending', owner: 'eimantas', hours: 2 },
+      { id: 'st-2-8-3', title: 'Sprendimų ir taisyklių katalogas', status: 'pending', owner: 'eimantas', hours: 2 },
     ],
   },
   {
     id: 't-2-9', slideId: 'slide-7', title: 'Pre-Call Brief UI komponentas',
     status: 'pending', sprint: '2', owner: 'external-dev', hours: 5,
     subtasks: [
-      { id: 'st-2-9-1', title: 'Brief card komponentas su sekcijomis', status: 'pending', owner: 'external-dev', hours: 3 },
-      { id: 'st-2-9-2', title: 'Real-time refresh T−15 indicator', status: 'pending', owner: 'external-dev', hours: 2 },
+      { id: 'st-2-9-1', title: 'Brief card komponentas su sekcijomis (Figma)', status: 'pending', owner: 'external-dev', hours: 3 },
+      { id: 'st-2-9-2', title: 'Real-time refresh T−15 indicator (implementacija)', status: 'pending', owner: 'eimantas', hours: 2 },
     ],
   },
 
   // ═══════════════════════════════════════════════════════════════
-  // SPRINT 3 — Co-Pilot + Gilieji KPI (~84h)
+  // SPRINT 3 — Co-Pilot + Gilieji KPI (~88h)
   // ═══════════════════════════════════════════════════════════════
   {
     id: 't-3-1', slideId: 'slide-10', title: 'Gilieji KPI indeksai (LVR, CAC, TTR, ROAS, Bottleneck)',
@@ -203,20 +199,20 @@ const INITIAL_TASKS = [
   },
   {
     id: 't-3-3', slideId: 'slide-12', title: 'Penktadienio ataskaitų automatizacija',
-    status: 'pending', sprint: '3', owner: 'external-n8n', hours: 7,
+    status: 'pending', sprint: '3', owner: 'eimantas', hours: 7,
     subtasks: [
-      { id: 'st-3-3-1', title: 'Ataskaitos šablonas (PDF/Markdown)', status: 'pending', owner: 'external-n8n', hours: 2 },
-      { id: 'st-3-3-2', title: 'Cron triggeris (Pn 14:55)', status: 'pending', owner: 'external-n8n', hours: 2 },
-      { id: 'st-3-3-3', title: 'Slack/Teams integracija', status: 'pending', owner: 'external-n8n', hours: 3 },
+      { id: 'st-3-3-1', title: 'Ataskaitos šablonas (PDF/Markdown)', status: 'pending', owner: 'eimantas', hours: 2 },
+      { id: 'st-3-3-2', title: 'Cron triggeris (Pn 14:55)', status: 'pending', owner: 'eimantas', hours: 2 },
+      { id: 'st-3-3-3', title: 'Slack/Teams integracija', status: 'pending', owner: 'eimantas', hours: 3 },
     ],
   },
   {
     id: 't-3-4', slideId: 'slide-7', title: 'Pre-Call Brief dviejų etapų generavimas',
-    status: 'pending', sprint: '3', owner: 'external-n8n', hours: 9,
+    status: 'pending', sprint: '3', owner: 'eimantas', hours: 9,
     subtasks: [
-      { id: 'st-3-4-1', title: 'Naktinis cron: vakaro brief', status: 'pending', owner: 'external-n8n', hours: 3 },
-      { id: 'st-3-4-2', title: 'Outlook event T−15 min triggeris', status: 'pending', owner: 'external-n8n', hours: 4 },
-      { id: 'st-3-4-3', title: 'Slack + Dashboard atvaizdavimas', status: 'pending', owner: 'external-n8n', hours: 2 },
+      { id: 'st-3-4-1', title: 'Naktinis cron: vakaro brief', status: 'pending', owner: 'eimantas', hours: 3 },
+      { id: 'st-3-4-2', title: 'Outlook event T−15 min triggeris', status: 'pending', owner: 'eimantas', hours: 4 },
+      { id: 'st-3-4-3', title: 'Slack + Dashboard atvaizdavimas', status: 'pending', owner: 'eimantas', hours: 2 },
     ],
   },
   {
@@ -230,11 +226,11 @@ const INITIAL_TASKS = [
   },
   {
     id: 't-3-6', slideId: 'slide-10', title: 'Customer Retention + Upsell metrikos',
-    status: 'pending', sprint: '3', owner: 'external-dev', hours: 9,
+    status: 'pending', sprint: '3', owner: 'eimantas', hours: 9,
     subtasks: [
       { id: 'st-3-6-1', title: 'CustomerHealth DB modelis', status: 'pending', owner: 'eimantas', hours: 2 },
-      { id: 'st-3-6-2', title: 'NPS + Churn Risk dashboard', status: 'pending', owner: 'external-dev', hours: 4 },
-      { id: 'st-3-6-3', title: 'Upsell pipeline sekimas', status: 'pending', owner: 'external-dev', hours: 3 },
+      { id: 'st-3-6-2', title: 'NPS + Churn Risk dashboard', status: 'pending', owner: 'eimantas', hours: 4 },
+      { id: 'st-3-6-3', title: 'Upsell pipeline sekimas', status: 'pending', owner: 'eimantas', hours: 3 },
     ],
   },
   {
@@ -250,13 +246,13 @@ const INITIAL_TASKS = [
     id: 't-3-8', slideId: 'slide-8', title: 'Command Center cause-effect UI (3→6→12)',
     status: 'pending', sprint: '3', owner: 'external-dev', hours: 7,
     subtasks: [
-      { id: 'st-3-8-1', title: '3→6→12 vizualizacija (tree view)', status: 'pending', owner: 'external-dev', hours: 4 },
-      { id: 'st-3-8-2', title: 'Drill-down modal su detalėmis', status: 'pending', owner: 'external-dev', hours: 3 },
+      { id: 'st-3-8-1', title: '3→6→12 vizualizacija (tree view — Figma)', status: 'pending', owner: 'external-dev', hours: 4 },
+      { id: 'st-3-8-2', title: 'Drill-down modal (implementacija Next.js)', status: 'pending', owner: 'eimantas', hours: 3 },
     ],
   },
 
   // ═══════════════════════════════════════════════════════════════
-  // SPRINT 4+ — JTBD + Delivery Upsell + Nevo (backlog ~100h)
+  // SPRINT 4+ — JTBD + Delivery Upsell + Nevo (backlog ~95h)
   // ═══════════════════════════════════════════════════════════════
   {
     id: 't-4-1', slideId: 'slide-16', title: 'JTBD Asistentas — orchestrator + 7 sub-agentai',
@@ -264,29 +260,26 @@ const INITIAL_TASKS = [
     subtasks: [
       { id: 'st-4-1-1', title: 'Orchestrator agento skeleton + state machine', status: 'pending', owner: 'eimantas', hours: 8 },
       { id: 'st-4-1-2', title: 'A. Intake / Session Manager', status: 'pending', owner: 'eimantas', hours: 4 },
-      { id: 'st-4-1-3', title: 'B. JTBD Strategist — promptai ir klausimyno logika', status: 'pending', owner: 'igoris', hours: 6 },
+      { id: 'st-4-1-3', title: 'B. JTBD Strategist — promptai ir klausimyno logika', status: 'pending', owner: 'eimantas', hours: 6 },
       { id: 'st-4-1-4', title: 'B. JTBD Strategist — implementacija', status: 'pending', owner: 'eimantas', hours: 3 },
-      { id: 'st-4-1-5', title: 'C. Competitive / Positioning — turinys', status: 'pending', owner: 'igoris', hours: 3 },
-      { id: 'st-4-1-6', title: 'C. Competitive / Positioning — implementacija', status: 'pending', owner: 'eimantas', hours: 2 },
-      { id: 'st-4-1-7', title: 'D. Website Analysis — 12 kriterijų + frameworkai (turinys)', status: 'pending', owner: 'igoris', hours: 4 },
-      { id: 'st-4-1-8', title: 'D. Website Analysis — screenshot + URL apdorojimas', status: 'pending', owner: 'eimantas', hours: 3 },
-      { id: 'st-4-1-9', title: 'E. 90-Day Planner — generavimo logika', status: 'pending', owner: 'eimantas', hours: 5 },
-      { id: 'st-4-1-10', title: 'E. 90-Day Planner — KPI ir etapavimo taisyklės', status: 'pending', owner: 'igoris', hours: 3 },
-      { id: 'st-4-1-11', title: 'F. OPPM Mapper — field mapping + validacija', status: 'pending', owner: 'eimantas', hours: 5 },
-      { id: 'st-4-1-12', title: 'G. Guardrail / Compliance (prompt leakage prevencija)', status: 'pending', owner: 'eimantas', hours: 3 },
-      { id: 'st-4-1-13', title: '„Perkelti į OPPM" mygtukas + draft peržiūra', status: 'pending', owner: 'eimantas', hours: 4 },
-      { id: 'st-4-1-14', title: 'Session + JTBD + 90-day + Website data modeliai', status: 'pending', owner: 'eimantas', hours: 3 },
+      { id: 'st-4-1-5', title: 'C. Competitive / Positioning — promptai + implementacija', status: 'pending', owner: 'eimantas', hours: 5 },
+      { id: 'st-4-1-6', title: 'D. Website Analysis — 12 kriterijų + frameworkai', status: 'pending', owner: 'eimantas', hours: 4 },
+      { id: 'st-4-1-7', title: 'D. Website Analysis — screenshot + URL apdorojimas', status: 'pending', owner: 'eimantas', hours: 3 },
+      { id: 'st-4-1-8', title: 'E. 90-Day Planner — generavimo logika', status: 'pending', owner: 'eimantas', hours: 5 },
+      { id: 'st-4-1-9', title: 'E. 90-Day Planner — KPI ir etapavimo taisyklės', status: 'pending', owner: 'eimantas', hours: 3 },
+      { id: 'st-4-1-10', title: 'F. OPPM Mapper — field mapping + validacija', status: 'pending', owner: 'eimantas', hours: 5 },
+      { id: 'st-4-1-11', title: 'G. Guardrail / Compliance (prompt leakage prevencija)', status: 'pending', owner: 'eimantas', hours: 3 },
+      { id: 'st-4-1-12', title: '„Perkelti į OPPM" mygtukas + draft peržiūra', status: 'pending', owner: 'eimantas', hours: 4 },
     ],
   },
   {
     id: 't-4-2', slideId: 'slide-13', title: 'Delivery → Upsell dosjė + feedback loop',
-    status: 'pending', sprint: '4', owner: 'mantas', hours: 17,
+    status: 'pending', sprint: '4', owner: 'eimantas', hours: 17,
     subtasks: [
-      { id: 'st-4-2-1', title: 'Delivery checklist + kickoff SOP', status: 'pending', owner: 'mantas', hours: 4 },
-      { id: 'st-4-2-2', title: 'Handoff paketo šablonas (Won → Delivery)', status: 'pending', owner: 'mantas', hours: 3 },
+      { id: 'st-4-2-1', title: 'Delivery checklist + kickoff SOP (komandinis dokumentas)', status: 'pending', owner: 'team', hours: 4 },
+      { id: 'st-4-2-2', title: 'Handoff paketo šablonas (Won → Delivery)', status: 'pending', owner: 'team', hours: 3 },
       { id: 'st-4-2-3', title: 'CustomerHealth integracija su workshop duomenimis', status: 'pending', owner: 'eimantas', hours: 4 },
-      { id: 'st-4-2-4', title: 'Upsell signalų aptikimo taisyklės (turinys)', status: 'pending', owner: 'igoris', hours: 3 },
-      { id: 'st-4-2-5', title: 'Upsell signalų implementacija + pipeline', status: 'pending', owner: 'eimantas', hours: 3 },
+      { id: 'st-4-2-4', title: 'Upsell signalų aptikimo taisyklės + implementacija', status: 'pending', owner: 'eimantas', hours: 6 },
     ],
   },
   {
@@ -299,40 +292,31 @@ const INITIAL_TASKS = [
   },
   {
     id: 't-4-4', slideId: 'slide-15', title: 'Nevo integracija — pristatymas + hooks',
-    status: 'pending', sprint: '4', owner: 'igoris', hours: 8,
+    status: 'pending', sprint: '4', owner: 'eimantas', hours: 8,
     subtasks: [
-      { id: 'st-4-4-1', title: 'Nevo pristatymas (iki 22 d.)', status: 'pending', owner: 'igoris', hours: 4 },
+      { id: 'st-4-4-1', title: 'Nevo pristatymas (iki 22 d.)', status: 'pending', owner: 'eimantas', hours: 4 },
       { id: 'st-4-4-2', title: 'Integration hooks — Newo ↔ DIPA OS handoff', status: 'pending', owner: 'eimantas', hours: 4 },
     ],
   },
   {
     id: 't-4-5', slideId: 'slide-17', title: 'Ukrainiečio kandidato testavimas + onboarding',
-    status: 'pending', sprint: '4', owner: 'mantas', hours: 5,
+    status: 'pending', sprint: '4', owner: 'eimantas', hours: 5,
     subtasks: [
-      { id: 'st-4-5-1', title: 'Test skambutis (LT/EN)', status: 'pending', owner: 'igoris', hours: 1 },
-      { id: 'st-4-5-2', title: 'Techninių įgūdžių vertinimas (n8n užduotis)', status: 'pending', owner: 'mantas', hours: 1 },
-      { id: 'st-4-5-3', title: 'Onboarding dokumentas + credentials', status: 'pending', owner: 'mantas', hours: 3 },
+      { id: 'st-4-5-1', title: 'Test skambutis (LT/EN) + techninių įgūdžių vertinimas', status: 'pending', owner: 'team', hours: 2 },
+      { id: 'st-4-5-2', title: 'Onboarding dokumentas + credentials setup', status: 'pending', owner: 'eimantas', hours: 3 },
     ],
   },
   {
     id: 't-4-6', slideId: 'slide-12', title: 'SOP PDF vs DIPA OS — neatitikimų sąrašas',
-    status: 'pending', sprint: '4', owner: 'mantas', hours: 5,
+    status: 'pending', sprint: '4', owner: 'eimantas', hours: 5,
     subtasks: [
-      { id: 'st-4-6-1', title: 'E2E PDF žingsnių sutapatinimas su DIPA schema', status: 'pending', owner: 'mantas', hours: 3 },
-      { id: 'st-4-6-2', title: 'Rankinis vs automatizuota matrica', status: 'pending', owner: 'mantas', hours: 2 },
-    ],
-  },
-  {
-    id: 't-4-7', slideId: 'slide-14', title: 'AI agentų lentelė — atnaujinimas po release',
-    status: 'pending', sprint: '4', owner: 'mantas', hours: 2,
-    subtasks: [
-      { id: 'st-4-7-1', title: 'Po Proposal Assistant MVP — pažymėti cov-full', status: 'pending', owner: 'mantas', hours: 1 },
-      { id: 'st-4-7-2', title: 'Po JTBD Asistento MVP — atnaujinti Discovery Copilot', status: 'pending', owner: 'mantas', hours: 1 },
+      { id: 'st-4-6-1', title: 'E2E PDF žingsnių sutapatinimas su DIPA schema', status: 'pending', owner: 'eimantas', hours: 3 },
+      { id: 'st-4-6-2', title: 'Rankinis vs automatizuota matrica', status: 'pending', owner: 'eimantas', hours: 2 },
     ],
   },
 
   // ═══════════════════════════════════════════════════════════════
-  // Validation / UAT — visuose sprintuose
+  // Validation / UAT — per sprintus
   // ═══════════════════════════════════════════════════════════════
   {
     id: 't-v-1', slideId: 'slide-11', title: 'QA Scorecard validacija (10 žinomų transkriptų)',
@@ -351,7 +335,7 @@ const INITIAL_TASKS = [
 ];
 
 const TaskManager = {
-  STORAGE_KEY: 'dipa-os-tasks-v2',
+  STORAGE_KEY: 'dipa-os-tasks-v3',
 
   load() {
     try {
@@ -425,7 +409,7 @@ const TaskManager = {
     return { total, pending, inProgress, done, hoursTotal, hoursPending, hoursInProgress, hoursDone };
   },
 
-  /** Aggregate hours by owner across all subtasks (more accurate than task-level). */
+  /** Aggregate hours by owner across all subtasks. */
   getHoursByOwner() {
     const tasks = this.load();
     const totals = {};

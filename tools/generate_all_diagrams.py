@@ -638,56 +638,48 @@ def diagram_deliveryUpsellLoop():
 # ══════════════════════════════════════════════════════════════════
 
 def diagram_mvpDelegation():
-    g = new_graph("mvpDeleg", "LR", ranksep="0.40", nodesep="0.20")
-    g.attr("node", width="1.5", fontsize="9", margin="0.10,0.05")
+    g = new_graph("mvpDeleg", "LR", ranksep="0.45", nodesep="0.25")
+    g.attr("node", width="1.7", fontsize="9", margin="0.10,0.05")
 
     # MVP center
-    node(g, "mvp", "MVP DIPA OS\n~240 h / 6 sav.", C_AI)
+    node(g, "mvp", "MVP DIPA OS\n~255 h / 6 sav.", C_AI)
 
-    # Eimantas — critical core
+    # Eimantas — critical core + know-how in-house
     with g.subgraph(name="cluster_e") as s:
-        s.attr(label="Eimantas — ~95 h (core)", style="rounded,filled",
+        s.attr(label="Eimantas — 180 h (core + know-how)", style="rounded,filled",
                fillcolor="#eff6ff", color="#3b82f6", fontcolor="#1e3a5f", fontsize="9")
         node(s, "e1", "Next.js karkasas\n+ Prisma schema", C_WF)
-        node(s, "e2", "RAG indeksas\n+ Vertex AI", C_WF)
-        node(s, "e3", "LLM promptų\nmoduliai", C_WF)
-        node(s, "e4", "Co-Pilot chat UI", C_WF)
+        node(s, "e2", "RAG + Vertex AI\n+ Strategic Brain", C_WF)
+        node(s, "e3", "LLM promptai\n+ QA Scorecards", C_WF)
+        node(s, "e4", "Co-Pilot + UI\nimplementacija", C_WF)
+        node(s, "e5", "ICP / KPI\nturinys (in-house)", C_WF)
 
-    # External N8N dev
+    # External N8N dev — minimized scope
     with g.subgraph(name="cluster_n") as s:
-        s.attr(label="External N8N dev — ~75 h", style="rounded,filled",
+        s.attr(label="External N8N — 52 h (tik workflow'ai)", style="rounded,filled",
                fillcolor="#f0fdfa", color="#0f766e", fontcolor="#134e4a", fontsize="9")
-        node(s, "n1", "WF1–WF5\nn8n workflows", C_APP)
-        node(s, "n2", "Monday · Outlook\n· Clockify · Ads API", C_APP)
-        node(s, "n3", "Webhook\nendpointai", C_APP)
+        node(s, "n1", "Monday · Clockify\n· Ads API", C_APP)
+        node(s, "n2", "Newo API\n+ eskalacija", C_APP)
+        node(s, "n3", "WF5\nReconciliation", C_APP)
 
-    # Igoris — content/strategy
-    with g.subgraph(name="cluster_i") as s:
-        s.attr(label="Igoris — ~35 h (turinys)", style="rounded,filled",
-               fillcolor="#f5f3ff", color="#7c3aed", fontcolor="#4c1d95", fontsize="9")
-        node(s, "i1", "JTBD + QA\nkriterijai", C_AI)
-        node(s, "i2", "RAG turinys\n(Strategic Brain)", C_AI)
-        node(s, "i3", "Nevo pristatymas\n(22 d.)", C_AI)
+    # External Dev — Figma only
+    with g.subgraph(name="cluster_d") as s:
+        s.attr(label="External Dev — 14 h (tik Figma)", style="rounded,filled",
+               fillcolor="#ecfeff", color="#0891b2", fontcolor="#164e63", fontsize="9")
+        node(s, "d1", "Design System\n+ Cockpit maketas", C_APP)
+        node(s, "d2", "Pre-Call Brief\n+ Command Center\nFigma maketai", C_APP)
 
-    # Mantas — coordination
-    with g.subgraph(name="cluster_m") as s:
-        s.attr(label="Mantas — ~25 h (koordinacija)", style="rounded,filled",
-               fillcolor="#fff7ed", color="#ea580c", fontcolor="#7c2d12", fontsize="9")
-        node(s, "m1", "Delivery checklist\n+ kickoff SOP", C_DATA)
-        node(s, "m2", "Handoff paketo\nšablonas", C_DATA)
-        node(s, "m3", "Komandos\ntestavimas", C_DATA)
-
-    # Team — validation
+    # Team — validation + delivery SOP
     with g.subgraph(name="cluster_t") as s:
-        s.attr(label="Komanda — ~10 h (validacija)", style="rounded,filled",
+        s.attr(label="Komanda — 9 h (UAT + SOP)", style="rounded,filled",
                fillcolor="#f0fdf4", color="#16a34a", fontcolor="#14532d", fontsize="9")
         node(s, "t1", "QA scorecard\nvalidacija", C_OUTPUT)
-        node(s, "t2", "UAT testavimas", C_OUTPUT)
+        node(s, "t2", "E2E UAT\nstaging'e", C_OUTPUT)
+        node(s, "t3", "Delivery checklist\n+ handoff SOP", C_OUTPUT)
 
     g.edge("mvp", "e1", style="invis")
     g.edge("mvp", "n1", style="invis")
-    g.edge("mvp", "i1", style="invis")
-    g.edge("mvp", "m1", style="invis")
+    g.edge("mvp", "d1", style="invis")
     g.edge("mvp", "t1", style="invis")
     save(g, "mvpDelegation")
 

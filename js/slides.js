@@ -7,7 +7,7 @@ const SLIDES = [
     description: 'Centralizuota pardavimų valdymo platforma, pastatyta ant LEAN ir TOC metodologijų.',
     content: `
       <div class="title-slide">
-        <div class="slide-badge">v2.0 — Strateginė sesija + MVP Planas</div>
+        <div class="slide-badge">v3.0 — MVP patikslintas + vidaus know-how</div>
         <h1>DIPA OS</h1>
         <p class="slide-subtitle">Centralizuota AI-valdomos pardavimų komandos operacinė sistema.<br>
         LEAN principai. Theory of Constraints. Pilna automatizacija.</p>
@@ -1221,7 +1221,7 @@ Paruošk Pre-Call Brief:
             <li><strong>Aiški vieta mūsų sistemoje:</strong> Nevo = outbound/inbound skambučių agentas C lygiui + eskalacija į Lauriui/Marijai</li>
             <li><strong>Integracija per webhook:</strong> transkriptai + sentiment + intent score → WF3 → RAG</li>
             <li><strong>Kuriama „revenue" sistema:</strong> marketingas + pardavimai + integruotas pokalbių robotas = vienas flow</li>
-            <li><strong>Igorio veiksmas:</strong> parengti pristatymą (iki 22 d.) — mūsų revenue vizija, Nevo vieta, tarpusavio lūkesčiai</li>
+            <li><strong>Veiksmas (Eimantas):</strong> parengti pristatymą (iki 22 d.) — mūsų revenue vizija, Nevo vieta, tarpusavio lūkesčiai (task t-4-4)</li>
           </ul>
         </div>
       </div>`,
@@ -1356,33 +1356,23 @@ Paruošk Pre-Call Brief:
         <div class="mvp-summary-grid">
           <div class="owner-card" style="border-left-color:#3b82f6;">
             <h4>Eimantas</h4>
-            <div class="owner-hours">117 h <small>/ 6 sav.</small></div>
-            <p>Core architektūra, Prisma, RAG, LLM moduliai, Co-Pilot. Kritinis kelias.</p>
+            <div class="owner-hours">180 h <small>/ 6 sav.</small></div>
+            <p>Core architektūra, Prisma, RAG, LLM, Co-Pilot + visas strategijos turinys in-house (ICP, QA promptai, RAG Strategic Brain). Kritinis kelias + know-how.</p>
           </div>
           <div class="owner-card" style="border-left-color:#0f766e;">
             <h4>External n8n dev</h4>
-            <div class="owner-hours">70 h</div>
-            <p>WF1–WF5, Monday/Outlook/Clockify/Ads API, webhook endpoints. <strong>Kandidatas: ukrainietis (LT/EN).</strong></p>
+            <div class="owner-hours">52 h</div>
+            <p>Tik n8n workflow'ai specifikacija: Monday/Clockify/Ads API, Newo integracija, WF5 Reconciliation. <strong>Kandidatas: ukrainietis (LT/EN).</strong></p>
           </div>
           <div class="owner-card" style="border-left-color:#0891b2;">
             <h4>External dev (frontend)</h4>
-            <div class="owner-hours">29 h</div>
-            <p>Shadcn polinimas, Sales Cockpit, Pre-Call Brief UI, Command Center tree view.</p>
-          </div>
-          <div class="owner-card" style="border-left-color:#7c3aed;">
-            <h4>Igoris</h4>
-            <div class="owner-hours">16 h</div>
-            <p>ICP kriterijai, QA promptai, RAG turinys (Strategic Brain), Nevo pristatymas.</p>
-          </div>
-          <div class="owner-card" style="border-left-color:#ea580c;">
-            <h4>Mantas</h4>
-            <div class="owner-hours">12 h</div>
-            <p>Monday laukų žemėlapis, delivery checklist, SOP handoff, kandidato onboarding.</p>
+            <div class="owner-hours">14 h</div>
+            <p>Tik Figma dizainas + Shadcn tokenai. Sales Cockpit, Pre-Call Brief, Command Center — maketai. Implementaciją daro Eimantas.</p>
           </div>
           <div class="owner-card" style="border-left-color:#16a34a;">
-            <h4>Komanda (UAT)</h4>
-            <div class="owner-hours">8 h</div>
-            <p>QA scorecard validacija, E2E smoke testai staging'e.</p>
+            <h4>Komanda (UAT + SOP)</h4>
+            <div class="owner-hours">9 h</div>
+            <p>QA scorecard validacija, E2E UAT, delivery checklist / handoff SOP turinio ownership, sprint demo.</p>
           </div>
         </div>
 
@@ -1392,16 +1382,16 @@ Paruošk Pre-Call Brief:
         <h2>Sprintų Suvestinė</h2>
         <table class="hours-table">
           <thead>
-            <tr><th>Sprintas</th><th>Fokusas</th><th class="num">Eimantas</th><th class="num">N8N</th><th class="num">Dev</th><th class="num">Igoris</th><th class="num">Mantas</th><th class="num">Komanda</th><th class="num">Viso</th></tr>
+            <tr><th>Sprintas</th><th>Fokusas</th><th class="num">Eimantas</th><th class="num">N8N</th><th class="num">Dev</th><th class="num">Komanda</th><th class="num">Viso</th></tr>
           </thead>
           <tbody>
-            <tr><td><strong>S1</strong> · 1–2 sav.</td><td>Duomenų pamatas + Next.js karkasas</td><td class="num">26</td><td class="num">23</td><td class="num">10</td><td class="num">6</td><td class="num">7</td><td class="num">0</td><td class="num"><strong>72</strong></td></tr>
-            <tr><td><strong>S2</strong> · 3–4 sav.</td><td>AI QA + Newo + RAG + GDPR</td><td class="num">41</td><td class="num">31</td><td class="num">5</td><td class="num">10</td><td class="num">0</td><td class="num">4</td><td class="num"><strong>91</strong></td></tr>
-            <tr><td><strong>S3</strong> · 5–6 sav.</td><td>Co-Pilot + Gilieji KPI + Anomaly</td><td class="num">50</td><td class="num">16</td><td class="num">14</td><td class="num">0</td><td class="num">0</td><td class="num">4</td><td class="num"><strong>84</strong></td></tr>
+            <tr><td><strong>S1</strong> · 1–2 sav.</td><td>Duomenų pamatas + Next.js karkasas</td><td class="num">41</td><td class="num">23</td><td class="num">7</td><td class="num">1</td><td class="num"><strong>72</strong></td></tr>
+            <tr><td><strong>S2</strong> · 3–4 sav.</td><td>AI QA + Newo + RAG + GDPR</td><td class="num">59</td><td class="num">29</td><td class="num">3</td><td class="num">4</td><td class="num"><strong>95</strong></td></tr>
+            <tr><td><strong>S3</strong> · 5–6 sav.</td><td>Co-Pilot + Gilieji KPI + Anomaly</td><td class="num">80</td><td class="num">0</td><td class="num">4</td><td class="num">4</td><td class="num"><strong>88</strong></td></tr>
           </tbody>
           <tfoot>
-            <tr><td colspan="2">MVP VISO (S1–S3)</td><td class="num">117</td><td class="num">70</td><td class="num">29</td><td class="num">16</td><td class="num">7</td><td class="num">8</td><td class="num"><strong>247 h</strong></td></tr>
-            <tr><td colspan="2">S4+ Backlog (JTBD + Delivery Upsell + Nevo)</td><td class="num">~90</td><td class="num">~8</td><td class="num">0</td><td class="num">~20</td><td class="num">~12</td><td class="num">0</td><td class="num"><strong>~130 h</strong></td></tr>
+            <tr><td colspan="2">MVP VISO (S1–S3)</td><td class="num">180</td><td class="num">52</td><td class="num">14</td><td class="num">9</td><td class="num"><strong>255 h</strong></td></tr>
+            <tr><td colspan="2">S4+ Backlog (JTBD + Delivery Upsell + Nevo)</td><td class="num">~87</td><td class="num">~4</td><td class="num">0</td><td class="num">~9</td><td class="num"><strong>~100 h</strong></td></tr>
           </tfoot>
         </table>
 
@@ -1410,9 +1400,9 @@ Paruošk Pre-Call Brief:
           <div class="info-card accent">
             <h3>Kūrimo kaštai (MVP)</h3>
             <ul>
-              <li><strong>N8N dev 70 h × 30 €/h</strong> ≈ <strong>2 100 €</strong></li>
-              <li><strong>Frontend dev 29 h × 30 €/h</strong> ≈ <strong>870 €</strong></li>
-              <li><strong>Iš viso išorės kūrimas:</strong> <u>~2 970 €</u></li>
+              <li><strong>N8N dev 52 h × 30 €/h</strong> ≈ <strong>1 560 €</strong></li>
+              <li><strong>Frontend (Figma) 14 h × 30 €/h</strong> ≈ <strong>420 €</strong></li>
+              <li><strong>Iš viso išorės kūrimas:</strong> <u>~1 980 €</u></li>
             </ul>
           </div>
           <div class="info-card yellow">
@@ -1429,10 +1419,10 @@ Paruošk Pre-Call Brief:
           <div class="info-card green">
             <h3>3 mėn. DIPA MVP</h3>
             <ul>
-              <li>Išorės kūrimas: 2 970 €</li>
+              <li>Išorės kūrimas: 1 980 €</li>
               <li>Infra (3 mėn.): 1 410 €</li>
-              <li>Rezervas 15%: 660 €</li>
-              <li><strong>Iš viso:</strong> <u>~5 040 €</u></li>
+              <li>Rezervas 15%: 510 €</li>
+              <li><strong>Iš viso:</strong> <u>~3 900 €</u></li>
             </ul>
           </div>
         </div>
@@ -1440,42 +1430,43 @@ Paruošk Pre-Call Brief:
         <h2>Eimanto Krūvio Mažinimas</h2>
         <div class="comparison">
           <div class="comparison-col before">
-            <h4>Jei viskas Eimantui (247 h)</h4>
+            <h4>Jei viskas Eimantui (255 h)</h4>
             <ul>
-              <li>Prie 20 h/sav. → ~12 savaičių (3 mėn.)</li>
-              <li>Prie 30 h/sav. → ~8 savaičių (2 mėn.)</li>
+              <li>Prie 20 h/sav. → ~13 savaičių (3+ mėn.)</li>
+              <li>Prie 30 h/sav. → ~9 savaičių</li>
               <li>Kritinis kelias: architektūra + n8n + UI lygiagrečiai</li>
               <li>Rizika: deadline'ų praradimas, burnout</li>
             </ul>
           </div>
           <div class="comparison-col after">
-            <h4>Su išorės pagalba (117 h)</h4>
+            <h4>Su minimalia išorės pagalba (180 h Eimantui)</h4>
             <ul>
-              <li>Prie 20 h/sav. → <strong>~6 sav.</strong> (sutampa su planu)</li>
-              <li>Eimantas fokuse: architektūra, RAG, LLM — <em>core know-how</em></li>
-              <li>n8n + UI paraleliai — nepriklausomi streamai</li>
-              <li>Investicija: <strong>~3 000 €</strong> kūrimo (žiūr. X3 logika skaidrėje 15)</li>
+              <li>Prie 30 h/sav. → <strong>~6 sav.</strong> (sutampa su planu)</li>
+              <li>Eimantas fokuse: architektūra, RAG, LLM, core UI — <em>visas know-how lieka viduje</em></li>
+              <li>Išorė dirba <strong>tik</strong> su aiškiai specifikuotomis užduotimis (API/Figma)</li>
+              <li>Investicija: <strong>~2 000 €</strong> kūrimo (žiūr. X3 logika skaidrėje 15)</li>
             </ul>
           </div>
         </div>
 
-        <h2>Delegavimo Principai (kur išorė tinka)</h2>
+        <h2>Delegavimo Principai</h2>
         <div class="card-grid">
           <div class="info-card green">
-            <h3>✓ Tinka deleguoti</h3>
+            <h3>✓ Tinka deleguoti (išorei)</h3>
             <ul>
-              <li><strong>n8n workflow'ai</strong> — aiškūs specifikacijomis, API integracijos</li>
-              <li><strong>UI komponentai</strong> — Figma maketas, Shadcn patterns</li>
-              <li><strong>Turinys (Igoris/Mantas):</strong> QA rubrika, delivery checklistai, ICP kriterijai</li>
-              <li><strong>Testavimas:</strong> UAT, scorecard validacija</li>
+              <li><strong>n8n workflow'ai</strong> — aiškūs specifikacijomis, API integracijos (Monday, Ads, Newo, WF5)</li>
+              <li><strong>Figma dizainas</strong> — Cockpit layout, Pre-Call Brief kortelės, Command Center tree view</li>
+              <li><strong>Testavimas (komandai)</strong> — UAT staging'e, QA scorecard validacija</li>
+              <li><strong>Operatyviniai SOP (komandai)</strong> — delivery checklist, handoff paketas</li>
             </ul>
           </div>
           <div class="info-card red">
-            <h3>✗ Lieka Eimantui</h3>
+            <h3>✗ Lieka Eimantui (viduje)</h3>
             <ul>
-              <li><strong>Architektūra</strong> — duomenų modeliai, srautų dizainas</li>
-              <li><strong>RAG + embedding</strong> — strateginis know-how</li>
-              <li><strong>LLM promptai + integracija</strong> — visos sistemos centras</li>
+              <li><strong>Architektūra + duomenų modeliai</strong> — Prisma, DB schema</li>
+              <li><strong>RAG + embedding + know-how</strong> — strateginis turinys (ICP, QA, Strategic Brain)</li>
+              <li><strong>LLM promptai + orchestravimas</strong> — visos sistemos centras</li>
+              <li><strong>Visa Next.js implementacija</strong> — tik Figma maketai atiduodami išorei</li>
               <li><strong>Guardrail + security</strong> — rizikos mažinimas</li>
             </ul>
           </div>
@@ -1485,7 +1476,11 @@ Paruošk Pre-Call Brief:
         <div class="card-grid">
           <div class="info-card yellow">
             <h3>Ukrainiečio kandidato rizika</h3>
-            <p><strong>Mitigacija:</strong> Igoris atlieka test skambutį (LT/EN vertinimas), Mantas duoda n8n užduotį → savaitės trial prieš pilną angažavimą. Veiksmas: skaidrė 17 → task t-4-5.</p>
+            <p><strong>Mitigacija:</strong> Komanda atlieka test skambutį (LT/EN) + n8n techninį bandymą → savaitės trial prieš pilną angažavimą. Veiksmas: task t-4-5.</p>
+          </div>
+          <div class="info-card yellow">
+            <h3>Eimanto krūvis (180 h per 6 sav.)</h3>
+            <p><strong>Mitigacija:</strong> Griežtas fokusas į kritinį kelią, jokio scope creep į MVP. Jei S1–S2 pabaigoje matome atsilikimą — papildomai deleguojam n8n srautus 2-am kontraktoriui.</p>
           </div>
           <div class="info-card yellow">
             <h3>Infra kaštai augs</h3>
@@ -1501,10 +1496,10 @@ Paruošk Pre-Call Brief:
           <h3>Veiksmų planas iki pirmadienio</h3>
           <ul>
             <li><strong>Pirmadienis:</strong> šis MVP pasiūlymas (atlikta) + Eimanto sandbox'as S1 pirmosios dienos</li>
-            <li><strong>Antradienis–trečiadienis:</strong> ukrainiečio test skambutis + n8n užduotis (Igoris + Mantas)</li>
-            <li><strong>Ketvirtadienis:</strong> Figma Sales Cockpit maketas → external dev briefas</li>
-            <li><strong>Penktadienis:</strong> S1 Kick-off — Monday laukų audit (Mantas) + ICP kriterijai (Igoris)</li>
-            <li><strong>22 d.:</strong> Nevo integracijos pristatymas (Igoris)</li>
+            <li><strong>Antradienis–trečiadienis:</strong> ukrainiečio test skambutis + n8n bandomoji užduotis (komanda)</li>
+            <li><strong>Ketvirtadienis:</strong> Figma Sales Cockpit maketo briefas → external dev'ui</li>
+            <li><strong>Penktadienis:</strong> S1 Kick-off — Monday laukų auditas + ICP kriterijai (Eimantas, in-house)</li>
+            <li><strong>22 d.:</strong> Nevo integracijos pristatymas (Eimantas)</li>
           </ul>
         </div>
       </div>`,

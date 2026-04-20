@@ -12,6 +12,7 @@ from __future__ import annotations
 import http.server
 import socketserver
 import sys
+import threading
 
 
 class NoCacheRequestHandler(http.server.SimpleHTTPRequestHandler):
@@ -27,10 +28,21 @@ class NoCacheRequestHandler(http.server.SimpleHTTPRequestHandler):
         super().end_headers()
 
 
+class ThreadingHTTPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
+    """Multi-threaded server so one slow/stuck request cannot block the others.
+
+    daemon_threads=True ensures worker threads exit when main process stops.
+    allow_reuse_address avoids "address already in use" after a fast restart.
+    """
+    daemon_threads = True
+    allow_reuse_address = True
+
+
 def main() -> None:
     port = int(sys.argv[1]) if len(sys.argv) > 1 else 8080
-    with socketserver.TCPServer(("", port), NoCacheRequestHandler) as httpd:
-        print(f"Serving at http://127.0.0.1:{port}/  (no-cache headers on all files)")
+    with ThreadingHTTPServer(("", port), NoCacheRequestHandler) as httpd:
+        print(f"Serving at http://127.0.0.1:{port}/  (no-cache, threaded)")
+        print(f"  Threads:  up to {threading.active_count()} active + new per request")
         httpd.serve_forever()
 
 

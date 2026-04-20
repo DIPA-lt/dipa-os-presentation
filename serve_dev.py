@@ -22,6 +22,20 @@ class NoCacheRequestHandler(http.server.SimpleHTTPRequestHandler):
         ".webmanifest": "application/manifest+json",
     }
 
+    def guess_type(self, path: str) -> tuple[str, str | None]:
+        """Ensure text/* and JS responses declare UTF-8 (avoids mojibake on Windows/local)."""
+        ctype, enc = super().guess_type(path)
+        if not ctype:
+            return ctype, enc
+        if "charset=" in ctype.lower():
+            return ctype, enc
+        if ctype.startswith("text/") or ctype in (
+            "application/javascript",
+            "application/json",
+        ):
+            return f"{ctype}; charset=utf-8", enc
+        return ctype, enc
+
     def end_headers(self) -> None:
         self.send_header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0")
         self.send_header("Pragma", "no-cache")

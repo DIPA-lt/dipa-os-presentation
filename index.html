@@ -2,13 +2,14 @@
 <html lang="lt">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="data:,">
-  <title>DIPA OS â€” Interactive Presentation</title>
+  <title>DIPA OS — interaktyvus pristatymas</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Plus+Jakarta+Sans:ital,wght@0,400..700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=83">
+  <link rel="stylesheet" href="css/styles.css?v=84">
 </head>
 <body>
   <!-- Progress Bar -->
@@ -55,10 +56,10 @@
   </main>
 
   <!-- Slide Navigation -->
-  <button id="nav-prev" class="nav-arrow" title="Previous (â†)">
+  <button id="nav-prev" class="nav-arrow" title="Ankstesnė (←)">
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
   </button>
-  <button id="nav-next" class="nav-arrow" title="Next (â†’)">
+  <button id="nav-next" class="nav-arrow" title="Kita (→)">
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
   </button>
 
@@ -68,12 +69,12 @@
   <!-- Global Task Panel -->
   <aside id="task-panel" class="panel-right hidden">
     <div class="panel-header">
-      <h3>UÅ¾duoÄiÅ³ ApÅ¾valga</h3>
+      <h3>Užduočių apžvalga</h3>
       <button class="panel-close" data-close="task-panel">&times;</button>
     </div>
     <div id="task-filters">
       <select id="filter-sprint"><option value="all">Visi Sprintai</option><option value="1">Sprintas 1</option><option value="2">Sprintas 2</option><option value="3">Sprintas 3</option><option value="4">Sprintas 4+</option></select>
-      <select id="filter-status"><option value="all">Visos BÅ«senos</option><option value="pending">Laukia</option><option value="in-progress">Vykdoma</option><option value="done">Atlikta</option></select>
+      <select id="filter-status"><option value="all">Visos būsenos</option><option value="pending">Laukia</option><option value="in-progress">Vykdoma</option><option value="done">Atlikta</option></select>
       <select id="filter-owner"><option value="all">Visi savininkai</option></select>
     </div>
     <div id="task-list-global"></div>
@@ -86,7 +87,7 @@
       <h3>DIPA AI Asistentas</h3>
       <div class="gemini-status" id="gemini-status">
         <span class="status-dot"></span>
-        <span class="status-text">ParuoÅ¡tas</span>
+        <span class="status-text">Paruoštas</span>
       </div>
       <button id="btn-new-chat" class="icon-btn" title="Naujas pokalbis">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
@@ -95,12 +96,12 @@
     </div>
     <div id="gemini-context-bar">
       <span>Kontekstas:</span>
-      <span id="gemini-current-slide">â€”</span>
+      <span id="gemini-current-slide">—</span>
     </div>
     <div id="gemini-chat"></div>
     <div id="gemini-input-area">
-      <textarea id="gemini-input" placeholder="Klauskite apie DIPA OS arba duokite nurodymus keisti turinÄ¯..." rows="2"></textarea>
-      <button id="gemini-send" title="SiÅ³sti (Enter)">
+      <textarea id="gemini-input" placeholder="Klauskite apie DIPA OS arba duokite nurodymus keisti turinį…" rows="2"></textarea>
+      <button id="gemini-send" title="Siųsti (Enter)">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
       </button>
     </div>
@@ -109,11 +110,11 @@
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script src="config.js?v=83"></script>
-  <script src="js/diagrams.js?v=83"></script>
-  <script src="js/tasks.js?v=83"></script>
-  <script src="js/slides.js?v=83"></script>
-  <script src="js/app.js?v=83"></script>
-  <script src="js/gemini.js?v=83"></script>
+  <script src="config.js?v=84"></script>
+  <script src="js/diagrams.js?v=84"></script>
+  <script src="js/tasks.js?v=84"></script>
+  <script src="js/slides.js?v=84"></script>
+  <script src="js/app.js?v=84"></script>
+  <script src="js/gemini.js?v=84"></script>
 </body>
 </html>

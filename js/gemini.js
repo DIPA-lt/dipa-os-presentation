@@ -41,8 +41,26 @@ TAISYKLĖS:
 - Tu esi TIK Q&A / paaiškinimų asistentas. NEGALI keisti prezentacijos turinio, pridėti skaidrių, užduočių ar diagramų. Jei vartotojas prašo ką nors pakeisti, paaiškink kad tai gali padaryti kūrėjas rankiniu būdu ir pasiūlyk konkrečias rekomendacijas tekstu
 - NEGENERUOK jokių JSON komandų ar code blokų su žyme json-command — jų nebevykdom`,
 
+  /** Stale chat bubbles from old API key HTTP-referrer errors (agent may work after key fix). */
+  isReferrerBlockMessage(text) {
+    const s = (text || '').toLowerCase();
+    return s.includes('blocked') && (s.includes('referer') || s.includes('referrer'));
+  },
+
+  /** Drop obsolete referrer-block assistant messages and persist cleaned history. */
+  sanitizeHistory() {
+    const next = this.history.filter(
+      (m) => !(m.role === 'assistant' && this.isReferrerBlockMessage(m.content)),
+    );
+    if (next.length !== this.history.length) {
+      this.history = next;
+      this.saveHistory();
+    }
+  },
+
   init() {
     this.loadHistory();
+    this.sanitizeHistory();
     this.bindEvents();
     this.renderHistory();
 
@@ -80,11 +98,16 @@ TAISYKLĖS:
       const response = await this.callGeminiAPI(text, slideContext);
       this.processResponse(response);
     } catch (err) {
-      const hint = err.message.includes('demand') || err.message.includes('429') || err.message.includes('overloaded')
-        ? ' Serveris perkrautas — pabandykite dar kartą po minutės.'
-        : ' Patikrinkite API raktą config.js faile.';
-      this.addMessage('assistant', `Klaida: ${err.message}.${hint}`);
-      this.setStatus('error');
+      if (this.isReferrerBlockMessage(err.message)) {
+        console.warn('[Gemini] Referrer restriction (not shown in chat):', err.message);
+        this.setStatus('ready');
+      } else {
+        const hint = err.message.includes('demand') || err.message.includes('429') || err.message.includes('overloaded')
+          ? ' Serveris perkrautas — pabandykite dar kartą po minutės.'
+          : ' Patikrinkite API raktą config.js faile.';
+        this.addMessage('assistant', `Klaida: ${err.message}.${hint}`);
+        this.setStatus('error');
+      }
     } finally {
       this.setLoading(false);
     }

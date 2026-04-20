@@ -1374,6 +1374,31 @@ img.diagram-asset {
 #gemini-send:hover { background: var(--accent-hover); }
 #gemini-send:disabled { opacity: 0.4; cursor: not-allowed; }
 
+/* Gemini panel: optional wide mode (readable long answers) */
+#gemini-panel.panel-right {
+  transition: transform var(--transition), width var(--transition);
+}
+
+#gemini-panel.gemini-panel--wide {
+  width: min(720px, calc(100vw - 32px));
+}
+
+#btn-gemini-expand span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  #btn-gemini-expand {
+    display: none;
+  }
+
+  #gemini-panel.gemini-panel--wide {
+    width: 100%;
+  }
+}
+
 /* ---- Task Panel (Global) ---- */
 #task-filters {
   padding: 12px 16px;

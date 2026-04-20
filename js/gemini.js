@@ -2,6 +2,7 @@ const GeminiChat = {
   history: [],
   isLoading: false,
   STORAGE_KEY: 'dipa-os-gemini-history',
+  WIDE_PANEL_KEY: 'dipa-os-gemini-panel-wide',
 
   SYSTEM_PROMPT: `Tu esi DIPA OS AI asistentas — ekspertas pardavimų automatizacijoje, LEAN metodologijoje ir TOC (Theory of Constraints). Tu padedi DIPA komandai (Igoris, Mantas, Marija, Lauris, Greta, Eimantas) suprasti ir aptarti jų pardavimų operacinę sistemą.
 
@@ -61,6 +62,7 @@ TAISYKLĖS:
   init() {
     this.loadHistory();
     this.sanitizeHistory();
+    this.applyWidePanelPreference();
     this.bindEvents();
     this.renderHistory();
 
@@ -69,10 +71,45 @@ TAISYKLĖS:
     }
   },
 
+  applyWidePanelPreference() {
+    const panel = document.getElementById('gemini-panel');
+    if (!panel) return;
+    try {
+      if (localStorage.getItem(this.WIDE_PANEL_KEY) === '1') {
+        panel.classList.add('gemini-panel--wide');
+        this.syncExpandButtonUI(true);
+      }
+    } catch (e) { /* ignore */ }
+  },
+
+  syncExpandButtonUI(isWide) {
+    const btn = document.getElementById('btn-gemini-expand');
+    if (!btn) return;
+    btn.setAttribute('aria-expanded', isWide ? 'true' : 'false');
+    btn.title = isWide ? 'Sutraukti panelę' : 'Išplėsti panelę (platesnis režimas)';
+    const exp = btn.querySelector('.gemini-expand-icon');
+    const col = btn.querySelector('.gemini-collapse-icon');
+    if (exp) exp.hidden = !!isWide;
+    if (col) col.hidden = !isWide;
+  },
+
+  toggleWidePanel() {
+    const panel = document.getElementById('gemini-panel');
+    if (!panel) return;
+    const next = !panel.classList.contains('gemini-panel--wide');
+    panel.classList.toggle('gemini-panel--wide', next);
+    try {
+      localStorage.setItem(this.WIDE_PANEL_KEY, next ? '1' : '0');
+    } catch (e) { /* ignore */ }
+    this.syncExpandButtonUI(next);
+  },
+
   bindEvents() {
     const input = document.getElementById('gemini-input');
     const sendBtn = document.getElementById('gemini-send');
     const newChatBtn = document.getElementById('btn-new-chat');
+    const expandBtn = document.getElementById('btn-gemini-expand');
+    if (expandBtn) expandBtn.addEventListener('click', () => this.toggleWidePanel());
 
     sendBtn.addEventListener('click', () => this.sendMessage());
     input.addEventListener('keydown', (e) => {

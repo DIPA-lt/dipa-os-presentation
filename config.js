@@ -1,6 +1,6 @@
 const DIPA_CONFIG = {
   gemini: {
-    apiKey: 'AIzaSyDo1nszheCJs8rwJnGgfOIkcLacsVPFFZY',
+    apiKey: '',
     model: 'gemini-2.5-pro',
     maxTokens: 8192,
     temperature: 0.2,

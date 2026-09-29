@@ -171,6 +171,33 @@
   .step p { margin-bottom: .55rem; color: var(--muted); font-size: .77rem; }
   .step ul { margin: 0; padding-left: 1rem; font-size: .74rem; }
   .step li { margin-bottom: .25rem; }
+  .feedback-loop {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
+    margin: .85rem 0 1rem;
+    background: var(--paper);
+    border: 1px solid var(--line);
+  }
+  .feedback-loop > div {
+    position: relative;
+    padding: .8rem;
+    text-align: center;
+    border-right: 1px solid var(--line);
+  }
+  .feedback-loop > div:last-child { border-right: 0; background: var(--green-soft); }
+  .feedback-loop > div:not(:last-child)::after {
+    content: "→";
+    position: absolute;
+    right: -.36rem;
+    top: 50%;
+    z-index: 1;
+    transform: translateY(-50%);
+    color: var(--brand);
+    font-weight: 700;
+  }
+  .feedback-loop strong { display: block; margin-bottom: .18rem; color: var(--ink); font-size: .76rem; }
+  .feedback-loop span { color: var(--muted); font-size: .66rem; }
   .gate {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -325,10 +352,13 @@
     .checklist { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
   @media (max-width: 700px) {
-    header, .gate, .examples, .pilot, .flow, .pilot-steps, .checklist { grid-template-columns: 1fr; }
+    header, .gate, .examples, .pilot, .flow, .pilot-steps, .checklist, .feedback-loop { grid-template-columns: 1fr; }
     .step::after { content: "↓"; top: auto; right: 50%; bottom: -1rem; transform: translateX(50%); }
     .step:nth-child(2n)::after { display: block; }
     .step:last-child::after { display: none; }
+    .feedback-loop > div { border-right: 0; border-bottom: 1px solid var(--line); }
+    .feedback-loop > div:last-child { border-bottom: 0; }
+    .feedback-loop > div:not(:last-child)::after { content: "↓"; right: 50%; top: auto; bottom: -.6rem; transform: translateX(50%); }
   }
   @page { size: A4 landscape; margin: 11mm; }
   @media print {
@@ -416,12 +446,12 @@
     <article class="step">
       <div class="step-no"><b>4</b><span class="tag system">DIPA OS</span></div>
       <h3>Skambina ir gauna pagalbą</h3>
-      <p>Skambutis susiejamas su leadu. Sistema fiksuoja pokalbį, transkribuoja ir pateikia QA.</p>
+      <p>Skambutis susiejamas su leadu. Sistema fiksuoja pokalbį, transkribuoja ir pateikia QA, o vartotojas gali įvertinti AI išvadą.</p>
       <ul>
         <li>kontekstas šalia;</li>
         <li>pokalbio transkriptas;</li>
         <li>santrauka ir balas;</li>
-        <li>follow-up rekomendacija.</li>
+        <li>follow-up ir feedback.</li>
       </ul>
     </article>
     <article class="step">
@@ -435,6 +465,12 @@
         <li>užfiksuojamas rezultatas.</li>
       </ul>
     </article>
+  </div>
+  <div class="feedback-loop" aria-label="Call QA kalibravimo ciklas">
+    <div><strong>AI įvertina skambutį</strong><span>balas, gate, coaching ir kitas veiksmas</span></div>
+    <div><strong>Vartotojas pateikia feedbacką</strong><span>teisinga / dalinai / klaidinga + konkretus paaiškinimas</span></div>
+    <div><strong>Sistema analizuoja klaidą</strong><span>kalibracija, faktai, interpretacija ir duomenų spragos</span></div>
+    <div><strong>Tobuliname vertinimą</strong><span>feedbackas naudojamas taisyklėms ir promptams kalibruoti</span></div>
   </div>
 </section>
 
@@ -494,6 +530,7 @@
       <tr><td><strong>Ar gauname daugiau rezultato?</strong></td><td>Prasmingų susitikimų skaičius</td><td>Susitikimai per tą patį pardavėjo darbo laiką.</td></tr>
       <tr><td><strong>Ar susitikimai kokybiški?</strong></td><td>Po susitikimo sutartų tolesnių žingsnių dalis</td><td>Kiek klientų sutinka tęsti konkretų pokalbį.</td></tr>
       <tr><td><strong>Ar atranka tiksli?</strong></td><td>Pardavėjo priimtų A / B rekomendacijų dalis</td><td>Ar sistema prioritetizuoja realiai vertas įmones.</td></tr>
+      <tr><td><strong>Ar AI vertina teisingai?</strong></td><td>Call QA feedback: teisinga / dalinai / klaidinga ir balo kalibracija</td><td>Kur AI sutampa su pardavėjo vertinimu ir ką turime koreguoti.</td></tr>
     </tbody>
   </table>
 </section>
@@ -509,6 +546,7 @@
         <li>Įmonės paaiškinimas, confidence ir rizikos.</li>
         <li>Rekomenduojami klausimai ir pardavimo playbook.</li>
         <li>Leado kortelė ir skambučio istorija.</li>
+        <li>Call / ROI sesijos QA feedbackas ir klaidų analizė.</li>
       </ul>
     </article>
     <article class="feature-group prepare">
@@ -541,12 +579,12 @@
     <div class="check"><b>02</b><strong>Paleidžiu bulk scan</strong><span>Palaukiu balų ir paaiškinimų.</span></div>
     <div class="check"><b>03</b><strong>Atsirenku A / B</strong><span>Peržiūriu „kodėl“ ir klausimus.</span></div>
     <div class="check"><b>04</b><strong>Skambinu iš DIPA OS</strong><span>Tikrinu hipotezę, ne skaitau scenarijų.</span></div>
-    <div class="check"><b>05</b><strong>Uždarau rezultatą</strong><span>Kitas žingsnis + data → Monday; kitu atveju lieka DIPA OS.</span></div>
+    <div class="check"><b>05</b><strong>Uždarau rezultatą ir feedbacką</strong><span>Įvertinu QA. Kitas žingsnis + data → Monday; kitu atveju lieka DIPA OS.</span></div>
   </div>
 </section>
 
 <div class="scope">
-  <strong>MVP riba.</strong> Sistema padeda pasirinkti, pasiruošti ir mokytis. Pardavėjas kuria santykį, patvirtina poreikį ir nusprendžia, kada atsirado tikra pardavimo galimybė. MVP sėkmė nėra „daugiau kortelių Monday“ – sėkmė yra daugiau prasmingų susitikimų per tą patį darbo laiką.
+  <strong>MVP riba.</strong> Sistema padeda pasirinkti, pasiruošti ir mokytis. Pardavėjas kuria santykį, patvirtina poreikį, įvertina Call QA išvadą ir nusprendžia, kada atsirado tikra pardavimo galimybė. Feedbackas kaupia kalibravimo duomenis, tačiau modelis savaime nepersimoko po kiekvieno įrašo – komanda pagal feedbacką koreguoja vertinimo taisykles ir promptus. MVP sėkmė nėra „daugiau kortelių Monday“ – sėkmė yra daugiau prasmingų susitikimų per tą patį darbo laiką.
 </div>
 
 <footer>

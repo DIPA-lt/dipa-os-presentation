@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>DIPA OS · Pardavimų MVP procesas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0a1140;
+    --body: #25252f;
+    --muted: #656574;
+    --line: #dfe1e8;
+    --paper: #ffffff;
+    --wash: #f3f4f7;
+    --brand: #1c0bff;
+    --brand-soft: #eeecff;
+    --green: #16734a;
+    --green-soft: #e9f7f0;
+    --amber: #8a6600;
+    --amber-soft: #fff7db;
+    --blue: #1767a8;
+    --blue-soft: #eaf4fb;
+    --red: #b9361d;
+    --red-soft: #fcecea;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--wash);
+    color: var(--body);
+    font: 15px/1.55 Inter, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .topbar { height: 5px; background: var(--brand); }
+  .page { max-width: 78rem; margin: 0 auto; padding: 2.6rem 1.4rem 5rem; }
+  header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 19rem;
+    gap: 2rem;
+    align-items: end;
+    padding-bottom: 1.6rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .kicker {
+    margin: 0 0 .5rem;
+    color: var(--brand);
+    font-size: .7rem;
+    font-weight: 700;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+  }
+  h1 {
+    max-width: 52rem;
+    margin: 0 0 .65rem;
+    color: var(--ink);
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.08;
+    letter-spacing: -.045em;
+  }
+  h2 {
+    margin: 2.7rem 0 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+    color: var(--ink);
+    font-size: 1.45rem;
+    line-height: 1.2;
+    letter-spacing: -.03em;
+  }
+  h3 { margin: 0 0 .4rem; color: var(--ink); font-size: 1rem; }
+  p { margin-top: 0; }
+  .meta { margin: 0; color: var(--muted); font-size: .82rem; }
+  .promise {
+    padding: 1rem 1.1rem;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--brand);
+    color: var(--ink);
+    font-size: .88rem;
+  }
+  .promise p:last-child { margin-bottom: 0; }
+  .nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .45rem;
+    margin: 1.2rem 0 1.8rem;
+  }
+  .nav a {
+    padding: .42rem .68rem;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    color: var(--ink);
+    text-decoration: none;
+    font-size: .72rem;
+    font-weight: 600;
+  }
+  .nav a:hover { border-color: var(--brand); color: var(--brand); }
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    margin: .85rem 0;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    padding: .22rem .52rem;
+    border-radius: 999px;
+    font-size: .62rem;
+    font-weight: 700;
+    letter-spacing: .055em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .badge.system { color: var(--brand); background: var(--brand-soft); }
+  .badge.person { color: var(--blue); background: var(--blue-soft); }
+  .badge.decision { color: var(--amber); background: var(--amber-soft); }
+  .badge.value { color: var(--green); background: var(--green-soft); }
+  .flow {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1.1rem 1.35rem;
+    margin: 1.2rem 0 1.8rem;
+  }
+  .step {
+    position: relative;
+    min-height: 12.8rem;
+    padding: 1rem;
+    background: var(--paper);
+    border: 1px solid var(--line);
+  }
+  .step::after {
+    content: "→";
+    position: absolute;
+    top: 50%;
+    right: -1.08rem;
+    transform: translateY(-50%);
+    color: var(--brand);
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+  .step:nth-child(4)::after, .step:last-child::after { display: none; }
+  .step-number {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .7rem;
+    margin-bottom: .75rem;
+  }
+  .num {
+    display: grid;
+    place-items: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    background: var(--ink);
+    color: #fff;
+    font-size: .73rem;
+    font-weight: 700;
+  }
+  .step h3 { font-size: 1.05rem; letter-spacing: -.02em; }
+  .step p { margin-bottom: .55rem; color: var(--muted); font-size: .79rem; }
+  .step strong { color: var(--ink); }
+  .step ul { margin: 0; padding-left: 1rem; font-size: .76rem; }
+  .step li { margin-bottom: .28rem; }
+  .gate {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 1rem;
+    align-items: stretch;
+    margin-top: .2rem;
+  }
+  .gate-question {
+    display: grid;
+    place-items: center;
+    min-width: 13rem;
+    padding: 1rem;
+    background: var(--amber-soft);
+    border: 1px solid #e7d68d;
+    color: var(--ink);
+    text-align: center;
+    font-weight: 700;
+  }
+  .branch {
+    padding: 1rem;
+    border: 1px solid var(--line);
+    background: var(--paper);
+  }
+  .branch.yes { border-top: 4px solid var(--green); }
+  .branch.no { border-top: 4px solid var(--blue); }
+  .branch h3 { display: flex; gap: .5rem; align-items: center; }
+  .branch p:last-child { margin-bottom: 0; }
+  .funnel {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 0;
+    margin: 1rem 0;
+  }
+  .funnel-stage {
+    position: relative;
+    padding: .85rem .6rem;
+    color: var(--ink);
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-right: 0;
+    text-align: center;
+  }
+  .funnel-stage:last-child { border-right: 1px solid var(--line); background: var(--green-soft); }
+  .funnel-stage strong { display: block; margin-bottom: .2rem; font-size: .78rem; }
+  .funnel-stage span { color: var(--muted); font-size: .66rem; }
+  .benefits {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: .75rem;
+    margin: 1rem 0;
+  }
+  .benefit {
+    padding: 1rem;
+    background: var(--paper);
+    border: 1px solid var(--line);
+  }
+  .benefit .eyebrow {
+    margin: 0 0 .45rem;
+    color: var(--brand);
+    font-size: .63rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+  .benefit h3 { font-size: 1.06rem; }
+  .benefit ul { margin: .65rem 0 0; padding-left: 1rem; }
+  .benefit li { margin-bottom: .35rem; font-size: .8rem; }
+  .day {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: .6rem;
+    counter-reset: day;
+  }
+  .day-step {
+    position: relative;
+    padding: .9rem;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    counter-increment: day;
+  }
+  .day-step::before {
+    content: counter(day);
+    display: grid;
+    place-items: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-bottom: .55rem;
+    border-radius: 50%;
+    color: #fff;
+    background: var(--brand);
+    font-size: .67rem;
+    font-weight: 700;
+  }
+  .day-step strong { display: block; margin-bottom: .2rem; color: var(--ink); font-size: .82rem; }
+  .day-step span { color: var(--muted); font-size: .72rem; }
+  .rules {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .75rem;
+  }
+  .rule {
+    padding: 1rem;
+    background: var(--paper);
+    border: 1px solid var(--line);
+  }
+  .rule.do { border-top: 4px solid var(--green); }
+  .rule.dont { border-top: 4px solid var(--red); }
+  .rule ul { margin-bottom: 0; padding-left: 1rem; }
+  .rule li { margin-bottom: .35rem; }
+  table {
+    width: 100%;
+    margin: .8rem 0;
+    border-collapse: collapse;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    font-size: .78rem;
+  }
+  th, td { padding: .7rem .75rem; text-align: left; vertical-align: top; border-top: 1px solid var(--line); }
+  thead th {
+    border-top: 0;
+    color: var(--muted);
+    background: var(--wash);
+    font-size: .62rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  .metric { color: var(--ink); font-weight: 600; }
+  .quote {
+    margin: 1.2rem 0;
+    padding: 1.2rem 1.3rem;
+    color: var(--ink);
+    background: var(--brand-soft);
+    border-left: 4px solid var(--brand);
+    font-size: 1.05rem;
+    font-weight: 600;
+    line-height: 1.45;
+  }
+  .note {
+    padding: .85rem 1rem;
+    color: var(--muted);
+    background: var(--paper);
+    border: 1px dashed var(--line);
+    font-size: .77rem;
+  }
+  footer {
+    margin-top: 2.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: .72rem;
+  }
+  @media (max-width: 1000px) {
+    .flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .step:nth-child(2n)::after { display: none; }
+    .step:nth-child(4)::after { display: none; }
+    .benefits { grid-template-columns: 1fr; }
+    .day { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 720px) {
+    header { grid-template-columns: 1fr; }
+    .flow, .gate, .funnel, .day, .rules { grid-template-columns: 1fr; }
+    .step::after { content: "↓"; top: auto; right: 50%; bottom: -1.05rem; transform: translateX(50%); }
+    .step:nth-child(2n)::after { display: block; }
+    .step:nth-child(4)::after { display: block; }
+    .step:last-child::after { display: none; }
+    .funnel-stage { border-right: 1px solid var(--line); border-bottom: 0; }
+    .funnel-stage:last-child { border-bottom: 1px solid var(--line); }
+  }
+  @page { size: A4 landscape; margin: 11mm; }
+  @media print {
+    body {
+      background: var(--wash);
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .page { padding: 1rem 0 2rem; }
+    .step, .branch, .benefit, .rule, table, .day-step { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="topbar"></div>
+<main class="page">
+
+<header>
+  <div>
+    <p class="kicker">DIPA OS · Sales MVP</p>
+    <h1>Nuo šalto įmonių sąrašo iki šilto pardavimo kontakto</h1>
+    <p class="meta">Vienas procesas. Viena sistema šaltiems leadams. Į Monday patenka tik reali pardavimo galimybė.</p>
+  </div>
+  <div class="promise">
+    <p><strong>Pagrindinė nauda pardavėjui</strong></p>
+    <p>Mažiau laiko ieškant, kam skambinti. Daugiau laiko kalbant su tinkamomis įmonėmis ir uždarant realias galimybes.</p>
+  </div>
+</header>
+
+<nav class="nav">
+  <a href="#process">Procesas</a>
+  <a href="#gate">Kada lead tampa šiltu?</a>
+  <a href="#benefits">Nauda komandai</a>
+  <a href="#daily">Kasdienis darbas</a>
+  <a href="#metrics">Ką matuojame?</a>
+  <a href="#rules">MVP taisyklės</a>
+</nav>
+
+<section id="process">
+  <h2>1. Visas MVP procesas viename vaizde</h2>
+  <div class="legend">
+    <span class="badge person">Pardavėjas sprendžia</span>
+    <span class="badge system">Sistema automatizuoja</span>
+    <span class="badge decision">Sprendimo vartai</span>
+  </div>
+
+  <div class="flow">
+    <article class="step">
+      <div class="step-number"><span class="num">1</span><span class="badge person">Pardavėjas</span></div>
+      <h3>Atsirenkate įmonių segmentą</h3>
+      <p><strong>Lead Finder</strong> pasirenkate norimą įmonių kategoriją ir kiekį.</p>
+      <ul>
+        <li>Industrija</li>
+        <li>Dydis ir finansai</li>
+        <li>Regionas</li>
+        <li>ICP požymiai</li>
+      </ul>
+    </article>
+
+    <article class="step">
+      <div class="step-number"><span class="num">2</span><span class="badge system">Sistema</span></div>
+      <h3>Bulk prekvalifikacija</h3>
+      <p>Sistema vienu paleidimu įvertina pasirinktą įmonių sąrašą.</p>
+      <ul>
+        <li>Įmonės atitiktis ICP</li>
+        <li>Verslo brandumas</li>
+        <li>AI / ROI potencialas</li>
+        <li>Rizikos ir duomenų kokybė</li>
+      </ul>
+    </article>
+
+    <article class="step">
+      <div class="step-number"><span class="num">3</span><span class="badge person">Pardavėjas</span></div>
+      <h3>Atsirenkate prioritetus</h3>
+      <p>Dirbate ne su visu sąrašu, o su geriausiai įvertintomis galimybėmis.</p>
+      <ul>
+        <li>A – tinkama įmonė + sprendėjas</li>
+        <li>B – tinkama įmonė + kelias iki sprendėjo</li>
+        <li>C – nurture / papildomas tikrinimas</li>
+        <li>D – neprioritetizuoti</li>
+      </ul>
+    </article>
+
+    <article class="step">
+      <div class="step-number"><span class="num">4</span><span class="badge system">Sistema</span></div>
+      <h3>Gaunate pasiruošimą skambučiui</h3>
+      <p>Prieš skambinant matote, <strong>kodėl verta skambinti</strong> ir ką tikrinti.</p>
+      <ul>
+        <li>Pagrindinė skausmo hipotezė</li>
+        <li>Rekomenduojami klausimai</li>
+        <li>Vertės / ROI kampas</li>
+        <li>Konkretus kitas žingsnis</li>
+      </ul>
+    </article>
+
+    <article class="step">
+      <div class="step-number"><span class="num">5</span><span class="badge person">Pardavėjas</span></div>
+      <h3>Skambinate iš DIPA OS</h3>
+      <p>Skambutis inicijuojamas tiesiai iš leado kortelės.</p>
+      <ul>
+        <li>Nereikia kopijuoti numerio</li>
+        <li>Visa įmonės informacija šalia</li>
+        <li>Klausimai matomi pokalbio metu</li>
+        <li>Skambutis automatiškai susiejamas su leadu</li>
+      </ul>
+    </article>
+
+    <article class="step">
+      <div class="step-number"><span class="num">6</span><span class="badge system">Sistema</span></div>
+      <h3>Skambutis fiksuojamas ir analizuojamas</h3>
+      <p>Sistema padeda ne tik po skambučio, bet ir jo metu.</p>
+      <ul>
+        <li>Monitorina pokalbio eigą</li>
+        <li>Transkribuoja</li>
+        <li>Pateikia situacinius patarimus</li>
+        <li>Išsaugo pokalbio istoriją</li>
+      </ul>
+    </article>
+
+    <article class="step">
+      <div class="step-number"><span class="num">7</span><span class="badge system">Sistema</span></div>
+      <h3>Gaunate Call QA ir kitą veiksmą</h3>
+      <p>Po skambučio sistema paverčia pokalbį konkrečiu rezultatu.</p>
+      <ul>
+        <li>Transkriptas ir santrauka</li>
+        <li>Kokybės balas</li>
+        <li>Stiprybės ir tobulinimo vietos</li>
+        <li>Rekomenduojamas follow-up</li>
+      </ul>
+    </article>
+
+    <article class="step">
+      <div class="step-number"><span class="num">8</span><span class="badge decision">Sprendimas</span></div>
+      <h3>Ar kontaktas tapo šiltas?</h3>
+      <p>Pardavėjas įvertina realų pokalbio rezultatą, o ne vien AI balą.</p>
+      <ul>
+        <li>Ar patvirtintas poreikis?</li>
+        <li>Ar yra susidomėjimas?</li>
+        <li>Ar sutartas kitas žingsnis?</li>
+        <li>Ar atsirado reali galimybė?</li>
+      </ul>
+    </article>
+  </div>
+
+  <div class="funnel" aria-label="MVP pardavimų piltuvėlis">
+    <div class="funnel-stage"><strong>X įmonių</strong><span>Lead Finder</span></div>
+    <div class="funnel-stage"><strong>Prekvalifikuotos</strong><span>AI bulk scan</span></div>
+    <div class="funnel-stage"><strong>A / B prioritetai</strong><span>pardavėjo pasirinkimas</span></div>
+    <div class="funnel-stage"><strong>Skambučiai</strong><span>DIPA OS</span></div>
+    <div class="funnel-stage"><strong>Šilti kontaktai</strong><span>patvirtintas poreikis</span></div>
+    <div class="funnel-stage"><strong>Monday CRM</strong><span>reali galimybė</span></div>
+  </div>
+</section>
+
+<section id="gate">
+  <h2>2. Sprendimo vartai: kada kontaktas keliauja į Monday?</h2>
+  <div class="gate">
+    <article class="branch no">
+      <h3><span class="badge person">Dar ne</span> Kontaktas dar šaltas</h3>
+      <p>Leadas lieka DIPA OS. Jam priskiriamas kitas veiksmas, pakartotinis kontaktas arba nurture.</p>
+      <p><strong>Monday neužteršiamas</strong> nepatikrintais kontaktais ir bereikalingomis kortelėmis.</p>
+    </article>
+    <div class="gate-question">Ar yra patvirtintas poreikis, interesas ir sutartas kitas žingsnis?</div>
+    <article class="branch yes">
+      <h3><span class="badge value">Taip</span> Kontaktas tapo šiltas</h3>
+      <p>Tik tada sukuriama kompanija / galimybė Monday CRM ir tęsiamas įprastas pardavimo procesas.</p>
+      <p><strong>Monday gauna kokybišką galimybę</strong>, o ne neapdorotą šaltų įmonių sąrašą.</p>
+    </article>
+  </div>
+
+  <div class="quote">
+    DIPA OS yra šaltų leadų atrankos, kvalifikavimo ir pirmojo kontakto darbo vieta. Monday prasideda tada, kai atsiranda realus pardavimo santykis.
+  </div>
+</section>
+
+<section id="benefits">
+  <h2>3. Kokią realią naudą gauname?</h2>
+  <div class="benefits">
+    <article class="benefit">
+      <p class="eyebrow">Pardavėjui</p>
+      <h3>Mažiau pasiruošimo, daugiau kokybiškų pokalbių</h3>
+      <ul>
+        <li>Nereikia rankomis ieškoti, kam skambinti.</li>
+        <li>Nereikia analizuoti kiekvienos įmonės nuo nulio.</li>
+        <li>Prieš skambutį jau yra klausimai ir vertės hipotezė.</li>
+        <li>Po skambučio nereikia rankomis rašyti visos santraukos.</li>
+        <li>Aišku, koks turi būti kitas veiksmas.</li>
+      </ul>
+    </article>
+
+    <article class="benefit">
+      <p class="eyebrow">Pardavimų vadovui</p>
+      <h3>Matomas procesas ir objektyvesnis coaching</h3>
+      <ul>
+        <li>Matoma, kiek įmonių atrinkta, skambinta ir sušildyta.</li>
+        <li>Call QA vertina ne vien pasirinktus „gerus“ skambučius.</li>
+        <li>Galima matyti pasikartojančius prieštaravimus ir spragas.</li>
+        <li>Coaching remiasi realiu pokalbiu, o ne atmintimi.</li>
+        <li>Lengviau palyginti metodą ir rezultatą.</li>
+      </ul>
+    </article>
+
+    <article class="benefit">
+      <p class="eyebrow">Įmonei</p>
+      <h3>Švaresnis CRM ir mokymosi sistema</h3>
+      <ul>
+        <li>Monday lieka tik realios pardavimo galimybės.</li>
+        <li>Mažėja dvigubo ir beverčio duomenų suvedimo.</li>
+        <li>Kaupiama vienoda leadų ir pokalbių istorija.</li>
+        <li>Matoma konversija nuo įmonių sąrašo iki šilto kontakto.</li>
+        <li>Sistema mokosi, kurios įmonės ir klausimai veikia geriausiai.</li>
+      </ul>
+    </article>
+  </div>
+</section>
+
+<section id="daily">
+  <h2>4. Kaip atrodo viena pardavėjo diena?</h2>
+  <div class="day">
+    <div class="day-step"><strong>Pasirenku segmentą</strong><span>Lead Finder filtruose nustatau norimą kategoriją ir kiekį.</span></div>
+    <div class="day-step"><strong>Paleidžiu bulk scan</strong><span>Palaukiu, kol sistema įvertina įmones ir pateikia balus.</span></div>
+    <div class="day-step"><strong>Atsirenku A / B</strong><span>Peržiūriu paaiškinimą ir susidėlioju skambučių prioritetą.</span></div>
+    <div class="day-step"><strong>Skambinu ir uždarau veiksmą</strong><span>Naudoju rekomenduotus klausimus, po skambučio patvirtinu rezultatą.</span></div>
+    <div class="day-step"><strong>Perkeliu tik šiltus</strong><span>Jei yra poreikis ir next step – sukuriu kompaniją Monday CRM.</span></div>
+  </div>
+</section>
+
+<section id="metrics">
+  <h2>5. Kaip žinosime, kad MVP veikia?</h2>
+  <table>
+    <thead><tr><th>Etapas</th><th>Ką matuojame</th><th>Kodėl tai svarbu</th></tr></thead>
+    <tbody>
+      <tr><td class="metric">Lead Finder</td><td>Atrinktų įmonių skaičius pagal segmentą</td><td>Ar turime pakankamą rinkos apimtį.</td></tr>
+      <tr><td class="metric">Prekvalifikacija</td><td>A / B / C / D pasiskirstymas ir pardavėjo pritarimas</td><td>Ar sistema teisingai atsirenka prioritetus.</td></tr>
+      <tr><td class="metric">Kontaktavimas</td><td>Skambučių bandymai ir įvykę pokalbiai</td><td>Ar prioritetinis sąrašas pavirsta realiu veiksmu.</td></tr>
+      <tr><td class="metric">Pokalbio kokybė</td><td>Call QA balas, klausimų kokybė, tobulinimo sritys</td><td>Ar gerėja ne tik kiekis, bet ir pokalbių kokybė.</td></tr>
+      <tr><td class="metric">Šilti kontaktai</td><td>Šaltas kontaktas → sutartas kitas žingsnis</td><td>Pagrindinis MVP konversijos rodiklis.</td></tr>
+      <tr><td class="metric">Monday CRM</td><td>Šiltas kontaktas → susitikimas → pasiūlymas → pardavimas</td><td>Galutinis komercinis proceso rezultatas.</td></tr>
+    </tbody>
+  </table>
+  <div class="note">MVP pradžioje nenaudojame „kiek leadų sukurta Monday“ kaip sėkmės rodiklio. Tikslas – ne daugiau CRM kortelių, o daugiau kokybiškų, patikrintų pardavimo galimybių.</div>
+</section>
+
+<section id="rules">
+  <h2>6. MVP darbo taisyklės</h2>
+  <div class="rules">
+    <article class="rule do">
+      <h3>Darome</h3>
+      <ul>
+        <li>Pradedame nuo aiškiai pasirinkto įmonių segmento.</li>
+        <li>Prieš skambutį peržiūrime sistemos argumentus ir klausimus.</li>
+        <li>Skambiname iš DIPA OS, kad istorija būtų susieta su leadu.</li>
+        <li>Po kiekvieno skambučio patvirtiname realų rezultatą.</li>
+        <li>Į Monday perkeliame tik patvirtintą šiltą galimybę.</li>
+        <li>Savaitę vertiname pagal visą funnel, ne vien skambučių skaičių.</li>
+      </ul>
+    </article>
+    <article class="rule dont">
+      <h3>Nedarome</h3>
+      <ul>
+        <li>Nekeliame viso šalto sąrašo į Monday.</li>
+        <li>Nelaikome AI balo galutiniu žmogaus sprendimu.</li>
+        <li>Neskambiname aklai neperžiūrėję „kodėl ši įmonė“.</li>
+        <li>Nepaliekame skambučio be rezultato ir kito veiksmo.</li>
+        <li>Nesprendžiame apie pardavėją iš vieno skambučio.</li>
+        <li>MVP metu neplečiame proceso naujais kanalais ir CRM funkcijomis.</li>
+      </ul>
+    </article>
+  </div>
+</section>
+
+<section>
+  <h2>7. Ką daro sistema, o už ką atsako pardavėjas?</h2>
+  <table>
+    <thead><tr><th>Sistema</th><th>Pardavėjas</th></tr></thead>
+    <tbody>
+      <tr><td>Suranda ir susistemina įmonės signalus.</td><td>Pasirenka tikslinį segmentą ir įmonių kiekį.</td></tr>
+      <tr><td>Prekvalifikuoja ir pateikia balą su argumentais.</td><td>Patvirtina, kurie leadai verti prioriteto.</td></tr>
+      <tr><td>Parengia klausimus, skausmo ir vertės hipotezę.</td><td>Veda gyvą pokalbį ir tikrina hipotezes.</td></tr>
+      <tr><td>Fiksuoja, transkribuoja ir analizuoja skambutį.</td><td>Patvirtina pokalbio rezultatą ir kitą veiksmą.</td></tr>
+      <tr><td>Pateikia QA, feedbacką ir rekomendaciją.</td><td>Nusprendžia, ar kontaktas tapo realia galimybe.</td></tr>
+      <tr><td>Išsaugo šalto leado istoriją DIPA OS.</td><td>Perkelia šiltą kompaniją į Monday CRM.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<div class="quote">
+  Trumpai: sistema padeda pasirinkti, pasiruošti ir mokytis. Pardavėjas kuria santykį, patvirtina poreikį ir nusprendžia, kada atsirado tikra pardavimo galimybė.
+</div>
+
+<footer>
+  DIPA OS Sales MVP · 2026-09-29. Procesas paremtas esamais Lead Finder, lead qualification, SIP telefonijos, live transcription ir Call QA komponentais. Produkciniam naudojimui telefonija ir AI paslaugos turi būti sukonfigūruotos; Monday perdavimas MVP procese yra pardavėjo patvirtinamas veiksmas.
+</footer>
+
+</main>
+</body>
+</html>

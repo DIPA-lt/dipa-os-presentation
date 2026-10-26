@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8" />
+<meta name="robots" content="noindex" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>DIPA OS · Sistemos auditas pagal „Revenue AI OS V7“</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:#0A1140; --text:#2A2D3A; --muted:#626A80; --faint:#8C93A8;
+    --line:#E3E5EC; --wash:#F5F6F9; --card:#FFFFFF;
+    --brand:#1C0BFF; --brand-bg:#EEF0FF; --brand-line:#CDD2FF;
+    --green:#146C43; --green-bg:#E8F6EE; --green-line:#BFE3CE;
+    --amber:#8A5A00; --amber-bg:#FBF3DC; --amber-line:#EBD9A6;
+    --red:#A3341A; --red-bg:#FBEAE4; --red-line:#F0C9BC;
+    --violet:#5B3FB8; --violet-bg:#F1EDFC; --violet-line:#D6CCF4;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--wash); color:var(--text); font:14px/1.5 Inter,system-ui,sans-serif; -webkit-font-smoothing:antialiased; }
+  .page { margin:0 auto; max-width:1180px; padding:32px 28px 80px; }
+  a { color:var(--brand); text-decoration:none; }
+  a:hover { text-decoration:underline; }
+  code { font:12px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace; background:var(--wash); border:1px solid var(--line); border-radius:4px; padding:0 4px; }
+
+  .kicker { margin:0 0 6px; font-size:11px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--brand); }
+  h1 { margin:0 0 8px; font-size:32px; letter-spacing:-.03em; color:var(--ink); line-height:1.15; }
+  .lede { margin:0 0 18px; max-width:760px; font-size:15.5px; color:var(--muted); }
+  .meta { display:flex; flex-wrap:wrap; gap:8px; margin:0 0 22px; }
+  .pill { display:inline-flex; align-items:center; gap:6px; border-radius:999px; padding:3px 10px; font-size:12px; font-weight:600; border:1px solid transparent; white-space:nowrap; }
+  .p-ok { background:var(--green-bg); color:var(--green); border-color:var(--green-line); }
+  .p-part { background:var(--amber-bg); color:var(--amber); border-color:var(--amber-line); }
+  .p-bad { background:var(--red-bg); color:var(--red); border-color:var(--red-line); }
+  .p-sys { background:var(--brand-bg); color:var(--brand); border-color:var(--brand-line); }
+  .p-vo { background:var(--violet-bg); color:var(--violet); border-color:var(--violet-line); }
+  .p-mute { background:var(--wash); color:var(--muted); border-color:var(--line); }
+
+  nav.toc { display:flex; flex-wrap:wrap; gap:6px; margin:0 0 22px; }
+  nav.toc a { border:1px solid var(--line); background:var(--card); border-radius:999px; padding:5px 10px; font-size:12px; font-weight:600; color:var(--ink); }
+  nav.toc a:hover { border-color:var(--brand-line); background:var(--brand-bg); text-decoration:none; }
+
+  section { margin:0 0 16px; }
+  .sec { background:var(--card); border:1px solid var(--line); border-radius:16px; padding:22px; }
+  .sec-h { display:flex; align-items:baseline; gap:12px; margin:0 0 4px; }
+  .sec-n { font-size:12px; font-weight:700; color:var(--brand); letter-spacing:.08em; }
+  .sec-h h2 { margin:0; font-size:19px; letter-spacing:-.02em; color:var(--ink); }
+  .sec-q { margin:0 0 16px; color:var(--muted); }
+
+  .verdict { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:0 0 16px; }
+  .vcard { border-radius:16px; padding:18px 18px 16px; border:1px solid var(--line); background:var(--card); }
+  .vcard.go { border-color:var(--green-line); background:var(--green-bg); }
+  .vcard.nogo { border-color:var(--red-line); background:var(--red-bg); }
+  .vcard .tag { font-size:11px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; }
+  .vcard.nogo .tag { color:var(--red); }
+  .vcard.go .tag { color:var(--green); }
+  .vcard h2 { margin:4px 0 6px; font-size:22px; letter-spacing:-.02em; color:var(--ink); }
+  .vcard p { margin:0; color:var(--text); }
+
+  .rules { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+  .rule { background:var(--wash); border:1px solid var(--line); border-radius:12px; padding:12px 14px; }
+  .rule b { display:block; color:var(--ink); font-size:13px; margin-bottom:2px; }
+  .rule span { color:var(--muted); font-size:12.5px; }
+
+  .board { display:grid; grid-template-columns:220px 140px 1fr; gap:0; border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  .board .hd, .board .cell { padding:9px 12px; border-bottom:1px solid var(--line); }
+  .board .hd { background:var(--wash); font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); }
+  .board .cell { background:var(--card); font-size:13px; }
+  .board .name { font-weight:600; color:var(--ink); }
+  .board .row:last-child .cell { border-bottom:0; }
+
+  .iso { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:14px; }
+  .iso div { border-radius:12px; padding:12px 14px; border:1px solid var(--line); }
+  .iso b { display:block; color:var(--ink); margin-bottom:4px; }
+  .iso span { font-size:12.5px; color:var(--muted); }
+  .iso .weak { background:var(--red-bg); border-color:var(--red-line); }
+  .iso .mid { background:var(--amber-bg); border-color:var(--amber-line); }
+  .iso .strong { background:var(--green-bg); border-color:var(--green-line); }
+
+  .caps { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+  .cap { border:1px solid var(--line); border-radius:12px; padding:12px 14px; background:var(--card); border-top:3px solid var(--green); }
+  .cap b { display:block; color:var(--ink); margin-bottom:2px; }
+  .cap span { display:block; font-size:12.5px; color:var(--muted); }
+  .cap code { margin-top:6px; display:inline-block; }
+
+  .langs { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; }
+  .lang { border-radius:14px; padding:14px; border:1px solid var(--line); background:var(--wash); }
+  .lang h3 { margin:0 0 2px; font-size:15px; color:var(--ink); }
+  .lang .where { font-size:12px; color:var(--muted); margin-bottom:10px; }
+  .lang ol { margin:0; padding:0; list-style:none; counter-reset:st; }
+  .lang li { counter-increment:st; display:flex; gap:8px; align-items:baseline; padding:5px 0; border-top:1px dashed var(--line); font-size:13px; }
+  .lang li::before { content:counter(st); font-size:11px; font-weight:700; color:var(--faint); min-width:14px; }
+  .lang.lead { border-top:4px solid var(--brand); }
+  .lang.deal { border-top:4px solid var(--amber); }
+  .lang.coach { border-top:4px solid var(--violet); }
+  .lang .born { background:var(--amber-bg); border:1px solid var(--amber-line); border-radius:8px; padding:6px 8px; font-size:12px; margin-top:8px; color:var(--ink); }
+
+  .funnel { display:grid; gap:8px; }
+  .funnel.lead { grid-template-columns:repeat(4,1fr); }
+  .funnel.deal { grid-template-columns:repeat(3,1fr); }
+  .funnel.after { grid-template-columns:repeat(3,1fr); }
+  .lane { margin:0 0 14px; }
+  .lane h3 { margin:0 0 8px; font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
+  .st { position:relative; border:1px solid var(--line); border-radius:12px; background:var(--card); padding:10px 12px 12px; min-height:118px; }
+  .st .n { font-size:11px; font-weight:700; letter-spacing:.08em; color:var(--faint); }
+  .st h3 { margin:2px 0 6px; font-size:14px; color:var(--ink); }
+  .st p { margin:0; font-size:12px; color:var(--muted); }
+  .st.sys { border-top:4px solid var(--brand); }
+  .st.sell { border-top:4px solid var(--green); }
+  .st.money { border-top:4px solid var(--amber); }
+  .st.exit { border-top:4px solid var(--ink); }
+  .zone-row { display:grid; grid-template-columns:2fr 2fr 1fr; gap:8px; margin-bottom:8px; }
+  .zone { border-radius:8px; padding:5px 10px; font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; text-align:center; }
+  .z-lead { background:var(--brand-bg); color:var(--brand); }
+  .z-deal { background:var(--green-bg); color:var(--green); }
+  .z-cash { background:var(--amber-bg); color:var(--amber); }
+
+  .money { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+  .m { border-radius:14px; padding:14px; border:1px solid var(--line); }
+  .m h3 { margin:0 0 4px; font-size:15px; color:var(--ink); }
+  .m p { margin:0; font-size:12.5px; color:var(--muted); }
+  .m.have { background:var(--green-bg); border-color:var(--green-line); }
+  .m.miss { background:var(--red-bg); border-color:var(--red-line); }
+  .m .eq { margin-top:8px; font-size:12px; font-weight:600; color:var(--ink); }
+
+  .tests { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+  .test { border:1px solid var(--line); border-radius:12px; padding:10px 12px; background:var(--card); display:grid; grid-template-columns:28px 1fr; gap:8px; align-items:start; }
+  .test .mark { width:28px; height:28px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; }
+  .test.fail { background:var(--red-bg); border-color:var(--red-line); }
+  .test.fail .mark { background:#fff; color:var(--red); }
+  .test.part { background:var(--amber-bg); border-color:var(--amber-line); }
+  .test.part .mark { background:#fff; color:var(--amber); }
+  .test.none { background:var(--wash); }
+  .test.none .mark { background:#fff; color:var(--muted); border:1px solid var(--line); }
+  .test b { display:block; color:var(--ink); font-size:13px; }
+  .test span { font-size:12px; color:var(--muted); }
+
+  .find { border:1px solid var(--line); border-radius:12px; margin:0 0 8px; background:var(--card); overflow:hidden; }
+  .find summary { list-style:none; cursor:pointer; display:grid; grid-template-columns:52px 1fr auto; gap:12px; align-items:center; padding:12px 14px; }
+  .find summary::-webkit-details-marker { display:none; }
+  .find .fid { font-weight:700; color:var(--ink); }
+  .find .ft { font-weight:600; color:var(--ink); }
+  .find .body { padding:0 14px 14px 78px; display:grid; gap:8px; }
+  .find .body p { margin:0; font-size:13px; }
+  .find .body b { color:var(--ink); }
+  .find.major { border-left:4px solid var(--red); }
+  .find.minor { border-left:4px solid var(--amber); }
+  .find.mix { border-left:4px solid var(--amber); }
+  .find.ok { border-left:4px solid var(--green); }
+
+  table.bt { width:100%; border-collapse:collapse; font-size:13px; }
+  table.bt th { text-align:left; font-weight:600; color:var(--muted); font-size:11.5px; padding:8px 10px; border-bottom:1px solid var(--line); background:var(--wash); }
+  table.bt td { padding:8px 10px; border-bottom:1px solid var(--line); vertical-align:top; }
+  table.bt tr:last-child td { border-bottom:0; }
+  table.bt td.who { font-weight:600; color:var(--ink); white-space:nowrap; }
+  .raci { border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  .cell-do { background:var(--green-bg); }
+  .cell-block { background:var(--red-bg); }
+  .cell-help { background:var(--brand-bg); }
+
+  .ladder { display:grid; gap:6px; }
+  .step { display:grid; grid-template-columns:36px 1fr; gap:10px; align-items:center; }
+  .step i { width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-weight:700; color:#fff; background:var(--ink); font-style:normal; }
+  .step div { border:1px solid var(--line); border-radius:10px; padding:8px 12px; background:var(--card); }
+  .step b { color:var(--ink); }
+  .step span { color:var(--muted); font-size:12.5px; }
+  .step.last i { background:var(--amber); }
+  .step.last div { background:var(--amber-bg); border-color:var(--amber-line); }
+
+  .order { display:grid; gap:8px; }
+  .ord { display:grid; grid-template-columns:42px 1.2fr 1fr; gap:12px; align-items:center; border:1px solid var(--line); border-radius:12px; padding:10px 12px; background:var(--card); }
+  .ord .num { width:42px; height:42px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:16px; color:var(--brand); background:var(--brand-bg); }
+  .ord b { display:block; color:var(--ink); }
+  .ord span { font-size:12.5px; color:var(--muted); }
+  .ord.now { border-color:var(--brand-line); background:var(--brand-bg); }
+  .band { margin:14px 0 8px; font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+
+  .keep { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .keep div { border:1px solid var(--green-line); background:var(--green-bg); border-radius:10px; padding:8px 12px; font-size:13px; color:var(--ink); }
+
+  .scoretop { display:grid; grid-template-columns:220px 1fr; gap:18px; align-items:center; margin:0 0 16px; }
+  .scorebig { font-size:56px; font-weight:700; letter-spacing:-.04em; color:var(--ink); line-height:.95; font-variant-numeric:tabular-nums; }
+  .scorebig span { font-size:22px; color:var(--faint); font-weight:600; }
+  .scorebig small { display:block; margin-top:6px; font-size:14px; font-weight:600; color:var(--amber); letter-spacing:0; }
+  .bars { display:flex; flex-direction:column; gap:7px; }
+  .bar { display:grid; grid-template-columns:148px 1fr 52px; gap:8px; align-items:center; font-size:12.5px; color:var(--ink); }
+  .bar i { display:block; height:8px; border-radius:4px; background:var(--line); position:relative; overflow:hidden; }
+  .bar i::after { content:""; position:absolute; inset:0 auto 0 0; width:var(--w); background:var(--amber); border-radius:4px; }
+  .bar.hi i::after { background:var(--green); }
+  .bar.lo i::after { background:var(--red); }
+  .bar b { text-align:right; font-variant-numeric:tabular-nums; }
+  .s0 { color:var(--red); font-weight:700; }
+  .s1 { color:var(--amber); font-weight:700; }
+  .s2 { color:var(--green); font-weight:700; }
+  .note { margin:12px 0 0; font-size:12.5px; color:var(--muted); }
+  footer { margin-top:8px; font-size:12px; color:var(--faint); }
+
+  .scope { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .scope div { border-radius:12px; padding:12px 14px; border:1px solid var(--line); }
+  .scope h3 { margin:0 0 6px; font-size:13px; }
+  .scope ul { margin:0; padding-left:16px; font-size:13px; }
+  .scope .in { background:var(--brand-bg); border-color:var(--brand-line); }
+  .scope .out { background:var(--wash); }
+
+  .ai { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .ai ul { margin:8px 0 0; padding-left:16px; font-size:13px; }
+  .ai li { margin:3px 0; }
+
+  @media (max-width: 980px) {
+    .verdict, .rules, .iso, .caps, .langs, .money, .tests, .keep, .scope, .ai { grid-template-columns:1fr; }
+    .board { grid-template-columns:1fr; }
+    .board .hd { display:none; }
+    .scoretop, .funnel.lead, .funnel.deal, .funnel.after, .zone-row { grid-template-columns:1fr; }
+    .bar { grid-template-columns:1fr auto; }
+    .bar i { grid-column:1 / -1; }
+    .ord { grid-template-columns:42px 1fr; }
+    .ord span:last-child { grid-column:2; }
+    .find summary { grid-template-columns:42px 1fr; }
+    .find summary .pill { grid-column:2; justify-self:start; }
+    .find .body { padding-left:14px; }
+  }
+  @media print {
+    body { background:#fff; }
+    .page { max-width:none; padding:0; }
+    .sec, .find, .vcard { break-inside:avoid; }
+    nav.toc { display:none; }
+    details.find { break-inside:auto; }
+    details.find .body { display:block; }
+    * { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  }
+
+  .langwrap { max-width:1180px; margin:0 auto; padding:28px 28px 0; }
+  .langbar { display:flex; gap:8px; }
+  .langbar button { font:inherit; font-size:13px; font-weight:600; border-radius:999px; border:1px solid var(--line); background:var(--card); color:var(--ink); padding:6px 14px; cursor:pointer; }
+  .langbar button[aria-pressed="true"] { background:var(--brand); color:#fff; border-color:var(--brand); }
+  [hidden] { display:none !important; }
+</style>
+</head>
+<body>
+<div class="langwrap">
+  <div class="langbar" role="group" aria-label="Language">
+    <button type="button" id="show-lt" aria-pressed="true">Lietuvių</button>
+    <button type="button" id="show-en" aria-pressed="false">English</button>
+  </div>
+</div>
+<div id="view-lt">
+<div class="page">
+
+  <p class="kicker">DIPA OS · 2026 m. spalio 26 d. · sistemos atitikties auditas</p>
+  <h1>Sistemos auditas pagal „Revenue AI OS V7“</h1>
+  <p class="lede">V7 yra brandi valdymo specifikacija. Nors programa jau geba atlikti didelę dalį pardavimo užduočių, ji dar neveikia kaip viena vientisa V7 operacinė sistema. Šiame puslapyje vertinami programinėje įrangoje įdiegti kontrolės mechanizmai. Komerciniai rezultatai, bandomieji sandoriai ir duomenų bazės užpildymas į šio audito apimtį nepatenka.</p>
+  <div class="meta">
+    <span class="pill p-sys">ISO 19011 metodas</span>
+    <span class="pill p-sys">ISO 9001 procesas</span>
+    <span class="pill p-sys">ISO/IEC 25010 produktas</span>
+    <span class="pill p-vo">ISO/IEC 42001 · NIST AI RMF</span>
+    <span class="pill p-mute">Kriterijai: dipa-os-v7-audit.md</span>
+  </div>
+
+  <nav class="toc" aria-label="Skyriai">
+    <a href="#verdict">Verdiktas</a>
+    <a href="#score">Vertinimas</a>
+    <a href="#rules">Taisyklės</a>
+    <a href="#scope">Apimtis</a>
+    <a href="#have">Kas jau veikia</a>
+    <a href="#board">V7 blokai</a>
+    <a href="#stages">Trys etapų sąrašai</a>
+    <a href="#money">Finansai</a>
+    <a href="#tests">Priėmimo testai</a>
+    <a href="#findings">Pastebėjimai</a>
+    <a href="#funnel">Tikslinis piltuvėlis</a>
+    <a href="#raci">Kas priima sprendimus</a>
+    <a href="#constraint">Vienas apribojimas</a>
+    <a href="#kpis">Rodikliai</a>
+    <a href="#build">Kūrimo eiliškumas</a>
+    <a href="#keep">Ką išlaikyti</a>
+  </nav>
+
+  <div class="verdict" id="verdict">
+    <article class="vcard nogo">
+      <div class="tag">Neleisti (No-go)</div>
+      <h2>Tai dar nėra užbaigta V7 operacinė sistema</h2>
+      <p>Trūkstami kontrolės mechanizmai: viena etapų kalba, privalomas atsakingasis asmuo ir kitas veiksmas, poreikių analizės (Discovery) įrašas prieš pateikiant pasiūlymą bei galimybė susieti pinigus su konkrečiu sandoriu.</p>
+    </article>
+    <article class="vcard go">
+      <div class="tag">Leisti (Go)</div>
+      <h2>Įdiekite šiuos kontrolės mechanizmus ant to, kas jau veikia</h2>
+      <p>Tapatumas, dublikatų šalinimas, teiginių patikra, skambučių kokybės vertinimas (QA), instruktažas, užstrigusių sandorių stebėsena ir ASAICHI problemos lieka. Rezultatai vertinami tik tada, kai suvesti pirminiai duomenys (book of record), o kontrolės taisyklės tampa privalomos.</p>
+    </article>
+  </div>
+
+  <section class="sec" id="score">
+    <div class="sec-h"><span class="sec-n">S</span><h2>Kontrolės mechanizmų branda</h2></div>
+    <p class="sec-q">Išmatuota 2026 m. spalio 26 d. tiesiai iš kodo. Kiekvienas kontrolės mechanizmas vertinamas: 0 (nėra), 1 (faktą galima išsaugoti, bet sistema priima įrašą ir be jo) arba 2 (išsaugojimas atmetamas arba iškeliama klaidos išimtis). Komerciniai rezultatai į šį skaičių neįtraukti.</p>
+    <div class="scoretop">
+      <div class="scorebig" aria-label="23 iš 52 taškų, 44,2 procento">23<span>/52</span><small>44,2 % branda</small></div>
+      <div>
+        <p style="margin:0 0 10px;color:var(--muted)">Aštuoni kontrolės mechanizmai yra griežtai taikomi (16 taškų). Septyni gali būti išsaugoti, bet nėra privalomi (7 taškai). Vienuolikos išvis nėra (0 taškų). Įgyvendinus aštuonis kūrimo žingsnius, šis rodiklis pakyla iki 37/52 (71,2 %).</p>
+        <div class="bars" aria-label="Rezultatai pagal sritis">
+          <div class="bar hi"><span>Tapatumas</span><i style="--w:60%"></i><b>6/10</b></div>
+          <div class="bar"><span>Vientisumas</span><i style="--w:40%"></i><b>4/10</b></div>
+          <div class="bar hi"><span>Pardavimo kokybė</span><i style="--w:50%"></i><b>2/4</b></div>
+          <div class="bar lo"><span>Finansai</span><i style="--w:37.5%"></i><b>3/8</b></div>
+          <div class="bar lo"><span>Planavimas</span><i style="--w:20%"></i><b>2/10</b></div>
+          <div class="bar hi"><span>DI ir tobulinimas</span><i style="--w:60%"></i><b>6/10</b></div>
+        </div>
+      </div>
+    </div>
+    <div class="raci">
+      <table class="bt">
+        <thead><tr><th></th><th>Kontrolės mechanizmas</th><th>Balas</th><th>Įrodymai</th><th>Liko taškų</th></tr></thead>
+        <tbody>
+          <tr><td class="who">C1</td><td>Idempotentinis tapatumas</td><td class="s2">2</td><td>Unikalūs ID. Sąskaitų atnaujinimas (upsert). Veiklos <code>sourceRef</code>. Užduoties unikalus raktas.</td><td>0</td></tr>
+          <tr><td class="who">C2</td><td>Dublikatų šalinimas objekto viduje, vienas aktyvus sandoris</td><td class="s2">2</td><td>Įmonės kodas, el. paštas, telefonas, „Kajabi“ ID. Vienas atviras sandoris vienai užklausai.</td><td>0</td></tr>
+          <tr><td class="who">C3</td><td>Neatitikimas, kai du šaltiniai prieštarauja vienas kitam</td><td class="s0">0</td><td>Nėra neatitikimo įrašo. Sistema vis tiek gali laisvai pasirinkti vieną reikšmę.</td><td>+2</td></tr>
+          <tr><td class="who">C4</td><td>Viena etapų kalba</td><td class="s0">0</td><td>Užklausų piltuvėlis, sandorių etapai ir konsultavimo etapai gali nesutapti. Sandorio etapas gali nukopijuoti reikšmę į užklausą – tai tik tiltas, o ne vienas sąrašas.</td><td>+2</td></tr>
+          <tr><td class="who">C5</td><td>Tik papildoma (append-only) gyvavimo ciklo istorija</td><td class="s2">2</td><td><code>LeadEvent</code> įrašomas sukūrimo, piltuvėlio keitimo ir sandorio etapo keitimo metu.</td><td>0</td></tr>
+          <tr><td class="who">C6</td><td>Atsakingasis, etapas ir datuotas kitas veiksmas</td><td class="s1">1</td><td>Laukai egzistuoja, bet yra neprivalomi. Aktyvią užklausą galima išsaugoti be jų.</td><td>+1</td></tr>
+          <tr><td class="who">C7</td><td>SLA laikmatis startuoja, kai žmogus priima užklausą</td><td class="s0">0</td><td>Laikmačio nėra. Nėra valandų parametro, kurį būtų galima išsaugoti.</td><td>+2</td></tr>
+          <tr><td class="who">C8</td><td>Užklausos išimtis su priskirtu savininku</td><td class="s0">0</td><td>Užklausa be savininko nesukelia jokio įspėjimo. <code>lead_unassigned</code> yra tik įvykio pavadinimas.</td><td>+2</td></tr>
+          <tr><td class="who">C9</td><td>Pasyvus atviras sandoris sukuria vieną užduotį</td><td class="s2">2</td><td><code>stalled.ts</code> pažymi atvirą sandorį po 21 dienos ir sukuria vieną tolesnio veiksmo užduotį.</td><td>0</td></tr>
+          <tr><td class="who">C10</td><td>Laimėtam sandoriui būtinas vykdymo savininkas ir mėnuo</td><td class="s1">1</td><td><code>targetDeliveryMonth</code> ir <code>ownerId</code> egzistuoja. Būseną „Laimėta“ galima išsaugoti ir be jų.</td><td>+1</td></tr>
+          <tr><td class="who">C11</td><td>SPICED blokuoja pasiūlymą</td><td class="s0">0</td><td>Nėra SPICED laukų. Naujas sandoris automatiškai gauna būseną „Pasiūlymas išsiųstas“.</td><td>+2</td></tr>
+          <tr><td class="who">C12</td><td>Skambučio balas neperkelia etapo</td><td class="s2">2</td><td>Skambučių QA įrašo vertinimo kortelę ir nekeičia nei piltuvėlio, nei sandorio etapo.</td><td>0</td></tr>
+          <tr><td class="who">C13</td><td>Pinigai turi stabilų dokumento numerį</td><td class="s2">2</td><td>Sąskaitos bruto, neto, apmokėta suma, unikalus „Business Central“ dokumento numeris.</td><td>0</td></tr>
+          <tr><td class="who">C14</td><td>Sąskaita susiejama su sandoriu arba neatitikimu</td><td class="s1">1</td><td><code>leadId</code> yra neprivalomas. Kai jis tuščias, joks neatitikimas nefaksuojamas.</td><td>+1</td></tr>
+          <tr><td class="who">C15</td><td>Užsakymai (bookings), pinigai ir realizuotas GP yra atskirti</td><td class="s0">0</td><td><code>Deal.valueEur</code> yra vienas skaičius. Nėra užsakymo datos. Nėra realizuoto GP.</td><td>+2</td></tr>
+          <tr><td class="who">C16</td><td>Tiesioginės vykdymo sąnaudos</td><td class="s0">0</td><td>Nėra sąnaudų lauko. Todėl GP negali būti apskaičiuotas.</td><td>+2</td></tr>
+          <tr><td class="who">C17</td><td>Versijuojama prognozės momentinė kopija (snapshot)</td><td class="s0">0</td><td>Nėra momentinių kopijų modelio. Nėra uždarymo datų istorijos.</td><td>+2</td></tr>
+          <tr><td class="who">C18</td><td>Perkrautas planas yra sustabdomas</td><td class="s1">1</td><td>TU planuoklis gali pažymėti vykdymo perkrovą kaip bloką. Tačiau dienos užduočių eilė ir naujos užklausos nėra atmetamos.</td><td>+1</td></tr>
+          <tr><td class="who">C19</td><td>Rytinis planas, faktas ir neatlikimo priežastis</td><td class="s1">1</td><td>Dienos užduočių eilė ir instruktažas egzistuoja. Tačiau palyginimo eilutės nėra.</td><td>+1</td></tr>
+          <tr><td class="who">C20</td><td>Naujas išeinantis srautas stabdomas ties pajėgumų riba</td><td class="s0">0</td><td>Niekas nestabdo „Lead Finder“, kai eilė viršija ribą. Pati riba sistemoje net nesaugoma.</td><td>+2</td></tr>
+          <tr><td class="who">C21</td><td>Reikalingos užklausos lieka „Nežinoma“</td><td class="s0">0</td><td>Nėra reikalingų užklausų rodiklio, todėl joks netikras skaičius nesugeneruojamas ir nerodomas kaip „Nežinoma“.</td><td>+2</td></tr>
+          <tr><td class="who">C22</td><td>KPI kontraktas</td><td class="s1">1</td><td>Raktas, savininkas, periodiškumas, tikslas. Nėra skaitiklio, vardiklio, kohortos ar būsenų Patvirtinta / Įvertinta / Nežinoma.</td><td>+1</td></tr>
+          <tr><td class="who">C23</td><td>Kainai žemiau ribos reikalingas vadovas</td><td class="s0">0</td><td>Nėra CRM išsaugojimo taisyklės. Planuoklio blokas nėra kainos patikra.</td><td>+2</td></tr>
+          <tr><td class="who">C24</td><td>Modelis lieka tik tyrimų ir instruktažo rėmuose</td><td class="s2">2</td><td>Neįrodyti faktai pažeminami. Asistentas grąžina informaciją ir nekeičia proceso etapo.</td><td>0</td></tr>
+          <tr><td class="who">C25</td><td>Problema turi savininką ir PDCA etapą</td><td class="s2">2</td><td><code>AsaichiProblem</code> saugo priežastį, atsakomąsias priemones, savininką ir etapą.</td><td>0</td></tr>
+          <tr><td class="who">C26</td><td>Be sutikimo kontaktas nepatenka į skambučių sąrašą</td><td class="s1">1</td><td><code>gdprConsent</code> yra saugomas ir redaguojamas. Tačiau jis nefiltruoja sugeneruoto skambučių sąrašo.</td><td>+1</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="band">Kas didina brandos balą</p>
+    <div class="raci">
+      <table class="bt">
+        <thead><tr><th>Žingsnis</th><th>Pakeitimas</th><th>Prieaugis</th><th>Balas po to</th></tr></thead>
+        <tbody>
+          <tr><td class="who">1</td><td>Vienas etapų sąrašas ir aktyvios užklausos atmetimas, jei nėra savininko, etapo ar datuoto kito veiksmo. C4, C6.</td><td>+3</td><td>26/52 · 50,0 %</td></tr>
+          <tr><td class="who">2</td><td>SPICED išsaugojimas ir pasiūlymo blokavimas, kol laukai tušti. C11.</td><td>+2</td><td>28/52 · 53,8 %</td></tr>
+          <tr><td class="who">3</td><td>Būsenos „Laimėta“ blokavimas be vykdymo savininko ir tikslinio mėnesio. C10.</td><td>+1</td><td>29/52 · 55,8 %</td></tr>
+          <tr><td class="who">4</td><td>Sąskaita susiejama su sandoriu arba įrašomas neatitikimas. C14.</td><td>+1</td><td>30/52 · 57,7 %</td></tr>
+          <tr><td class="who">5</td><td>Pirmadienio atviros vertės momentinė kopija pagal etapus ir mėnesius, išlaikant ankstesnę versiją. C17.</td><td>+2</td><td>32/52 · 61,5 %</td></tr>
+          <tr><td class="who">6</td><td>Išsaugotas rytinis planas, faktas ir privaloma neatlikimo priežastis. C19.</td><td>+1</td><td>33/52 · 63,5 %</td></tr>
+          <tr><td class="who">7</td><td>Naujas išeinantis srautas stabdomas, kai viršijama pardavimų vadovo nustatyta pajėgumų riba. C20.</td><td>+2</td><td>35/52 · 67,3 %</td></tr>
+          <tr><td class="who">8</td><td>Tiesioginės vykdymo sąnaudos laimėtiems darbams. C16.</td><td>+2</td><td>37/52 · 71,2 %</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Penkiolika taškų lieka už šių aštuonių žingsnių ribų: neatitikimo įrašas (C3, +2), SLA laikmatis (C7, +2), užklausos išimtis (C8, +2), atskirti užsakymai / pinigai / GP (C15, +2), reikalingų užklausų rodiklis su būsena „Nežinoma“ (C21, +2), minimali kainos riba (C23, +2), dienos užduočių eilės atsisakymas priimti perkrovą (C18, +1), KPI sutarties laukai (C22, +1) ir sutikimas kaip skambučių sąrašo filtras (C26, +1). 37 + 15 = 52.</p>
+  </section>
+
+  <section class="sec" id="rules">
+    <div class="sec-h"><span class="sec-n">00</span><h2>Taisyklės, kuriomis remiasi šis auditas</h2></div>
+    <p class="sec-q">V7 išlieka verslo architektūra: vienas ekonominis rezultatas, vienas duomenų sluoksnis, jokių prarastų užklausų, paklausa suderinta su pajėgumais, žmogus priima rizikingus sprendimus ir jokių naujų skydelių ar agentų, kol neužtikrintas duomenų vientisumas bei pajėgumai. Šios dešimt taisyklių pakeičia tas V7 dalis, kurios audituotų netinkamus objektus.</p>
+    <div class="raci">
+      <table class="bt">
+        <thead><tr><th>Taisyklė</th><th>Pagal tai vertinama sistema</th><th>Ką tai pakeičia V7 specifikacijoje</th></tr></thead>
+        <tbody>
+          <tr><td class="who">R1</td><td>Kontrolės mechanizmas egzistuoja tik tada, kai išsaugojimas atmetamas arba iškeliama klaidos išimtis, o nesėkmė tiesiogiai nurodo pirminio šaltinio eilutę.</td><td>Gražų skydelio aprašymą, fazių aprašymus arba 9,4 savęs įsivertinimo balą.</td></tr>
+          <tr><td class="who">R2</td><td>Antras etapų sąrašas, galintis prieštarauti pirmajam, yra esminė neatitiktis.</td><td>Deklaruotą, bet netikrintą teiginį „vienas piltuvėlis“.</td></tr>
+          <tr><td class="who">R3</td><td>Pasiūlymas yra negaliojantis, kol neišsaugotas SPICED, poveikis nėra skaičius (arba „Nežinoma“), o sprendimas neturi konkrečios datos.</td><td>Perėjimą Discovery → Pasiūlymas be išsaugotų išėjimo sąlygų.</td></tr>
+          <tr><td class="who">R4</td><td>Modelio lygis (tier) gali rikiuoti eilę. SLA laikrodis prasideda tik tada, kai asmuo priima užklausą. Valandų skaičius yra pardavimų vadovo parametras.</td><td>„A/B lygio užklausos“ sampratą, tarytum viena raidė būtų visas procesas.</td></tr>
+          <tr><td class="who">R5</td><td>Vertinkite įvykdytus įsipareigojimus ir išėjimo iš etapų kokybę. Aktyvumas tėra pajėgumų įvestis. Skambučio balas niekada neperkelia etapo ir nelemia atlygio.</td><td>Pardavėjo vertinimą pagal atliktus „Discovery“ per dieną ar progresą per valandą.</td></tr>
+          <tr><td class="who">R6</td><td>Kol kohortos konversija yra „Nežinoma“, reikalingų užklausų skaičius lieka „Nežinoma“. Vienintelis automatinis paklausos sprendimas yra stabdymas.</td><td>Reikalingų užklausų formulę, kuri aklai braižo tikslinį skaičių.</td></tr>
+          <tr><td class="who">R7</td><td>Kol nėra mėnesinių momentinių kopijų, prognozė yra atvira vertė pagal etapus ir mėnesius, išlaikant ankstesnę versiją.</td><td>Skirstymą į Pipeline / Best Case / Commit, WAPE ir skaičių iš viršaus į apačią, pridedamą prie skaičiaus iš apačios į viršų.</td></tr>
+          <tr><td class="who">R8</td><td>Gamybinis KPI yra tik tas, kurio pirminiai duomenys realiai egzistuoja. „Nežinoma“ rodoma tuščia. Savininko valandos lieka diagnostiniu rodikliu, kol laikas nėra natūralus darbo šalutinis produktas.</td><td>Viso skydelių katalogo laikymą kasdiene operacine sistema.</td></tr>
+          <tr><td class="who">R9</td><td>Nekurkite sutarčių (Contract), sąmatų (Estimate) ar atskirų langų, kurie tiesiog dubliuoja sandorį, sąskaitą ar dienos planą.</td><td>Šių objektų reikalavimą kaip privalomų dar prieš atsirandant vieningai etapų kalbai.</td></tr>
+          <tr><td class="who">R10</td><td>Discovery, ROI sesija, Papildomas pardavimas (Upsell) ir Individualus pasiūlymas yra pasiūlymų tipai. Finansiniai faktai nesikeičia priklausomai nuo pasiūlymo tipo. MEDDPICC laukia vertės ribos, kurią nustato pats verslas.</td><td>Bendrinį sutartinį pardavimą kiekvienoms dirbtuvėms ar ROI pasiūlymui.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Reikalavimai dėl atsako į įeinančius kontaktus tą pačią dieną, dviejų dienų išeinančio kontakto ir penkių dienų pajėgumų sustabdymo yra atšaukti. V7 teisingai pasielgė palikdama šias ribas nenustatytas iš anksto. Sistema privalo gebėti išsaugoti nustatytą ribą, tačiau šis auditas konkretaus skaičiaus neprimeta.</p>
+  </section>
+
+  <section class="sec" id="scope">
+    <div class="sec-h"><span class="sec-n">01</span><h2>Kaip tai buvo vertinama</h2></div>
+    <p class="sec-q">Septyni vertinimo etapai: V7 specifikacija, duomenų objektai, trys etapų sąrašai, duomenų vientisumo užduotys, planavimas ir finansai, ką leidžiama spręsti modeliui, ir apimties korekcija. Kontrolės mechanizmas laikomas atitinkančiu reikalavimus, kai sistema geba jį išsaugoti ir priverstinai taikyti.</p>
+    <div class="scope">
+      <div class="in">
+        <h3>Apimtyje</h3>
+        <ul>
+          <li>Modeliai, etapų sąrašai, išsaugojimo taisyklės, foniniai darbai, formulės, valdymo skydeliai</li>
+          <li>Ką dirbtinio intelekto modeliui leidžiama spręsti savarankiškai</li>
+          <li>Įrodymas yra veikiantis modulis, o ne eilučių skaičius duomenų bazėje</li>
+        </ul>
+      </div>
+      <div class="out">
+        <h3>Už apimties ribų</h3>
+        <ul>
+          <li>Duomenų bazės užpildymo lygis. Didžioji dalis komercinių duomenų dar nėra suvesta</li>
+          <li>Bandomieji sandoriai</li>
+          <li>Laimėjimo rodiklis (win rate), bendros pinigų sumos, prognozavimo paklaida, atsakingų asmenų padengimas</li>
+          <li>90 dienų kohortos tyrimas ir tiesioginis „phone.systems“, „Business Central“ ar „Gemini“ veikimas</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="have">
+    <div class="sec-h"><span class="sec-n">02</span><h2>Ką sistema jau sugeba</h2></div>
+    <p class="sec-q">Šie funkcionalumai jau įdiegti. Pardavimų procese juos būtina išlaikyti.</p>
+    <div class="caps">
+      <div class="cap"><b>Stabilus tapatumas</b><span>Pakartotinis importas nesukuria antro fakto dublikato.</span><code>cuid · sąskaitos numeris · sourceRef</code></div>
+      <div class="cap"><b>Įmonė ir asmuo</b><span>Viena kortelė vienai įmonei ir vienam asmeniui.</span><code>įmonės kodas · el. paštas · telefonas</code></div>
+      <div class="cap"><b>Užklausų priėmimas</b><span>Pardavėjas gali dirbti su užklausa dar prieš sukuriant pasiūlymą.</span><code>šaltinis · atsakingasis · „Monday“ etapas</code></div>
+      <div class="cap"><b>Galimybė (Opportunity)</b><span>Vienas aktyvus sandoris vienai užklausai – iki laimėjimo ar pralaimėjimo.</span><code>vertė · kitas veiksmas · pristatymo mėnuo</code></div>
+      <div class="cap"><b>Dienos darbas</b><span>Darbas organizuojamas objektais, o ne vien užrašais.</span><code>užduotis · kalendorius · skambutis · el. laiškas</code></div>
+      <div class="cap"><b>Gauti pinigai</b><span>Gautos įplaukos gali būti išsaugotos ir pakartotinai importuotos.</span><code>Sąskaita · „Business Central“ dokumento numeris</code></div>
+      <div class="cap"><b>Vykdymo apkrova</b><span>Galima apskaičiuoti dirbtuvių užimtumą ir pardavėjo planą.</span><code>Workshop.capacity · TU planas</code></div>
+      <div class="cap"><b>Tyrimų disciplina</b><span>Spėjimas negali tyliai tapti faktu.</span><code>faktas · diagnozė · hipotezė</code></div>
+      <div class="cap"><b>Konsultavimas (Coaching)</b><span>Modelis paruošia pardavėją, bet nekalba už jį.</span><code>viena metodika · instruktažas · klausimai</code></div>
+      <div class="cap"><b>Skambučių kokybė</b><span>Įvertinimas nėra automatinis etapo pakeitimas.</span><code>CallEvaluation</code></div>
+      <div class="cap"><b>Tobulinimas</b><span>Neatitiktis turi savo vietą sistemoje.</span><code>AsaichiProblem · PDCA</code></div>
+      <div class="cap"><b>Prieiga ir privatumas</b><span>Kas mato įrašą ir kaip jis ištrinamas.</span><code>rolės · BDAR (GDPR) · sutikimai</code></div>
+    </div>
+  </section>
+
+  <section class="sec" id="board">
+    <div class="sec-h"><span class="sec-n">03</span><h2>V7 blokai pagal dabartinę sistemos būklę</h2></div>
+    <p class="sec-q">„Iš dalies“ reiškia, kad reali kontrolė egzistuoja, bet nepadengia viso reikalavimo. „Neatitinka“ reiškia, kad reikalaujamo duomenų kontrakto nėra.</p>
+    <div class="board" role="table" aria-label="V7 blokai">
+      <div class="hd">Blokas</div><div class="hd">Rezultatas</div><div class="hd">Sisteminė priežastis</div>
+      <div class="cell name">Misija · GP, sąnaudos, ciklas, savininko laikas</div><div class="cell"><span class="pill p-bad">Negalima atvaizduoti</span></div><div class="cell">Nėra realizuoto bendrojo pelno formulės, nėra tiesioginių sąnaudų, sąskaitos susiejimas su sandoriu yra neprivalomas, savininko valandos nėra KPI.</div>
+      <div class="cell name">Trys valdymo skydeliai</div><div class="cell"><span class="pill p-part">Iš dalies</span></div><div class="cell">Egzistuoja „Sales OS“, „v2“, „Estimate“ ir „Manto laikas“. Tai nėra trys V7 valdymo skydeliai pagal bendrą duomenų sutartį.</div>
+      <div class="cell name">1 variklis · Duomenų sluoksnis</div><div class="cell"><span class="pill p-part">Iš dalies</span></div><div class="cell">Tvirtas tapatumas ir CRM branduolys. Trys etapų kalbos. Nėra sutarties objekto. Pinigai yra atskira šoninė knyga.</div>
+      <div class="cell name">2 variklis · Vientisumas</div><div class="cell"><span class="pill p-part">Iš dalies</span></div><div class="cell">Dublikatų šalinimas, vienas aktyvus sandoris, užstrigusių sandorių foninis darbas. Atsakingasis, etapas ir kitas veiksmas yra neprivalomi. Nėra SLA. Nėra vartų tarp laimėjimo ir perdavimo vykdymui.</div>
+      <div class="cell name">3 variklis · Paklausa ir pajėgumai</div><div class="cell"><span class="pill p-part">Iš dalies</span></div><div class="cell">Dirbtuvių vietos ir pardavėjo planas. Reikalingas užklausų skaičius neskaičiuojamas. Niekas nestabdo papildomo užklausų srauto.</div>
+      <div class="cell name">4 variklis · AI dienos planas</div><div class="cell"><span class="pill p-part">Iš dalies</span></div><div class="cell">Dienos užduočių eilė ir skambučio instruktažas. Planas, faktas ir nukrypimo priežastis nėra išsaugomas ciklas.</div>
+      <div class="cell name">5 variklis · Prognozavimas</div><div class="cell"><span class="pill p-part">Iš dalies</span></div><div class="cell">Plano skaičiuoklė su saugikliais. Nėra sandorio kategorijos, nėra momentinių kopijų (snapshot), nėra WAPE.</div>
+      <div class="cell name">KPI kontraktas</div><div class="cell"><span class="pill p-bad">Neatitinka</span></div><div class="cell">Nėra skaitiklio, vardiklio, kohortos ar būsenų: Patvirtinta / Įvertinta / Nežinoma.</div>
+      <div class="cell name">Žmogaus ir AI teisės</div><div class="cell"><span class="pill p-part">Iš dalies</span></div><div class="cell">Neįrodyti teiginiai gali būti pažeminti. Konsultantas nesiunčia laiškų ir nedalina nuolaidų. CRM išsaugojimas neblokuoja kainos ar tuščio poreikių nustatymo.</div>
+      <div class="cell name">0–4 etapai</div><div class="cell"><span class="pill p-part">Kontrolė neužbaigta</span></div><div class="cell">Atsekamumo laukai egzistuoja, bet nėra privalomi. Duomenų parengtumas nevertinamas.</div>
+    </div>
+    <div class="iso">
+      <div class="weak"><b>ISO 9001 · 8.1 ir 8.5</b><span>Procesą galima išsaugoti. Tačiau išsaugojimo logika nepriverčia jo likti specifikacijos rėmuose.</span></div>
+      <div class="mid"><b>ISO 9001 · 9.1</b><span>Rodiklių formulės nėra saugomos, todėl vertinimas neturi stabilaus pagrindo nuskaityti duomenis.</span></div>
+      <div class="strong"><b>ISO 9001 · 10</b><span>ASAICHI problema turi PDCA etapą. Skambučių QA saugo žmogaus vertinimą.</span></div>
+      <div class="mid"><b>ISO/IEC 25010</b><span>Funkcinis išbaigtumas yra silpnoji vieta. Tapatumo patikimumas – stiprioji.</span></div>
+    </div>
+  </section>
+
+  <section class="sec" id="stages">
+    <div class="sec-h"><span class="sec-n">04</span><h2>Trys teisėti atsakymai į klausimą „kuriame etape yra šis pardavimas?“</h2></div>
+    <p class="sec-q">Neatitiktis F1. ISO 9001 8.5.2 punktas. Ta pati galimybė vienu metu gali būti trijuose sąrašuose. SPICED neturi laukų nė viename iš jų. Sandoris gimsta tik pasiūlymo etape.</p>
+    <div class="langs">
+      <div class="lang lead">
+        <h3>Užklausų (Lead) piltuvėlis</h3>
+        <div class="where"><code>lib/leads/pipeline.ts</code> · nustato pardavėjas · „Monday“ atspindys</div>
+        <ol>
+          <li>Atidėtas kontaktas</li>
+          <li>Derinamas susitikimas</li>
+          <li>Susitikimas paskirtas</li>
+          <li>Laukiama pasiūlymo</li>
+          <li>Laukiama sprendimo</li>
+          <li>Laukiama apmokėjimo</li>
+          <li>Klientas</li>
+          <li>Nedomina</li>
+        </ol>
+      </div>
+      <div class="lang deal">
+        <h3>Sandorių etapai</h3>
+        <div class="where"><code>lib/crm/stages.ts</code> · pagrindinė lenta</div>
+        <ol>
+          <li>Pasiūlymas išsiųstas</li>
+          <li>Derybos</li>
+          <li>Patvirtinta</li>
+          <li>Laukiama apmokėjimo</li>
+          <li>Laimėta</li>
+          <li>Pralaimėta</li>
+        </ol>
+        <div class="born">Naujas sandoris pagal nutylėjimą gauna būseną „Pasiūlymas išsiųstas“. Poreikių nustatymas (Discovery) nėra sandorio etapas.</div>
+      </div>
+      <div class="lang coach">
+        <h3>Konsultavimo (Coaching) etapai</h3>
+        <div class="where"><code>lib/methodology/types.ts</code> · ne lentoje</div>
+        <ol>
+          <li>Pirmasis kontaktas</li>
+          <li>Poreikių nustatymas (Discovery)</li>
+          <li>ROI sesija</li>
+          <li>Pasiūlymas</li>
+          <li>Derybos</li>
+        </ol>
+        <div class="born">Valdo metodiką ir instruktažą. Nepakeičia nei užklausos, nei sandorio etapo.</div>
+      </div>
+    </div>
+    <p class="note">Produkte jau esantys skambučių tipai – Discovery, ROI sesija, Papildomas pardavimas (Upsell), Individualus – įvardija pokalbį. Jie nepasirenka vieno iš šių trijų sąrašų.</p>
+  </section>
+
+  <section class="sec" id="money">
+    <div class="sec-h"><span class="sec-n">05</span><h2>Keturi finansiniai faktai. Tik vieną galima išsaugoti.</h2></div>
+    <p class="sec-q">Neatitiktis F5. Dabartinis sąskaitų turinys nėra šios schemos dalis. Esmė – kokius faktus modelis geba išlaikyti.</p>
+    <div class="money">
+      <div class="m miss"><span class="pill p-bad">Trūksta</span><h3>Užsakymai (Bookings)</h3><p>Laimėtas sandoris neturi atskiros užsakymo vertės ir pasirašymo datos. <code>Deal.valueEur</code> yra vienas skaičius.</p></div>
+      <div class="m have"><span class="pill p-ok">Išsaugoma</span><h3>Gauti pinigai</h3><p>Sąskaitoje saugoma bruto, neto, apmokėta suma ir „Business Central“ dokumento numeris. Ryšys su užklausa yra neprivalomas.</p></div>
+      <div class="m miss"><span class="pill p-bad">Trūksta</span><h3>Realizuotas GP</h3><p>Nėra tiesioginių sąnaudų lauko. Kol sąnaudų nėra, GP lieka „Nežinoma“. Sąskaitos neto suma to neatstoja.</p></div>
+      <div class="m miss"><span class="pill p-bad">Trūksta</span><h3>Kontributinis pelnas</h3><p>Realizuotas GP atėmus pardavėjo laiką sandoriui ir apmokėtą reklamą šaltiniui. Bet kuris trūkumas palieka statusą „Įvertinta“ arba „Nežinoma“.</p><div class="eq">GP − pardavimo sąnaudos</div></div>
+    </div>
+  </section>
+
+  <section class="sec" id="tests">
+    <div class="sec-h"><span class="sec-n">06</span><h2>Devyni priėmimo testai kaip sistemos testai</h2></div>
+    <p class="sec-q">„Išlaikyta“ reikštų, kad programinė įranga elgtųsi tiksliai pagal specifikaciją, kai tik įvykiai bus suvesti. Šiuo metu nė vienas testas nėra išlaikytas. 0 fazės duomenų parengtumas nevertinamas.</p>
+    <div class="tests">
+      <article class="test part"><div class="mark">~</div><div><b>1 · Keli šaltiniai, dublikatai</b><span>Dublikatų raktai egzistuoja kiekvienam objektui. Nesutapimo išimčių (exception) nėra.</span></div></article>
+      <article class="test fail"><div class="mark">✕</div><div><b>2 · Užklausa be atsakingojo</b><span>Užklausa be savininko yra leistinas įrašas. Joks išimčių savininkas nepriskiriamas.</span></div></article>
+      <article class="test fail"><div class="mark">✕</div><div><b>3 · Darbo krūvis viršija valandas</b><span>Dienos užduočių eilė neatmeta perteklinio plano.</span></div></article>
+      <article class="test fail"><div class="mark">✕</div><div><b>4 · Reikalingos užklausos iš atotrūkio</b><span>Reikalingas užklausų skaičius neskaičiuojamas.</span></div></article>
+      <article class="test fail"><div class="mark">✕</div><div><b>5 · Poreikių nustatymas neįvyksta</b><span>Nėra išsaugoto rytinio plano, kurį būtų galima palyginti su faktu.</span></div></article>
+      <article class="test fail"><div class="mark">✕</div><div><b>6 · Uždarymo data nusikelia mėnesiu</b><span>Nėra momentinės kopijos (snapshot) ir uždarymo datų istorijos.</span></div></article>
+      <article class="test part"><div class="mark">~</div><div><b>7 · Nestandartinė nuolaida</b><span>Sąmatos saugikliai gali įspėti. CRM išsaugojimas proceso nesustabdo.</span></div></article>
+      <article class="test fail"><div class="mark">✕</div><div><b>8 · Laimėta be perdavimo vykdymui savininko</b><span>Laimėtam sandoriui nereikalaujama nurodyti paslaugos teikėjo / vykdymo savininko.</span></div></article>
+      <article class="test none"><div class="mark">—</div><div><b>9 · Sutaupytas laikas</b><span>Nėra bazinių minučių lauko ir korekcijos laiko lauko.</span></div></article>
+    </div>
+  </section>
+
+  <section id="findings">
+    <div class="sec" style="margin-bottom:10px">
+      <div class="sec-h"><span class="sec-n">07</span><h2>Pastebėjimai (neatitiktys)</h2></div>
+      <p class="sec-q">Išskleiskite eilutę, kad pamatytumėte reikalavimą, įrodymus ir būtiną pakeitimą. Spalva nurodo rezultatą: raudona – esminė neatitiktis, gintarinė – mišri arba nedidelė, žalia – atitiktis su likusia tobulinimo galimybe.</p>
+      <div class="meta">
+        <span class="pill p-bad">Esminė · sistema negali judėti toliau be šio pakeitimo</span>
+        <span class="pill p-part">Nedidelė · kontrolė egzistuoja, bet nepadengia viso reikalavimo</span>
+        <span class="pill p-ok">Atitiktis</span>
+        <span class="pill p-vo">Galimybė tobulinti</span>
+      </div>
+    </div>
+
+    <details class="find major" open>
+      <summary><span class="fid">F1</span><span class="ft">Trys etapų kalbos vienam pardavimui</span><span class="pill p-bad">Esminė · 8.5.2</span></summary>
+      <div class="body">
+        <p><b>Reikalaujama.</b> Vienas piltuvėlis: Užklausa → Priimta → Poreikiai nustatyti (Discovery) → Pasiūlymas → Laimėta, su viena bendra etapų istorija.</p>
+        <p><b>Įrodymai.</b> Trys sąrašai aukščiau esančioje schemoje. Visi trys sistemoje yra teisėti vienu metu.</p>
+        <p><b>Pakeitimas.</b> Vienas etapų sąrašas, išsaugomas vieną kartą, naudojamas užklausai, sandoriui ir konsultantui. „Monday“ pavadinimus palikti tik kaip atvaizdavimo sluoksnį.</p>
+      </div>
+    </details>
+    <details class="find major">
+      <summary><span class="fid">F2</span><span class="ft">Atsakingasis, etapas ir kitas veiksmas yra neprivalomi</span><span class="pill p-bad">Esminė · 8.1</span></summary>
+      <div class="body">
+        <p><b>Reikalaujama.</b> Kiekvienas aktyvus įrašas privalo turėti atsakingąjį arba valdomą eilę, būseną, kitą veiksmą arba reaktyvacijos taisyklę bei terminą, jei jis taikomas.</p>
+        <p><b>Įrodymai.</b> <code>assignedRepId</code>, <code>pipelineStatus</code>, <code>nextFollowUpAt</code>, įmonės <code>ownerId</code> ir sandorio <code>nextAction</code> yra neprivalomi. Egzistuoja įvykio tipas <code>lead_unassigned</code>. Nė viena išsaugojimo logika neatmeta aktyvios užklausos, jei šie laukai tušti. Tai taisyklė kode, o ne duomenų eilučių skaičius.</p>
+        <p><b>Pakeitimas.</b> Įeinantys kontaktai toje pačioje transakcijoje priskiriami konkrečiai eilei. Norint pakeisti būseną iš „nauja“, privaloma nurodyti atsakingąjį, etapą ir datuotą kitą veiksmą. Masiniai duomenys ir „Lead Finder“ gali likti be savininko tik tada, kai būsena yra <code>parked</code> (atidėta).</p>
+      </div>
+    </details>
+    <details class="find mix">
+      <summary><span class="fid">F3</span><span class="ft">Dublikatų šalinimas veikia tik atskirų objektų viduje</span><span class="pill p-part">Atitiktis + nedidelė</span></summary>
+      <div class="body">
+        <p><b>Įrodymai.</b> Įmonė tikrinama pagal juridinį kodą, tada pavadinimą. Kontaktas – pagal el. paštą, tada paskutinius 8 telefono skaitmenis. Užklausa – pagal el. paštą arba „Kajabi“ ID. Vienas aktyvus sandoris vienai užklausai. Veiklos <code>sourceRef</code>. Užduoties unikalus raktas. Sąskaitos atnaujinimas pagal dokumento numerį.</p>
+        <p><b>Trūkumas.</b> Nėra saugoma nesutapimo klaida, kai du šaltiniai prieštarauja vienas kitam. Tas pats asmuo gali egzistuoti kaip užklausa ir kaip kontaktas be priverstinio tarpusavio ryšio.</p>
+        <p><b>Pakeitimas.</b> Radus dvi galimas įmones arba vieną telefono numerį dviejuose kontaktuose, įrašomas neatitikimas ir laukiama žmogaus sprendimo.</p>
+      </div>
+    </details>
+    <details class="find mix">
+      <summary><span class="fid">F4</span><span class="ft">Vientisumo užduotys apima sandorį, bet ne užklausą</span><span class="pill p-part">Sandoris gerai · užklausa esminė</span></summary>
+      <div class="body">
+        <p><b>Įrodymai.</b> <code>stalled.ts</code> gali pažymėti atvirą sandorį po 21 dienos be veiklos ir sukurti vieną užduotį, nebent egzistuoja ateities kito veiksmo data. Užklausoms tokio proceso nėra. Nėra SLA laikmačio. Skambučių QA teisingai nedaro įtakos etapui. Laimėtam sandoriui nereikalaujama nurodyti vykdymo savininko, nors <code>targetDeliveryMonth</code> ir <code>expectedHours</code> jau egzistuoja.</p>
+        <p><b>Pakeitimas.</b> Pirmasis įspėjimas turi atsirasti užklausos lygmenyje su terminu kiekvienam etapui. Išsaugant būseną „Laimėta“, privaloma nurodyti vykdymo savininką ir tikslinį mėnesį.</p>
+      </div>
+    </details>
+    <details class="find major">
+      <summary><span class="fid">F5</span><span class="ft">Pinigai yra atskira apskaitos knyga šalia pardavimo</span><span class="pill p-bad">Esminė · 9.1.1</span></summary>
+      <div class="body">
+        <p><b>Įrodymai.</b> Žr. finansų skyrių. <code>RevenueEntry</code> gali saugoti planą ir faktą pagal produktą bei mėnesį, šaltinis pagal nutylėjimą – rankinis. Nėra bendrojo pelno (GP), nėra pinigų gavimo datos sandoryje.</p>
+        <p><b>Pakeitimas.</b> Trys faktai komerciniame įraše: užsakyta (booked), gauti pinigai (cash), realizuota. Sąskaitą susieti su įmone, tada su sandoriu, o kilus neaiškumams – fiksuoti neatitikimą. Negalima dirbtinai išskaičiuoti GP vien iš pajamų.</p>
+      </div>
+    </details>
+    <details class="find mix">
+      <summary><span class="fid">F6</span><span class="ft">Prognozė yra tik plano skaičiuoklė</span><span class="pill p-part">Pagalba gerai · 5 variklis esminė</span></summary>
+      <div class="body">
+        <p><b>Įrodymai.</b> <code>tu/engine.ts</code> prognozuoja pagal planą ir gali įspėti, kai 90 dienų konversija yra gerokai mažesnė už prielaidą. Šiandienos užduočių eilė paskirsto mėnesį per darbo dienas. Nėra momentinių kopijų (snapshot) modelio. Nėra prognozės kategorijų. Nėra uždarymo datų keitimo istorijos.</p>
+        <p><b>Pakeitimas.</b> Kiekvieną pirmadienį išsaugoti atvirų sandorių vertę pagal etapą ir tikslinį mėnesį, o pasikeitus mėnesiui – išlaikyti ankstesnę versiją. Jokių tikimybių, kol jos nebus apskaičiuotos iš šių momentinių kopijų. WAPE rodiklis laukia istorinių duomenų sekos.</p>
+      </div>
+    </details>
+    <details class="find major">
+      <summary><span class="fid">F7</span><span class="ft">Pajėgumai ir paklausa yra atskirti</span><span class="pill p-bad">Esminė · 8.1</span></summary>
+      <div class="body">
+        <p><b>Įrodymai.</b> Galima apskaičiuoti dirbtuvių vietas ir TU pardavėjo planą. Niekas neskaičiuoja reikalingų užklausų iš pajamų atotrūkio. Niekas neatmeta „Lead Finder“ partijos, kai eilė yra perpildyta.</p>
+        <p><b>Pakeitimas.</b> Viena savaitinė pora: atviros užklausos be pirmojo kontakto ir pardavėjo valandos, kurios dar nėra užimtos susitikimais. Jei viršijama pardavimų vadovo nustatyta pajėgumų riba, tolesnis išeinantis srautas (outbound) leidžiamas tik vadovo sprendimu, kuris išsaugomas kaip ASAICHI problema. Kol konversija yra „Nežinoma“, reikalingų užklausų skaičius taip pat lieka „Nežinoma“ (R6).</p>
+      </div>
+    </details>
+    <details class="find minor">
+      <summary><span class="fid">F8</span><span class="ft">Diena yra užduočių eilė, o ne PDCA ciklas</span><span class="pill p-part">Nedidelė</span></summary>
+      <div class="body">
+        <p><b>Įrodymai.</b> Šiandienos eilė gali rodyti sandorius, skambučius, užduotis ir perskambinimus bei pridėti dienos instruktažą. Nėra išsaugomo „rytinio plano“ palyginimo su „kas įvyko“ ir nėra privalomos neatlikimo priežasties.</p>
+        <p><b>Pakeitimas.</b> Viena eilutė vienam pardavėjui per dieną: patvirtinti ID, atlikti ID, viena priežastis kiekvienam neatliktam veiksmui. Kol ši eilutė neegzistuoja, sistema neteikia ataskaitų apie sutaupytą laiką.</p>
+      </div>
+    </details>
+    <details class="find mix">
+      <summary><span class="fid">F9</span><span class="ft">Modelio teisės yra griežtos tyrimuose, bet atviros išsaugojimo metu</span><span class="pill p-part">Atitiktis + nedidelė</span></summary>
+      <div class="body">
+        <div class="ai">
+          <div>
+            <span class="pill p-ok">Vykdoma</span>
+            <ul>
+              <li>Teiginys be šaltinio yra pažeminamas</li>
+              <li>Viena pardavimo metodika konkrečiai situacijai</li>
+              <li>Instruktažas ir konsultantas grąžina kitą veiksmą bei klausimus</li>
+              <li>Skambučių QA neperkelia etapo</li>
+              <li>Sąmatos saugikliai gali pažymėti silpną konversijos prielaidą</li>
+            </ul>
+          </div>
+          <div>
+            <span class="pill p-bad">Nėra išsaugojimo taisyklėse</span>
+            <ul>
+              <li>Nuolaida ar kaina žemiau nustatytos ribos</li>
+              <li>Pasiūlymas, kai SPICED laukai tušti</li>
+              <li>Modelio atliekamas etapo keitimas</li>
+              <li><code>gdprConsent = false</code> kaip griežtas filtras skambučių sąraše</li>
+            </ul>
+          </div>
+        </div>
+        <p><b>Pakeitimas.</b> Perkelti draudimus į išsaugojimo logiką. Kainai žemiau ribos reikalingas vadovo ID. Modelis gauna struktūrizuotus laukus, o ne neapdorotą sąskaitos failą.</p>
+      </div>
+    </details>
+    <details class="find major">
+      <summary><span class="fid">F10</span><span class="ft">KPI objektas yra tiesiog susirinkimo suvestinė</span><span class="pill p-bad">Esminė · 9.1.3</span></summary>
+      <div class="body">
+        <p><b>Turi.</b> Raktą, pavadinimą, savininką, periodiškumą, vienetą, tikslą, kryptį, šaltinį (rankinis / auto / hibridinis) ir raudoną / gintarinį / žalią įrašą.</p>
+        <p><b>Trūksta iš V7 sutarties.</b> Skaitiklio, vardiklio, kohortos, kokybės patikros, reakcijos veiksmo, versijos, detalizavimo (drill-through) ir būsenų: Patvirtinta (Verified), Įvertinta (Estimated), Nežinoma (Unknown).</p>
+        <p><b>Pakeitimas.</b> Pridėti šiuos laukus prie žemiau pateiktų devynių rodiklių prieš kuriant naujus skydelius. Jei nėra pirminių eilučių, rodoma „Nežinoma“. „Sales OS“, „v2“ ir ASAICHI privalo skaityti tą pačią duomenų sutartį.</p>
+      </div>
+    </details>
+    <details class="find ok">
+      <summary><span class="fid">F11</span><span class="ft">Tobulinimo objektas lenkia savo detektorius</span><span class="pill p-ok">Atitiktis</span></summary>
+      <div class="body">
+        <p><b>Įrodymai.</b> <code>AsaichiProblem</code> turi įrodymus, pagrindinę priežastį, atsakomąsias priemones, savininką, terminą, PDCA etapą ir efektyvumo patikrą. Tai artimiausias objektas ISO 9001 10.2 punktui.</p>
+        <p><b>Galimybė tobulinti.</b> Aktyvi užklausa be savininko ir paklausa, viršijanti pardavimų vadovo nustatytą pajėgumų ribą, pačios automatiškai neatidaro problemos. Vienu metu turėtų būti viena atvira komercinė problema, kurios savininkas – pardavimų vadovas.</p>
+      </div>
+    </details>
+  </section>
+
+  <section class="sec" id="funnel">
+    <div class="sec-h"><span class="sec-n">08</span><h2>Tikslinis piltuvėlis realizacijai</h2></div>
+    <p class="sec-q">Vienas bendras sąrašas užklausai, sandoriui ir konsultantui. Užklausa yra pardavėjo darbinis įrašas iki pasiūlymo. Sandoris sukuriamas pateikiant pasiūlymą. SPICED yra išėjimo iš poreikių nustatymo (Discovery) sąlyga. MEDDPICC privalomas tik virš sutartos vertės.</p>
+    <div class="lane">
+      <h3 style="color:var(--brand)">Užklausoje (Lead) · prieš pasiūlymą</h3>
+      <div class="funnel lead">
+        <article class="st sys"><div class="n">01</div><h3>Nauja</h3><p>Savininkas arba atidėtųjų eilė. Šaltinis išsaugotas. Įeinantis srautas negali būti išsaugotas be savininko.</p></article>
+        <article class="st sys"><div class="n">02</div><h3>Priimta</h3><p>Pardavėjas ją priima. Vien „Lead Finder“ lygis (tier) nereiškia priėmimo.</p></article>
+        <article class="st sell"><div class="n">03</div><h3>Poreikiai nustatyti</h3><p>SPICED išsaugotas ir skambutis egzistuoja. Tušti laukai blokuoja pasiūlymą.</p></article>
+        <article class="st sell"><div class="n">04</div><h3>Kvalifikuota</h3><p>Poveikis yra skaičius arba „Nežinoma“. Pirkėjas įvardytas arba „Nežinoma“. Kitas žingsnis datuotas.</p></article>
+      </div>
+    </div>
+    <div class="lane">
+      <h3 style="color:var(--green)">Sandoryje (Deal) · pasiūlymas atidaro įrašą</h3>
+      <div class="funnel deal">
+        <article class="st sell"><div class="n">05</div><h3>Pasiūlymas</h3><p>Čia sukuriama sandorio eilutė. Marža ties nustatyta riba arba reikalingas vadovo ID.</p></article>
+        <article class="st sell"><div class="n">06</div><h3>Derybos</h3><p>Sprendimo data išsaugota. Pavėlintas terminas išlaiko ankstesnę datą.</p></article>
+        <article class="st money"><div class="n">07</div><h3>Laimėta</h3><p>Vykdymo savininkas ir tikslinis mėnuo. Be abiejų šių duomenų etapas negali būti išsaugotas.</p></article>
+      </div>
+    </div>
+    <div class="lane">
+      <h3 style="color:var(--amber)">Po pardavimo · ir išėjimas iš piltuvėlio</h3>
+      <div class="funnel after">
+        <article class="st money"><div class="n">08</div><h3>Pinigai</h3><p>Sąskaita susieta ir apmokėta. Mokėjimo informacija ateina iš „Business Central“.</p></article>
+        <article class="st money"><div class="n">09</div><h3>Realizuota</h3><p>Įrašytos tiesioginės vykdymo sąnaudos. Iki tol GP lieka „Nežinoma“.</p></article>
+        <article class="st exit"><div class="n">10</div><h3>Pralaimėta / atidėta</h3><p>Norint išeiti iš aktyvaus piltuvėlio, privaloma nurodyti priežastį iš trumpojo sąrašo.</p></article>
+      </div>
+    </div>
+    <p class="note">Poreikių nustatymo (Discovery) skambutis gali būti įvertintas net esant tuštiems SPICED laukams, tačiau tai negali pakeisti etapo. Skambučių QA jau dabar vertinimą ir etapą laiko atskirai. Kohortos, atsiradus etapų istorijai, bus: Užklausa → Priimta → Poreikiai nustatyti → Pasiūlymas → Laimėta (pagal šaltinį, produktą ir sukūrimo savaitę). Kol neišmatuotas medianinis ciklas, skelbkite etapų skaičius ir amžių, o ne laimėjimo procentą.</p>
+  </section>
+
+  <section class="sec" id="raci">
+    <div class="sec-h"><span class="sec-n">09</span><h2>Kas priima sprendimus</h2></div>
+    <p class="sec-q">ISO 9001 5.3 punktas. Žalia – sprendimą priima žmogus. Mėlyna – ką sistema įrašo arba blokuoja. Raudona – ko modeliui daryti griežtai draudžiama.</p>
+    <div class="raci">
+      <table class="bt">
+        <thead><tr><th>Žingsnis</th><th>Pardavėjas</th><th>Sistema</th><th>Modelis</th></tr></thead>
+        <tbody>
+          <tr><td class="who">Priimti ar atidėti</td><td class="cell-do">Priima sprendimą</td><td class="cell-help">Rodo šaltinį, lygį, dublikatus</td><td>Gali reitinguoti. Negali priimti</td></tr>
+          <tr><td class="who">Poreikių nustatymas</td><td class="cell-do">Klausia pagal SPICED</td><td class="cell-help">Išsaugo penkis laukus ir skambutį</td><td>Rengia klausimų juodraštį. Neužpildo laukų spėjimais</td></tr>
+          <tr><td class="who">Pasiūlymas</td><td class="cell-do">Siunčia pasiūlymą</td><td class="cell-help">Blokuoja etapą, kol neįvykdytos išėjimo sąlygos</td><td>Rengia juodraštį tik iš išsaugotų laukų</td></tr>
+          <tr><td class="who">Derybos</td><td class="cell-do">Tvirtina datas ir sąlygas</td><td class="cell-help">Išlaiko ankstesnę uždarymo datą</td><td class="cell-block">Gali apibendrinti. Negali siūlyti nuolaidų</td></tr>
+          <tr><td class="who">Laimėjimas</td><td class="cell-do">Paskiria vykdymą</td><td class="cell-help">Blokuoja laimėjimą, kol neužpildytas perdavimas</td><td class="cell-block">Negali pažymėti kaip laimėto</td></tr>
+          <tr><td class="who">Dienos peržiūra</td><td class="cell-do">Patvirtina planą ir nukrypimus</td><td class="cell-help">Išsaugo planą, faktą ir priežastį</td><td>Siūlo rytdienos darbus, pirmenybę teikiant nebaigtiems įsipareigojimams klientams</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="sec" id="constraint">
+    <div class="sec-h"><span class="sec-n">10</span><h2>Vienas apribojimas kiekvieną savaitę</h2></div>
+    <p class="sec-q">Tikrinkite griežtai šia tvarka. Rinkodaros apimtys tampa sprendimu tik pačiame paskutiniame žingsnyje. Tai yra „Dashboard 2D“ valdymo seka, kurią sistema gali palaikyti.</p>
+    <div class="ladder">
+      <div class="step"><i>1</i><div><b>Vientisumas.</b> <span>Aktyvios užklausos be atsakingojo arba be kito veiksmo termino.</span></div></div>
+      <div class="step"><i>2</i><div><b>Aktyvumas.</b> <span>Priimtos užklausos be atlikto poreikių nustatymo (Discovery).</span></div></div>
+      <div class="step"><i>3</i><div><b>Kokybė.</b> <span>Poreikių nustatymo pokalbiai be kiekybiškai įvertinto poveikio.</span></div></div>
+      <div class="step"><i>4</i><div><b>Užbaigimas.</b> <span>Pasiūlymai be sprendimo priėmimo datos.</span></div></div>
+      <div class="step"><i>5</i><div><b>Perdavimas.</b> <span>Laimėti darbai be paskirto vykdymo savininko.</span></div></div>
+      <div class="step last"><i>6</i><div><b>Paklausa.</b> <span>Laisvas pardavėjo laikas ir pilna atidėtųjų eilė. Tik čia priimamas sprendimas dėl rinkodaros apimčių.</span></div></div>
+    </div>
+  </section>
+
+  <section class="sec" id="kpis">
+    <div class="sec-h"><span class="sec-n">11</span><h2>Būtini apibrėžti rodikliai. Verčių kol kas nėra.</h2></div>
+    <p class="sec-q">Formulės versija: 2026-10-26. Reikšmė yra „Nežinoma“, kol atitinkamo laikotarpio pirminiai duomenys nėra suvesti ir patikrinti. Ši lentelė yra duomenų sutartis, o ne ataskaita.</p>
+    <div class="raci">
+      <table class="bt">
+        <thead><tr><th>ID</th><th>Apibrėžimas</th><th>Skaitiklis / vardiklis</th><th>Šaltinis</th><th>Savininkas</th></tr></thead>
+        <tbody>
+          <tr><td class="who">INT-1</td><td>Neprižiūrimos aktyvios užklausos</td><td>Aktyvios užklausos be savininko arba be kito veiksmo datos</td><td>Užklausa (Lead)</td><td>Pardavimų vadovas</td></tr>
+          <tr><td class="who">INT-2</td><td>Etapų padengimas</td><td>Užklausos su nurodyta piltuvėlio būsena / visos užklausos</td><td>Užklausa (Lead)</td><td>Pardavimų vadovas</td></tr>
+          <tr><td class="who">SLA-1</td><td>Pirmojo kontakto SLA pažeidimas</td><td>Įeinančios užklausos be kontakto per sutartą laiką / įeinančios užklausos, kurių langas baigėsi</td><td>Lead, CallLog, išsiųstas el. laiškas</td><td>Pardavimų vadovas</td></tr>
+          <tr><td class="who">FUN-1</td><td>Atliktas poreikių nustatymas</td><td>Baigė poreikių nustatymą / priimta toje pačioje subrendusioje kohortoje</td><td>Etapų istorija, dar nesaugoma</td><td>Pardavimų vadovas</td></tr>
+          <tr><td class="who">FUN-2</td><td>Pasiūlymo konversija į laimėjimą</td><td>Laimėta / pasiekė pasiūlymo etapą, subrendusi kohorta</td><td>Sandoris (Deal), po etapų istorijos įdiegimo</td><td>Pardavimų vadovas</td></tr>
+          <tr><td class="who">CASH-1</td><td>Surinkti pinigai</td><td>Laikotarpio apmokėtų sumų suma</td><td>Sąskaita (Invoice)</td><td>Finansai + pardavimai</td></tr>
+          <tr><td class="who">GP-1</td><td>Realizuotas GP</td><td>Pripažintos pajamos − tiesioginės vykdymo sąnaudos</td><td>Nesaugoma. Nenaudoti sąskaitos neto sumos</td><td>Finansai + pardavimai</td></tr>
+          <tr><td class="who">FRC-1</td><td>Prognozės paklaida</td><td>Pirmadienio momentinė kopija tam mėnesiui lyginant su vėliau pasirašyta verte</td><td>Reikalinga F6 momentinė kopija</td><td>Pardavimai + sistema</td></tr>
+          <tr><td class="who">AI-1</td><td>Plano korekcija</td><td>Rytiniai punktai, kuriuos pardavėjas pakeitė / pasiūlyti punktai</td><td>Reikalinga F8 dienos eilutė</td><td>Pardavimai + sistema</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">SLA laikrodis prasideda tik tada, kai asmuo priima užklausą (R4). Valandų skaičius yra parametras, kurį nustato pardavimų vadovas. Šis auditas jo nepasirenka. Modelio lygis (tier) gali rikiuoti eilę, bet negali pradėti ar užskaityti SLA laikrodžio.</p>
+  </section>
+
+  <section class="sec" id="build">
+    <div class="sec-h"><span class="sec-n">12</span><h2>Kūrimo eiliškumas</h2></div>
+    <p class="sec-q">Pati V7 taisyklė: jokių naujų valdymo skydelių ar agentų, kol neįdiegti vientisumo, paklausos ir pajėgumų kontrolės mechanizmai. 1–4 žingsniai yra taisyklės jau egzistuojantiems objektams.</p>
+    <p class="band">Taisyklės egzistuojantiems objektams</p>
+    <div class="order">
+      <div class="ord now"><div class="num">1</div><b>Vienas etapų sąrašas. Atsakingasis, etapas ir datuotas kitas veiksmas yra privalomi, nebent įrašas atidėtas.</b><span>Baigta, kai išsaugojimo logika atmeta aktyvią užklausą be šių laukų ir galima apskaičiuoti INT-1.</span></div>
+      <div class="ord now"><div class="num">2</div><b>SPICED yra išėjimo iš poreikių nustatymo (Discovery) sąlyga.</b><span>Sandoris negali būti sukurtas būsenoje „pasiūlymas išsiųstas“, jei problema, poveikis, kritinis įvykis ar sprendimas yra tušti.</span></div>
+      <div class="ord now"><div class="num">3</div><b>Laimėtam sandoriui privalomas vykdymo savininkas ir tikslinis mėnuo.</b><span>8 priėmimo testas yra išlaikytas.</span></div>
+      <div class="ord now"><div class="num">4</div><b>Sąskaita susiejama su įmone ir sandoriu.</b><span>Kilus neaiškumui, įrašomas neatitikimas. CASH-1 galima detalizuoti iki konkretaus sandorio.</span></div>
+    </div>
+    <p class="band">Matavimas, tada stabdymas, tada GP</p>
+    <div class="order">
+      <div class="ord"><div class="num">5</div><b>Atvirų sandorių vertės pirmadienio momentinė kopija (snapshot) pagal mėnesius.</b><span>Išlaikoma ankstesnė versija. FRC-1 gauna duomenų seką vėlesniam palyginimui.</span></div>
+      <div class="ord"><div class="num">6</div><b>Dienos plano eilutė ir privaloma neatlikimo priežastis.</b><span>Galima apskaičiuoti AI-1. Iki tol sutaupytas laikas lieka nefiksuojamas.</span></div>
+      <div class="ord"><div class="num">7</div><b>Savaitinė patikra, galinti sustabdyti naują išeinantį srautą (outbound).</b><span>Vadovo sprendimas išsaugomas, kai eilė viršija pardavimų vadovo nustatytą pajėgumų ribą.</span></div>
+      <div class="ord"><div class="num">8</div><b>Tiesioginės vykdymo sąnaudos laimėtiems darbams.</b><span>GP-1 gali išeiti iš būsenos „Nežinoma“. Tai daroma paskiausiai, nes GP rodiklis be sąnaudų yra klaidinantis skydelis.</span></div>
+    </div>
+  </section>
+
+  <section class="sec" id="keep">
+    <div class="sec-h"><span class="sec-n">13</span><h2>Atitiktys, kurias būtina išlaikyti</h2></div>
+    <p class="sec-q">Neperdarykite šių dalių, kol diegiami aštuoni aukščiau nurodyti žingsniai.</p>
+    <div class="keep">
+      <div>Unikalūs ID ir idempotentinis importas sąskaitoms, veikloms ir sugeneruotoms užduotims</div>
+      <div>Įmonių ir kontaktų dublikatų šalinimas bei vienas aktyvus sandoris vienai užklausai</div>
+      <div>Teiginių patikimumo lygiai, pažeminantys faktus be šaltinių</div>
+      <div>Viena pardavimų metodika, pasirenkama pagal situaciją</div>
+      <div>Skambučių QA kaip žmogaus suteiktas įvertinimas, nekeičiantis piltuvėlio etapo</div>
+      <div>Skambučio instruktažas su pokalbio tipu, kitu veiksmu ir klausimais prieš renkant numerį</div>
+      <div>Tiesioginis asistentas-konsultantas, pateikiantis informaciją</div>
+      <div>Užstrigusių sandorių foninis darbas su viena tolesnio veiksmo užduotimi</div>
+      <div>ASAICHI problemos su savininku, priežastimi, atsakomąja priemone ir PDCA etapu</div>
+      <div>Sąmatos saugikliai, lyginantys planą su pastarojo meto konversija</div>
+      <div>Rolių atskyrimas ir BDAR (GDPR) duomenų ištrynimo kelias</div>
+      <div>Sąskaitos tapatumas, išliekantis po pakartotinio importo iš „Business Central“</div>
+    </div>
+  </section>
+
+  <footer>
+    Šio puslapio šaltinis: <code>docs/mvp2/37-DIPA-OS-V7-Code-Audit.md</code>.
+    Specifikacijos įvertinimas 9,4/10 įvertino patį dokumentą. R1 taisyklė šį balą laiko už audito ribų.
+    Prognozės procentas ar laimėjimo rodiklis neskelbiami tol, kol 12 skyriuje nurodyti kontrolės mechanizmai netaps privalomi ir nebus suvesti pirminiai apskaitos duomenys.
+  </footer>
+</div>
+</div>
+<div id="view-en" hidden>
+<div class="page">
+
+  <p class="kicker">DIPA OS · 26 October 2026 · system conformance audit</p>
+  <h1>System audit against Revenue AI OS V7</h1>
+  <p class="lede">V7 is a sound management specification. The application can do a large part of the sales work and does not yet run V7 as one operating system. This page judges controls in the software. Commercial results, test deals, and how full the database is stay outside the audit.</p>
+  <div class="meta">
+    <span class="pill p-sys">ISO 19011 method</span>
+    <span class="pill p-sys">ISO 9001 process</span>
+    <span class="pill p-sys">ISO/IEC 25010 product</span>
+    <span class="pill p-vo">ISO/IEC 42001 · NIST AI RMF</span>
+    <span class="pill p-mute">Criteria: dipa-os-v7-audit.md</span>
+  </div>
+
+  <nav class="toc" aria-label="Sections">
+    <a href="#en-verdict">Verdict</a>
+    <a href="#en-score">Score</a>
+    <a href="#en-rules">Rules</a>
+    <a href="#en-scope">Scope</a>
+    <a href="#en-have">What exists</a>
+    <a href="#en-board">V7 blocks</a>
+    <a href="#en-stages">Three stage lists</a>
+    <a href="#en-money">Money</a>
+    <a href="#en-tests">Acceptance tests</a>
+    <a href="#en-findings">Findings</a>
+    <a href="#en-funnel">Target funnel</a>
+    <a href="#en-raci">Who decides</a>
+    <a href="#en-constraint">One constraint</a>
+    <a href="#en-kpis">Indicators</a>
+    <a href="#en-build">Build order</a>
+    <a href="#en-keep">Keep</a>
+  </nav>
+
+  <div class="verdict" id="en-verdict">
+    <article class="vcard nogo">
+      <div class="tag">No-go</div>
+      <h2>Not the finished V7 operating system</h2>
+      <p>Missing controls: one stage language, a required owner and next action, a discovery record before a proposal, and money that can point at the deal.</p>
+    </article>
+    <article class="vcard go">
+      <div class="tag">Go</div>
+      <h2>Add those controls on what already works</h2>
+      <p>Identity, dedup, claims, call QA, the brief, the stalled-deal job, and ASAICHI problems stay. Results are scored only after the book of record is entered and the controls are mandatory.</p>
+    </article>
+  </div>
+
+  <section class="sec" id="en-score">
+    <div class="sec-h"><span class="sec-n">S</span><h2>Control maturity</h2></div>
+    <p class="sec-q">Measured on 26 October 2026 from the code. Each control scores 0 (absent), 1 (the fact can be stored, and the system still accepts the record without it), or 2 (a save is rejected or an exception is raised). Commercial results are not in this number.</p>
+    <div class="scoretop">
+      <div class="scorebig" aria-label="23 of 52 points, 44.2 percent">23<span>/52</span><small>44.2% maturity</small></div>
+      <div>
+        <p style="margin:0 0 10px;color:var(--muted)">Eight controls are enforced (16 points). Seven are stored and not enforced (7 points). Eleven are absent (0 points). Closing the eight build steps raises this to 37/52, which is 71.2%.</p>
+        <div class="bars" aria-label="Score by area">
+          <div class="bar hi"><span>Identity</span><i style="--w:60%"></i><b>6/10</b></div>
+          <div class="bar"><span>Integrity</span><i style="--w:40%"></i><b>4/10</b></div>
+          <div class="bar hi"><span>Sale quality</span><i style="--w:50%"></i><b>2/4</b></div>
+          <div class="bar lo"><span>Money</span><i style="--w:37.5%"></i><b>3/8</b></div>
+          <div class="bar lo"><span>Planning</span><i style="--w:20%"></i><b>2/10</b></div>
+          <div class="bar hi"><span>AI and improvement</span><i style="--w:60%"></i><b>6/10</b></div>
+        </div>
+      </div>
+    </div>
+    <div class="raci">
+      <table class="bt">
+        <thead><tr><th></th><th>Control</th><th>Score</th><th>Evidence</th><th>Points left</th></tr></thead>
+        <tbody>
+          <tr><td class="who">C1</td><td>Idempotent identity</td><td class="s2">2</td><td>Unique ids. Invoice upsert. Activity <code>sourceRef</code>. Task dedupe key.</td><td>0</td></tr>
+          <tr><td class="who">C2</td><td>Dedup inside each object, one live deal</td><td class="s2">2</td><td>Company code, email, phone, Kajabi id. One open deal per lead.</td><td>0</td></tr>
+          <tr><td class="who">C3</td><td>Mismatch when two sources disagree</td><td class="s0">0</td><td>No mismatch record. The system can still pick one value.</td><td>+2</td></tr>
+          <tr><td class="who">C4</td><td>One stage language</td><td class="s0">0</td><td>Lead pipeline, deal stages, and coaching stages can disagree. A deal stage can copy onto the lead. That is a bridge, not one list.</td><td>+2</td></tr>
+          <tr><td class="who">C5</td><td>Append-only lifecycle history</td><td class="s2">2</td><td><code>LeadEvent</code> is written on create, pipeline change, and deal stage change.</td><td>0</td></tr>
+          <tr><td class="who">C6</td><td>Owner, stage, and a dated next action</td><td class="s1">1</td><td>The fields exist and are optional. An active lead can be saved without them.</td><td>+1</td></tr>
+          <tr><td class="who">C7</td><td>SLA clock starts when a person accepts</td><td class="s0">0</td><td>No clock. No hour parameter to store.</td><td>+2</td></tr>
+          <tr><td class="who">C8</td><td>Lead exception with an owner</td><td class="s0">0</td><td>An unowned lead raises nothing. <code>lead_unassigned</code> is only an event name.</td><td>+2</td></tr>
+          <tr><td class="who">C9</td><td>Idle open deal raises one task</td><td class="s2">2</td><td><code>stalled.ts</code> labels an open deal after 21 days and creates one follow-up.</td><td>0</td></tr>
+          <tr><td class="who">C10</td><td>Won requires delivery owner and month</td><td class="s1">1</td><td><code>targetDeliveryMonth</code> and <code>ownerId</code> exist. Won can be saved without them.</td><td>+1</td></tr>
+          <tr><td class="who">C11</td><td>SPICED blocks the proposal</td><td class="s0">0</td><td>No SPICED fields. A deal defaults to offer sent.</td><td>+2</td></tr>
+          <tr><td class="who">C12</td><td>Call score does not move the stage</td><td class="s2">2</td><td>Call QA writes a scorecard and does not set pipeline or deal stage.</td><td>0</td></tr>
+          <tr><td class="who">C13</td><td>Cash has a stable document number</td><td class="s2">2</td><td>Invoice gross, net, paid amount, unique Business Central number.</td><td>0</td></tr>
+          <tr><td class="who">C14</td><td>Invoice resolves to a deal or a mismatch</td><td class="s1">1</td><td><code>leadId</code> is optional. No mismatch when it is empty.</td><td>+1</td></tr>
+          <tr><td class="who">C15</td><td>Bookings, cash, and realized GP are separate</td><td class="s0">0</td><td><code>Deal.valueEur</code> is one number. No booked date. No GP.</td><td>+2</td></tr>
+          <tr><td class="who">C16</td><td>Direct delivery cost</td><td class="s0">0</td><td>No cost field. GP cannot be computed.</td><td>+2</td></tr>
+          <tr><td class="who">C17</td><td>Versioned forecast snapshot</td><td class="s0">0</td><td>No snapshot model. No close-date history.</td><td>+2</td></tr>
+          <tr><td class="who">C18</td><td>Overloaded plan is stopped</td><td class="s1">1</td><td>The TU planner can mark delivery overload as a block. The day queue and new leads are not refused.</td><td>+1</td></tr>
+          <tr><td class="who">C19</td><td>Morning plan, fact, and a miss reason</td><td class="s1">1</td><td>A day queue and a brief exist. The comparison row does not.</td><td>+1</td></tr>
+          <tr><td class="who">C20</td><td>New outbound stops at the capacity limit</td><td class="s0">0</td><td>Nothing pauses Lead Finder when the queue is over the limit. The limit itself is not stored.</td><td>+2</td></tr>
+          <tr><td class="who">C21</td><td>Required leads stay Unknown</td><td class="s0">0</td><td>No required-leads indicator, so none is fabricated and none is shown as Unknown.</td><td>+2</td></tr>
+          <tr><td class="who">C22</td><td>KPI contract</td><td class="s1">1</td><td>Key, owner, cadence, target. No numerator, denominator, cohort, or Verified / Estimated / Unknown.</td><td>+1</td></tr>
+          <tr><td class="who">C23</td><td>Price below the floor needs a manager</td><td class="s0">0</td><td>No CRM save rule. The planner block is not a price check.</td><td>+2</td></tr>
+          <tr><td class="who">C24</td><td>Model stays inside research and the brief</td><td class="s2">2</td><td>Unsourced facts are demoted. The coach returns information and does not move the stage.</td><td>0</td></tr>
+          <tr><td class="who">C25</td><td>A problem has an owner and a PDCA stage</td><td class="s2">2</td><td><code>AsaichiProblem</code> stores cause, countermeasure, owner, and stage.</td><td>0</td></tr>
+          <tr><td class="who">C26</td><td>Missing consent stays off the call list</td><td class="s1">1</td><td><code>gdprConsent</code> is stored and editable. It does not filter a generated list.</td><td>+1</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="band">What moves the score</p>
+    <div class="raci">
+      <table class="bt">
+        <thead><tr><th>Step</th><th>Change</th><th>Gain</th><th>Score after</th></tr></thead>
+        <tbody>
+          <tr><td class="who">1</td><td>One stage list, and reject an active lead with no owner, stage, or dated next action. C4, C6.</td><td>+3</td><td>26/52 · 50.0%</td></tr>
+          <tr><td class="who">2</td><td>SPICED stored, and a proposal blocked while it is empty. C11.</td><td>+2</td><td>28/52 · 53.8%</td></tr>
+          <tr><td class="who">3</td><td>Won blocked without a delivery owner and a target month. C10.</td><td>+1</td><td>29/52 · 55.8%</td></tr>
+          <tr><td class="who">4</td><td>Invoice matched to a deal, or a mismatch stored. C14.</td><td>+1</td><td>30/52 · 57.7%</td></tr>
+          <tr><td class="who">5</td><td>Monday snapshot of open value by stage and month, previous version kept. C17.</td><td>+2</td><td>32/52 · 61.5%</td></tr>
+          <tr><td class="who">6</td><td>Stored morning plan, fact, and a required miss reason. C19.</td><td>+1</td><td>33/52 · 63.5%</td></tr>
+          <tr><td class="who">7</td><td>New outbound pauses when the sales lead’s capacity limit is passed. C20.</td><td>+2</td><td>35/52 · 67.3%</td></tr>
+          <tr><td class="who">8</td><td>Direct delivery cost on won work. C16.</td><td>+2</td><td>37/52 · 71.2%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Fifteen points sit outside those eight steps: a mismatch record (C3, +2), an SLA clock (C7, +2), a lead exception (C8, +2), separate bookings / cash / GP (C15, +2), an Unknown required-leads indicator (C21, +2), a price floor (C23, +2), the day queue actually refusing an overload (C18, +1), the KPI contract fields (C22, +1), and consent as a call-list filter (C26, +1). 37 + 15 = 52.</p>
+  </section>
+
+  <section class="sec" id="en-rules">
+    <div class="sec-h"><span class="sec-n">00</span><h2>Rules this audit uses</h2></div>
+    <p class="sec-q">V7 stays the business architecture: one economic result, one data layer, no lost lead, demand held to capacity, a human on the risky decision, and no new dashboard or agent before integrity and capacity exist. These ten rules replace the parts of V7 that would audit the wrong object.</p>
+    <div class="raci">
+      <table class="bt">
+        <thead><tr><th>Rule</th><th>The system is judged on this</th><th>Replaces in V7</th></tr></thead>
+        <tbody>
+          <tr><td class="who">R1</td><td>A control exists when a save is rejected or an exception is raised, and the failure points at a source row.</td><td>A dashboard sentence, a phase description, or the 9.4 self-score.</td></tr>
+          <tr><td class="who">R2</td><td>A second stage list that can disagree is a major nonconformity.</td><td>“One funnel,” stated and not tested.</td></tr>
+          <tr><td class="who">R3</td><td>A proposal is invalid until SPICED is stored, impact is a number or Unknown, and the decision has a date.</td><td>Discovery → Proposal with no stored exit.</td></tr>
+          <tr><td class="who">R4</td><td>A model tier may order the queue. The SLA starts when a person accepts the lead. The hours are a sales-lead parameter.</td><td>An “A/B lead” as if a letter grade were a process.</td></tr>
+          <tr><td class="who">R5</td><td>Judge kept commitments and stage-exit quality. Activity is a capacity input. A call score never moves a stage and never sets pay.</td><td>Discoveries per day and progress per hour as seller scores.</td></tr>
+          <tr><td class="who">R6</td><td>While cohort conversion is Unknown, required leads are Unknown. The only automatic demand decision is the stop.</td><td>A required-leads formula that still prints a target.</td></tr>
+          <tr><td class="who">R7</td><td>Until monthly snapshots exist, the forecast is open value by stage and month, previous version kept.</td><td>Pipeline / Best Case / Commit, WAPE, and a top-down number added to the bottom-up number.</td></tr>
+          <tr><td class="who">R8</td><td>A production KPI is one whose source rows exist. Unknown is blank. Owner hours stay a diagnostic until time is a by-product of work.</td><td>The full dashboard catalogue as the operating set.</td></tr>
+          <tr><td class="who">R9</td><td>Do not add a Contract, Estimate, or screen that repeats the deal, the invoice, or the day plan.</td><td>Those objects as mandatory before the stage language exists.</td></tr>
+          <tr><td class="who">R10</td><td>Discovery, ROI session, Upsell, and Custom are the offer types. Money facts do not change with the offer. MEDDPICC waits for a value the business sets.</td><td>A generic contract sale for every workshop and ROI offer.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Same-day inbound, a two-day outbound touch, and a five-day capacity stop are withdrawn. V7 was right to leave those limits unset. The system must be able to store the limit. This audit does not choose the number.</p>
+  </section>
+
+  <section class="sec" id="en-scope">
+    <div class="sec-h"><span class="sec-n">01</span><h2>How this was judged</h2></div>
+    <p class="sec-q">Seven passes: the V7 specification, the data objects, the three stage lists, integrity jobs, planning and money, what the model may decide, then a scope correction. A control conforms when the system can store it and enforce it.</p>
+    <div class="scope">
+      <div class="in">
+        <h3>In scope</h3>
+        <ul>
+          <li>Models, stage lists, save rules, jobs, formulas, dashboards</li>
+          <li>What the model is allowed to decide</li>
+          <li>Evidence is a module, never a row count</li>
+        </ul>
+      </div>
+      <div class="out">
+        <h3>Out of scope</h3>
+        <ul>
+          <li>How full the database is. Most commercial data is not entered yet</li>
+          <li>Test deals</li>
+          <li>Win rate, cash totals, forecast error, owner coverage</li>
+          <li>A 90-day cohort study, and live phone.systems, Business Central, or Gemini behaviour</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="en-have">
+    <div class="sec-h"><span class="sec-n">02</span><h2>What the system can already do</h2></div>
+    <p class="sec-q">These are implemented. The sales process should keep them.</p>
+    <div class="caps">
+      <div class="cap"><b>Stable identity</b><span>A repeated import does not create a second fact.</span><code>cuid · invoice number · sourceRef</code></div>
+      <div class="cap"><b>Account and person</b><span>One card per business and per person.</span><code>company code · email · phone</code></div>
+      <div class="cap"><b>Lead intake</b><span>A seller can work a lead before a proposal exists.</span><code>source · owner · Monday stage</code></div>
+      <div class="cap"><b>Opportunity</b><span>One live deal per lead, through won or lost.</span><code>value · next action · delivery month</code></div>
+      <div class="cap"><b>The day</b><span>Work is objects, not only notes.</span><code>task · calendar · call · email</code></div>
+      <div class="cap"><b>Cash in</b><span>Collected cash can be stored and re-imported.</span><code>Invoice · Business Central number</code></div>
+      <div class="cap"><b>Delivery load</b><span>Seat fill and a seller plan can be computed.</span><code>Workshop.capacity · TU plan</code></div>
+      <div class="cap"><b>Research discipline</b><span>A guess cannot quietly become a fact.</span><code>fact · diagnosis · hypothesis</code></div>
+      <div class="cap"><b>Coaching</b><span>The model prepares the seller and does not speak for them.</span><code>one method · brief · questions</code></div>
+      <div class="cap"><b>Call quality</b><span>A score is not a stage change.</span><code>CallEvaluation</code></div>
+      <div class="cap"><b>Improvement</b><span>A nonconformity has a home.</span><code>AsaichiProblem · PDCA</code></div>
+      <div class="cap"><b>Access and privacy</b><span>Who sees a record, and how one is erased.</span><code>roles · GDPR · consent</code></div>
+    </div>
+  </section>
+
+  <section class="sec" id="en-board">
+    <div class="sec-h"><span class="sec-n">03</span><h2>V7 blocks, as the system stands</h2></div>
+    <p class="sec-q">Partial means a real control exists and does not cover the requirement. Nonconforming means the required contract is absent.</p>
+    <div class="board" role="table" aria-label="V7 blocks">
+      <div class="hd">Block</div><div class="hd">Result</div><div class="hd">System reason</div>
+      <div class="cell name">Mission · GP, cost, cycle, owner time</div><div class="cell"><span class="pill p-bad">Not representable</span></div><div class="cell">No realized-GP formula, no direct cost, invoice link to a deal is optional, owner hours are not a KPI.</div>
+      <div class="cell name">Three dashboards</div><div class="cell"><span class="pill p-part">Partial</span></div><div class="cell">Sales OS, v2, Estimate, and Mantas time exist. They are not the three V7 boards on one data contract.</div>
+      <div class="cell name">Engine 1 · Data layer</div><div class="cell"><span class="pill p-part">Partial</span></div><div class="cell">Strong identity and a CRM core. Three stage languages. No contract object. Money is a side ledger.</div>
+      <div class="cell name">Engine 2 · Integrity</div><div class="cell"><span class="pill p-part">Partial</span></div><div class="cell">Dedup, one live deal, stalled-deal job. Owner, stage, and next action are optional. No SLA. No won-to-delivery gate.</div>
+      <div class="cell name">Engine 3 · Demand and capacity</div><div class="cell"><span class="pill p-part">Partial</span></div><div class="cell">Workshop seats and a seller plan. Required leads are not computed. Nothing stops extra lead flow.</div>
+      <div class="cell name">Engine 4 · AI daily plan</div><div class="cell"><span class="pill p-part">Partial</span></div><div class="cell">A day queue and a call brief. Plan, fact, and a variance reason are not a stored cycle.</div>
+      <div class="cell name">Engine 5 · Forecast</div><div class="cell"><span class="pill p-part">Partial</span></div><div class="cell">A plan calculator with guardrails. No deal category, no snapshot, no WAPE.</div>
+      <div class="cell name">KPI contract</div><div class="cell"><span class="pill p-bad">Nonconforming</span></div><div class="cell">No numerator, denominator, cohort, or Verified / Estimated / Unknown.</div>
+      <div class="cell name">Human / AI rights</div><div class="cell"><span class="pill p-part">Partial</span></div><div class="cell">Claims can be demoted. The coach does not send or discount. CRM save does not block a price or an empty discovery.</div>
+      <div class="cell name">Phases 0–4</div><div class="cell"><span class="pill p-part">Controls incomplete</span></div><div class="cell">Traceability fields exist and are not required. Data readiness is not scored.</div>
+    </div>
+    <div class="iso">
+      <div class="weak"><b>ISO 9001 · 8.1 and 8.5</b><span>The process can be stored. The save path does not force it to stay inside the specification.</span></div>
+      <div class="mid"><b>ISO 9001 · 9.1</b><span>Indicator formulas are not stored, so evaluation has nothing stable to read.</span></div>
+      <div class="strong"><b>ISO 9001 · 10</b><span>An ASAICHI problem has a PDCA stage. Call QA stores a human judgement.</span></div>
+      <div class="mid"><b>ISO/IEC 25010</b><span>Functional completeness is the weak characteristic. Identity reliability is the strong one.</span></div>
+    </div>
+  </section>
+
+  <section class="sec" id="en-stages">
+    <div class="sec-h"><span class="sec-n">04</span><h2>Three legal answers to “where is this sale?”</h2></div>
+    <p class="sec-q">Finding F1. ISO 9001 clause 8.5.2. The same opportunity can sit on three lists at once. SPICED has no fields on any of them. The deal is born at the proposal.</p>
+    <div class="langs">
+      <div class="lang lead">
+        <h3>Lead pipeline</h3>
+        <div class="where"><code>lib/leads/pipeline.ts</code> · seller sets it · Monday mirror</div>
+        <ol>
+          <li>Deferred contact</li>
+          <li>Arranging a meeting</li>
+          <li>Meeting set</li>
+          <li>Waiting for proposal</li>
+          <li>Waiting for decision</li>
+          <li>Waiting for payment</li>
+          <li>Client</li>
+          <li>Not interested</li>
+        </ol>
+      </div>
+      <div class="lang deal">
+        <h3>Deal stages</h3>
+        <div class="where"><code>lib/crm/stages.ts</code> · the board</div>
+        <ol>
+          <li>Offer sent</li>
+          <li>Negotiation</li>
+          <li>Approved</li>
+          <li>Awaiting payment</li>
+          <li>Won</li>
+          <li>Lost</li>
+        </ol>
+        <div class="born">A new deal defaults to offer sent. Discovery is not a deal stage.</div>
+      </div>
+      <div class="lang coach">
+        <h3>Coaching stages</h3>
+        <div class="where"><code>lib/methodology/types.ts</code> · not the board</div>
+        <ol>
+          <li>First contact</li>
+          <li>Discovery</li>
+          <li>ROI session</li>
+          <li>Proposal</li>
+          <li>Negotiation</li>
+        </ol>
+        <div class="born">Drives the method and the brief. Does not move the lead or the deal.</div>
+      </div>
+    </div>
+    <p class="note">Call types already in the product — Discovery, ROI session, Upsell, Custom — name the conversation. They do not choose one of these three lists.</p>
+  </section>
+
+  <section class="sec" id="en-money">
+    <div class="sec-h"><span class="sec-n">05</span><h2>Four money facts. One can be stored.</h2></div>
+    <p class="sec-q">Finding F5. Current invoice contents are not part of this picture. The picture is which facts the model can hold.</p>
+    <div class="money">
+      <div class="m miss"><span class="pill p-bad">Missing</span><h3>Bookings</h3><p>Won has no separate booked value and no booked date. <code>Deal.valueEur</code> is one number.</p></div>
+      <div class="m have"><span class="pill p-ok">Stored</span><h3>Cash in</h3><p>Invoice holds gross, net, paid amount, and a Business Central document number. The link to a lead is optional.</p></div>
+      <div class="m miss"><span class="pill p-bad">Missing</span><h3>Realized GP</h3><p>No direct-cost field. Until cost exists, GP stays Unknown. Invoice net is not a substitute.</p></div>
+      <div class="m miss"><span class="pill p-bad">Missing</span><h3>Contribution</h3><p>Realized GP minus seller time on the deal minus paid media on the source. Either gap keeps it Estimated or Unknown.</p><div class="eq">GP − selling cost</div></div>
+    </div>
+  </section>
+
+  <section class="sec" id="en-tests">
+    <div class="sec-h"><span class="sec-n">06</span><h2>Nine acceptance tests, as system tests</h2></div>
+    <p class="sec-q">Pass means the software would behave as specified once the events are entered. No test passes. Phase 0 data readiness is not scored.</p>
+    <div class="tests">
+      <article class="test part"><div class="mark">~</div><div><b>1 · Several sources, duplicates</b><span>Dedup keys exist per object. A mismatch exception does not.</span></div></article>
+      <article class="test fail"><div class="mark">✕</div><div><b>2 · Lead with no owner</b><span>An unowned lead is a valid record. No exception owner is assigned.</span></div></article>
+      <article class="test fail"><div class="mark">✕</div><div><b>3 · Workload above hours</b><span>The day queue does not refuse a plan.</span></div></article>
+      <article class="test fail"><div class="mark">✕</div><div><b>4 · Required leads from the gap</b><span>Required leads are not computed.</span></div></article>
+      <article class="test fail"><div class="mark">✕</div><div><b>5 · A discovery does not happen</b><span>No stored morning plan to compare with the fact.</span></div></article>
+      <article class="test fail"><div class="mark">✕</div><div><b>6 · Close date slips a month</b><span>No snapshot and no close-date history.</span></div></article>
+      <article class="test part"><div class="mark">~</div><div><b>7 · Non-standard discount</b><span>Estimate guardrails can warn. CRM save does not stop.</span></div></article>
+      <article class="test fail"><div class="mark">✕</div><div><b>8 · Won with no delivery owner</b><span>Won does not require a delivery owner.</span></div></article>
+      <article class="test none"><div class="mark">—</div><div><b>9 · Time saved</b><span>No baseline-minutes field and no correction-time field.</span></div></article>
+    </div>
+  </section>
+
+  <section id="en-findings">
+    <div class="sec" style="margin-bottom:10px">
+      <div class="sec-h"><span class="sec-n">07</span><h2>Findings</h2></div>
+      <p class="sec-q">Open a row for the requirement, the evidence, and the change. Colour is the result: red is major, amber is mixed or minor, green is a conformity with a remaining opportunity.</p>
+      <div class="meta">
+        <span class="pill p-bad">Major · the system must not proceed without it</span>
+        <span class="pill p-part">Minor · a control exists and does not cover it</span>
+        <span class="pill p-ok">Conformity</span>
+        <span class="pill p-vo">Opportunity</span>
+      </div>
+    </div>
+
+    <details class="find major" open>
+      <summary><span class="fid">F1</span><span class="ft">Three stage languages for one sale</span><span class="pill p-bad">Major · 8.5.2</span></summary>
+      <div class="body">
+        <p><b>Required.</b> One funnel, Lead → Accepted → Discovery held → Proposal → Won, with one stage history.</p>
+        <p><b>Evidence.</b> The three lists in the diagram above. All three are legal at the same time.</p>
+        <p><b>Change.</b> One stage list, stored once, used by the lead, the deal, and the coach. Keep Monday names as a display map.</p>
+      </div>
+    </details>
+    <details class="find major">
+      <summary><span class="fid">F2</span><span class="ft">Owner, stage, and next action are optional</span><span class="pill p-bad">Major · 8.1</span></summary>
+      <div class="body">
+        <p><b>Required.</b> Every active record has an owner or a managed queue, a status, a next action or a reactivation rule, and a due date when one applies.</p>
+        <p><b>Evidence.</b> <code>assignedRepId</code>, <code>pipelineStatus</code>, <code>nextFollowUpAt</code>, company <code>ownerId</code>, and deal <code>nextAction</code> are optional. An event type <code>lead_unassigned</code> exists. No save path refuses an active lead when those fields are empty. This is the rule, not a count of rows.</p>
+        <p><b>Change.</b> Inbound is written into a named queue in the same transaction. Leaving “new” requires an owner, a stage, and a dated next action. Bulk and Lead Finder may stay unowned only while status is <code>parked</code>.</p>
+      </div>
+    </details>
+    <details class="find mix">
+      <summary><span class="fid">F3</span><span class="ft">Dedup works inside each object</span><span class="pill p-part">Conformity + minor</span></summary>
+      <div class="body">
+        <p><b>Evidence.</b> Company on registry code then name. Contact on email then last 8 phone digits. Lead on email or Kajabi id. One live deal per lead. Activity <code>sourceRef</code>. Task dedupe key. Invoice upsert on document number.</p>
+        <p><b>Gap.</b> No stored mismatch when two sources disagree. The same person can be a lead and a contact without a forced link.</p>
+        <p><b>Change.</b> Two possible companies, or one phone on two contacts, writes a mismatch and waits for a person.</p>
+      </div>
+    </details>
+    <details class="find mix">
+      <summary><span class="fid">F4</span><span class="ft">Integrity jobs cover the deal, not the lead</span><span class="pill p-part">Deal ok · lead major</span></summary>
+      <div class="body">
+        <p><b>Evidence.</b> <code>stalled.ts</code> can label an open deal after 21 days without activity and create one task, unless a future next-action date exists. No lead job. No SLA clock. Call QA correctly does not move the stage. Won does not require a delivery owner, even though <code>targetDeliveryMonth</code> and <code>expectedHours</code> already exist.</p>
+        <p><b>Change.</b> The first alarm belongs on the lead, with a due date per stage. Saving won requires a delivery owner and a target month.</p>
+      </div>
+    </details>
+    <details class="find major">
+      <summary><span class="fid">F5</span><span class="ft">Cash is a ledger beside the sale</span><span class="pill p-bad">Major · 9.1.1</span></summary>
+      <div class="body">
+        <p><b>Evidence.</b> See the money row. <code>RevenueEntry</code> can store planned and actual by product and month, source default manual. No GP, no cash date on the deal.</p>
+        <p><b>Change.</b> Three facts on the commercial record: booked, cash, realized. Match invoice to company, then to deal, and write a mismatch when the match is ambiguous. Do not invent GP from revenue.</p>
+      </div>
+    </details>
+    <details class="find mix">
+      <summary><span class="fid">F6</span><span class="ft">Forecast is a plan calculator</span><span class="pill p-part">Aid ok · Engine 5 major</span></summary>
+      <div class="body">
+        <p><b>Evidence.</b> <code>tu/engine.ts</code> forecasts from a plan and can warn when 90-day conversion is far below the assumption. The today queue spreads the month across working days. No snapshot model. No forecast category. No close-date history.</p>
+        <p><b>Change.</b> Each Monday, store open deal value by stage and target month, and keep the previous version when the month changes. No probability until it is computed from those snapshots. WAPE waits for the series.</p>
+      </div>
+    </details>
+    <details class="find major">
+      <summary><span class="fid">F7</span><span class="ft">Capacity and demand are separate</span><span class="pill p-bad">Major · 8.1</span></summary>
+      <div class="body">
+        <p><b>Evidence.</b> Workshop seats and the TU seller plan can be computed. Nothing computes required leads from a bookings gap. Nothing refuses a Lead Finder batch because the queue is full.</p>
+        <p><b>Change.</b> One weekly pair: open leads with no first contact, and seller hours not already in meetings. Above the capacity limit the sales lead has set, more outbound is a manager decision stored as an ASAICHI problem. While conversion is Unknown, required leads stay Unknown (R6).</p>
+      </div>
+    </details>
+    <details class="find minor">
+      <summary><span class="fid">F8</span><span class="ft">The day is a queue, not Plan–Do–Check–Act</span><span class="pill p-part">Minor</span></summary>
+      <div class="body">
+        <p><b>Evidence.</b> The today queue can list deals, calls, tasks, and callbacks, and can attach a day brief. There is no stored “morning plan” versus “what happened”, and no required miss reason.</p>
+        <p><b>Change.</b> One row per seller per day: ids confirmed, ids completed, one reason for each miss. Until that row exists, the system does not report time saved.</p>
+      </div>
+    </details>
+    <details class="find mix">
+      <summary><span class="fid">F9</span><span class="ft">Model rights are tight in research, open on save</span><span class="pill p-part">Conformity + minor</span></summary>
+      <div class="body">
+        <div class="ai">
+          <div>
+            <span class="pill p-ok">Enforced</span>
+            <ul>
+              <li>A fact with no source is demoted</li>
+              <li>One methodology per situation</li>
+              <li>Brief and coach return a next action and questions</li>
+              <li>Call QA does not advance the stage</li>
+              <li>Estimate guardrails can flag a weak conversion assumption</li>
+            </ul>
+          </div>
+          <div>
+            <span class="pill p-bad">Not a save rule</span>
+            <ul>
+              <li>Discount or price below the floor</li>
+              <li>Proposal while SPICED is empty</li>
+              <li>Stage change by the model</li>
+              <li><code>gdprConsent = false</code> as a hard filter on the call list</li>
+            </ul>
+          </div>
+        </div>
+        <p><b>Change.</b> Put the bans on the save. A price below the floor needs a manager id. The model receives stored fields, not a raw invoice file.</p>
+      </div>
+    </details>
+    <details class="find major">
+      <summary><span class="fid">F10</span><span class="ft">The KPI object is a huddle sheet</span><span class="pill p-bad">Major · 9.1.3</span></summary>
+      <div class="body">
+        <p><b>Has.</b> Key, label, owner, cadence, unit, target, direction, source manual / auto / hybrid, and a red / amber / green entry.</p>
+        <p><b>Missing from the V7 contract.</b> Numerator, denominator, cohort, quality check, reaction, version, drill-through, and the states Verified, Estimated, Unknown.</p>
+        <p><b>Change.</b> Add those fields to the nine indicators below before adding boards. No source rows renders Unknown. Sales OS, v2, and ASAICHI read the same contract.</p>
+      </div>
+    </details>
+    <details class="find ok">
+      <summary><span class="fid">F11</span><span class="ft">The improvement object is ahead of its detectors</span><span class="pill p-ok">Conformity</span></summary>
+      <div class="body">
+        <p><b>Evidence.</b> <code>AsaichiProblem</code> has evidence, root cause, countermeasure, owner, deadline, PDCA stage, and an effectiveness check. Closest object to ISO 9001 clause 10.2.</p>
+        <p><b>Opportunity.</b> An active lead with no owner, and demand above the capacity limit the sales lead has set, do not open a problem by themselves. One open commercial problem at a time, owned by the sales lead.</p>
+      </div>
+    </details>
+  </section>
+
+  <section class="sec" id="en-funnel">
+    <div class="sec-h"><span class="sec-n">08</span><h2>The funnel to encode</h2></div>
+    <p class="sec-q">One list for the lead, the deal, and the coach. The lead is the seller-facing record until a proposal. The deal is created at proposal. SPICED is the exit from discovery. MEDDPICC is required only above an agreed value.</p>
+    <div class="lane">
+      <h3 style="color:var(--brand)">On the lead · before a proposal</h3>
+      <div class="funnel lead">
+        <article class="st sys"><div class="n">01</div><h3>New</h3><p>Owner or parked queue. Source stored. Inbound cannot be saved ownerless.</p></article>
+        <article class="st sys"><div class="n">02</div><h3>Accepted</h3><p>A seller accepts it. A Lead Finder tier alone is not acceptance.</p></article>
+        <article class="st sell"><div class="n">03</div><h3>Discovery held</h3><p>SPICED stored and a call exists. Empty fields block the proposal.</p></article>
+        <article class="st sell"><div class="n">04</div><h3>Qualified</h3><p>Impact is a number or Unknown. Buyer named or Unknown. Next step dated.</p></article>
+      </div>
+    </div>
+    <div class="lane">
+      <h3 style="color:var(--green)">On the deal · the offer opens the record</h3>
+      <div class="funnel deal">
+        <article class="st sell"><div class="n">05</div><h3>Proposal</h3><p>The deal row is created here. Margin at the floor, or a manager id.</p></article>
+        <article class="st sell"><div class="n">06</div><h3>Negotiation</h3><p>Decision date stored. A slipped date keeps the previous date.</p></article>
+        <article class="st money"><div class="n">07</div><h3>Won</h3><p>Delivery owner and target month. The stage cannot save without both.</p></article>
+      </div>
+    </div>
+    <div class="lane">
+      <h3 style="color:var(--amber)">After the sale · and the exit</h3>
+      <div class="funnel after">
+        <article class="st money"><div class="n">08</div><h3>Cash</h3><p>Invoice linked and paid. Payment comes from Business Central.</p></article>
+        <article class="st money"><div class="n">09</div><h3>Realized</h3><p>Direct delivery cost recorded. Until then GP stays Unknown.</p></article>
+        <article class="st exit"><div class="n">10</div><h3>Lost / parked</h3><p>A reason from a short list is required to leave the active funnel.</p></article>
+      </div>
+    </div>
+    <p class="note">A Discovery call can be scored with empty SPICED fields. It cannot move the stage. Call QA already keeps the score and the stage apart. Cohorts, when stage history exists, are Lead → Accepted → Discovery held → Proposal → Won, by source, product, and the week created. Until the median cycle is measured, publish stage counts and age, not a win rate.</p>
+  </section>
+
+  <section class="sec" id="en-raci">
+    <div class="sec-h"><span class="sec-n">09</span><h2>Who decides</h2></div>
+    <p class="sec-q">ISO 9001 clause 5.3. Green is the decision. Blue is what the system records or blocks. Red is what the model must not do.</p>
+    <div class="raci">
+      <table class="bt">
+        <thead><tr><th>Step</th><th>Seller</th><th>System</th><th>Model</th></tr></thead>
+        <tbody>
+          <tr><td class="who">Accept or park</td><td class="cell-do">Decides</td><td class="cell-help">Shows source, tier, duplicates</td><td>May rank. May not accept</td></tr>
+          <tr><td class="who">Discovery</td><td class="cell-do">Asks SPICED</td><td class="cell-help">Stores the five fields and the call</td><td>Drafts questions. Does not fill the fields from a guess</td></tr>
+          <tr><td class="who">Proposal</td><td class="cell-do">Sends the offer</td><td class="cell-help">Blocks the stage while the exit fails</td><td>Drafts from stored fields only</td></tr>
+          <tr><td class="who">Negotiation</td><td class="cell-do">Commits dates and terms</td><td class="cell-help">Keeps the previous close date</td><td class="cell-block">May summarize. May not offer a discount</td></tr>
+          <tr><td class="who">Win</td><td class="cell-do">Names delivery</td><td class="cell-help">Blocks won until handover is filled</td><td class="cell-block">Does not mark won</td></tr>
+          <tr><td class="who">Day review</td><td class="cell-do">Confirms plan and misses</td><td class="cell-help">Stores plan, fact, and reason</td><td>Suggests tomorrow from unfinished client commitments first</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="sec" id="en-constraint">
+    <div class="sec-h"><span class="sec-n">10</span><h2>One constraint each week</h2></div>
+    <p class="sec-q">Inspect in this order. Marketing volume is a decision only at the last step. That is Dashboard 2D as a sequence the system can support.</p>
+    <div class="ladder">
+      <div class="step"><i>1</i><div><b>Integrity.</b> <span>Active leads with no owner or no due next action.</span></div></div>
+      <div class="step"><i>2</i><div><b>Activity.</b> <span>Accepted leads with no discovery.</span></div></div>
+      <div class="step"><i>3</i><div><b>Quality.</b> <span>Discoveries with no quantified impact.</span></div></div>
+      <div class="step"><i>4</i><div><b>Closing.</b> <span>Proposals with no decision date.</span></div></div>
+      <div class="step"><i>5</i><div><b>Handover.</b> <span>Won work with no delivery owner.</span></div></div>
+      <div class="step last"><i>6</i><div><b>Demand.</b> <span>Open seller time and a full parked queue. Only here does marketing volume get a decision.</span></div></div>
+    </div>
+  </section>
+
+  <section class="sec" id="en-kpis">
+    <div class="sec-h"><span class="sec-n">11</span><h2>Indicators to define. No values yet.</h2></div>
+    <p class="sec-q">Formula version 2026-10-26. A value is Unknown until the source rows for that period have been entered and checked. This table is the contract, not a report.</p>
+    <div class="raci">
+      <table class="bt">
+        <thead><tr><th>ID</th><th>Definition</th><th>Numerator / denominator</th><th>Source</th><th>Owner</th></tr></thead>
+        <tbody>
+          <tr><td class="who">INT-1</td><td>Unattended active leads</td><td>Active, with no owner or no dated next action</td><td>Lead</td><td>Sales lead</td></tr>
+          <tr><td class="who">INT-2</td><td>Stage coverage</td><td>Leads with a pipeline status / leads</td><td>Lead</td><td>Sales lead</td></tr>
+          <tr><td class="who">SLA-1</td><td>First-touch breach</td><td>Inbound with no touch inside the agreed hours / inbound whose window elapsed</td><td>Lead, CallLog, outbound email</td><td>Sales lead</td></tr>
+          <tr><td class="who">FUN-1</td><td>Discovery held</td><td>Exited discovery / accepted in the same mature cohort</td><td>Stage history, not stored yet</td><td>Sales lead</td></tr>
+          <tr><td class="who">FUN-2</td><td>Proposal to won</td><td>Won / reached proposal, mature cohort</td><td>Deal, after stage history</td><td>Sales lead</td></tr>
+          <tr><td class="who">CASH-1</td><td>Collected cash</td><td>Sum of paid amount in the period</td><td>Invoice</td><td>Finance + sales</td></tr>
+          <tr><td class="who">GP-1</td><td>Realized GP</td><td>Recognized revenue − direct delivery cost</td><td>Not stored. Do not use invoice net</td><td>Finance + sales</td></tr>
+          <tr><td class="who">FRC-1</td><td>Forecast error</td><td>Monday snapshot for a month versus later booked value</td><td>Needs the F6 snapshot</td><td>Sales + system</td></tr>
+          <tr><td class="who">AI-1</td><td>Plan correction</td><td>Morning items the seller changed / items proposed</td><td>Needs the F8 day row</td><td>Sales + system</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">The SLA clock starts when a person accepts the lead (R4). The number of hours is a parameter the sales lead sets. This audit does not choose it. A model tier may order the queue and cannot start or satisfy the clock.</p>
+  </section>
+
+  <section class="sec" id="en-build">
+    <div class="sec-h"><span class="sec-n">12</span><h2>Build in this order</h2></div>
+    <p class="sec-q">V7’s own rule: no new dashboards or agents until integrity, demand, and capacity controls exist. Steps 1–4 are rules on objects that already exist.</p>
+    <p class="band">Rules on objects that exist</p>
+    <div class="order">
+      <div class="ord now"><div class="num">1</div><b>One stage list. Owner, stage, and a dated next action required unless parked.</b><span>Done when the save rejects an active lead without them, and INT-1 can be computed.</span></div>
+      <div class="ord now"><div class="num">2</div><b>SPICED is the exit from discovery.</b><span>A deal cannot be created at offer sent while pain, impact, critical event, or decision is empty.</span></div>
+      <div class="ord now"><div class="num">3</div><b>Won requires a delivery owner and a target month.</b><span>Acceptance test 8 passes.</span></div>
+      <div class="ord now"><div class="num">4</div><b>Invoice matches a company and a deal.</b><span>A mismatch is stored when the match is ambiguous. CASH-1 can drill to a deal.</span></div>
+    </div>
+    <p class="band">Measurement, then the stop, then GP</p>
+    <div class="order">
+      <div class="ord"><div class="num">5</div><b>Monday snapshot of open deal value by month.</b><span>Previous version kept. FRC-1 has a series to compare later.</span></div>
+      <div class="ord"><div class="num">6</div><b>Day-plan row and a required miss reason.</b><span>AI-1 can be computed. Time saved stays unreported until then.</span></div>
+      <div class="ord"><div class="num">7</div><b>Weekly check that can pause new outbound.</b><span>A manager decision is stored when the queue exceeds the capacity limit the sales lead has set.</span></div>
+      <div class="ord"><div class="num">8</div><b>Direct delivery cost on won work.</b><span>GP-1 can leave Unknown. Last, because a GP number without cost is a false board.</span></div>
+    </div>
+  </section>
+
+  <section class="sec" id="en-keep">
+    <div class="sec-h"><span class="sec-n">13</span><h2>Conformities to keep</h2></div>
+    <p class="sec-q">Do not rebuild these while the eight steps above are added.</p>
+    <div class="keep">
+      <div>Unique ids and idempotent imports for invoices, activities, and generated tasks</div>
+      <div>Company and contact dedup, and one live deal per lead</div>
+      <div>Claim tiers that demote an unsourced fact</div>
+      <div>One sales methodology selected per situation</div>
+      <div>Call QA as a human score that does not move the pipeline</div>
+      <div>A call brief with a call type, a next action, and questions before the dial</div>
+      <div>A live coach that returns information</div>
+      <div>A stalled-deal job with a single follow-up task</div>
+      <div>ASAICHI problems with owner, cause, countermeasure, and a PDCA stage</div>
+      <div>Estimate guardrails that compare a plan with recent conversion</div>
+      <div>Role separation and a GDPR erasure path</div>
+      <div>Invoice identity that survives a Business Central re-import</div>
+    </div>
+  </section>
+
+  <footer>
+    Source of this page: <code>docs/mvp2/37-DIPA-OS-V7-Code-Audit.md</code>.
+    The specification’s 9.4/10 scored the document. Rule R1 keeps that score out of the audit.
+    A forecast percentage or a win rate stays unpublished until the controls in section 12 are mandatory and the book of record is entered.
+  </footer>
+</div>
+</div>
+
+<script>
+(function () {
+  var lt = document.getElementById("view-lt");
+  var en = document.getElementById("view-en");
+  var bLt = document.getElementById("show-lt");
+  var bEn = document.getElementById("show-en");
+  var titleLt = "DIPA OS · Sistemos auditas pagal „Revenue AI OS V7“";
+  var titleEn = "DIPA OS · System audit against Revenue AI OS V7";
+  function setLang(lang) {
+    var isLt = lang === "lt";
+    lt.hidden = !isLt;
+    en.hidden = isLt;
+    bLt.setAttribute("aria-pressed", isLt ? "true" : "false");
+    bEn.setAttribute("aria-pressed", isLt ? "false" : "true");
+    document.documentElement.lang = isLt ? "lt" : "en";
+    document.title = isLt ? titleLt : titleEn;
+    try { localStorage.setItem("dipa-audit-lang", lang); } catch (e) {}
+  }
+  bLt.addEventListener("click", function () { setLang("lt"); });
+  bEn.addEventListener("click", function () { setLang("en"); });
+  try { if (localStorage.getItem("dipa-audit-lang") === "en") setLang("en"); } catch (e) {}
+})();
+</script>
+</body>
+</html>

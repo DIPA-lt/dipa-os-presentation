@@ -100,6 +100,10 @@ details.orig div{margin-top:4px;color:var(--text)}
 .tools select{font:inherit;border:1px solid var(--line);border-radius:8px;padding:6px 10px}
 .tools .cnt{color:var(--muted)}
 footer{font-size:12px;color:var(--faint);margin-top:8px}
+.docnav{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px;padding:4px;border:1px solid var(--line);border-radius:12px;background:var(--card);width:max-content;max-width:100%}
+.docnav a{font-size:12.5px;font-weight:600;color:var(--ink);text-decoration:none;padding:6px 12px;border-radius:9px}
+.docnav a.on{background:var(--ink);color:#fff}
+.docnav a:not(.on):hover{background:var(--wash)}
 .fnhead,.fnrow{display:grid;grid-template-columns:1fr 104px 1fr;gap:10px}
 .fnhead{margin:0 0 8px}
 .fnhead div{border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
@@ -145,6 +149,7 @@ footer{font-size:12px;color:var(--faint);margin-top:8px}
   </div>
 </div>
 <div id="view-lt"><div class="page">
+<nav class="docnav"><a class="on" href="../v7-code-audit/">37 · Auditas</a><a href="../development-plan/">40 · Tobulinimo planas</a></nav>
 <p class="kicker">DIPA · 2026-10-27 · Visos sistemos auditas</p>
 <h1>DIPA OS auditas: ar tai jau V7 pajamų operacinė sistema?</h1>
 <p class="lede">Tai antroji audito versija. Pirmoji vertino tik 26 kontrolės mechanizmus pagal V7. Dabar visa sistema suskaidyta į sunumeruotus reikalavimus trimis kriterijais: V7 valdymo specifikacija, faktiniai programos moduliai ir sistemos kokybė (ISO/IEC 25010, operacijos ir DI valdysena). Visi ankstesni faktai iš naujo patikrinti kode ir perverti svoriais.</p>
@@ -322,7 +327,7 @@ footer{font-size:12px;color:var(--faint);margin-top:8px}
 <div class="box"><h3>Vienas apribojimas per savaitę</h3><ul><li>Aktyvūs lead&#x27;ai be savininko ar be kito veiksmo.</li><li>Priimti lead&#x27;ai be Discovery.</li><li>Discovery be kiekybinio poveikio.</li><li>Pasiūlymai be sprendimo datos; Won be Delivery savininko.</li></ul></div>
 </div></section>
 <section class="sec" id="lt-road"><div class="sec-h"><span class="sec-n">09</span><h2>Etapai ir vartai</h2></div>
-<p class="sec-q">Terminų nenurodome. V7 taisyklė: nekurti skydelių ar agentų, kol nėra integralumo, paklausos ir pajėgumo kontrolės.</p>
+<p class="sec-q">Terminų nenurodome. V7 taisyklė: nekurti skydelių ar agentų, kol nėra integralumo, paklausos ir pajėgumo kontrolės. <a href="../development-plan/">Išsamus planas su darbais ir vartais – 40 dokumente.</a></p>
 <div class="road">
 <div class="rs now"><div class="n">Fazė 0</div><b>Vienas etapų sąrašas</b>Lead&#x27;o, sandorio ir metodikos sąrašai sujungiami į vieną; Monday lieka tik rodymo veidrodis.<div class="gt">Vartai: viena būsena atsako „kuriame etape?“.</div></div>
 <div class="rs "><div class="n">Fazė 1</div><b>Lead integralumas</b>Savininkas, būsena ir datuotas kitas veiksmas privalomi; lead&#x27;o išimtis ir SLA.<div class="gt">Vartai: nulis neprižiūrimų aktyvių lead&#x27;ų.</div></div>
@@ -515,6 +520,7 @@ footer{font-size:12px;color:var(--faint);margin-top:8px}
 </section>
 </div></div>
 <div id="view-en" hidden><div class="page">
+<nav class="docnav"><a class="on" href="../v7-code-audit/">37 · Audit</a><a href="../development-plan/">40 · Improvement plan</a></nav>
 <p class="kicker">DIPA · 27 October 2026 · Full-system audit</p>
 <h1>DIPA OS audit: is it yet a V7 revenue operating system?</h1>
 <p class="lede">This is the second version of the audit. The first judged only 26 controls against V7. The whole system is now split into numbered requirements across three criteria: the V7 management specification, the actual application modules and system quality (ISO/IEC 25010, operations and AI governance). Every earlier fact has been re-checked in the code and re-weighted.</p>
@@ -692,7 +698,7 @@ footer{font-size:12px;color:var(--faint);margin-top:8px}
 <div class="box"><h3>One constraint a week</h3><ul><li>Active leads with no owner or no next action.</li><li>Accepted leads with no discovery.</li><li>Discoveries with no quantified impact.</li><li>Proposals with no decision date; won with no delivery owner.</li></ul></div>
 </div></section>
 <section class="sec" id="en-road"><div class="sec-h"><span class="sec-n">09</span><h2>Phases and gates</h2></div>
-<p class="sec-q">No durations. V7's rule: do not add boards or agents until integrity, demand and capacity controls exist.</p>
+<p class="sec-q">No durations. V7's rule: do not add boards or agents until integrity, demand and capacity controls exist. <a href="../development-plan/">The detailed plan with work and gates is in doc 40.</a></p>
 <div class="road">
 <div class="rs now"><div class="n">Phase 0</div><b>One stage list</b>The lead, deal and methodology lists merge into one; Monday stays a display mirror.<div class="gt">Gate: one status answers &#x27;what stage?&#x27;.</div></div>
 <div class="rs "><div class="n">Phase 1</div><b>Lead integrity</b>Owner, status and a dated next action required; a lead exception and SLA.<div class="gt">Gate: zero unattended active leads.</div></div>
